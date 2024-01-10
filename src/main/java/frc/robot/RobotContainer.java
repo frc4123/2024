@@ -34,7 +34,7 @@ public class RobotContainer {
   joystick.getRawAxis(1);  Y-axis
   joystick.getRawAxis(2);  wrist (rudder) axis
   joystick.getRawAxis(3);  Slider axis  
-  joystick.getRawButton(#); Buttons */
+  joystick.getRawButton(#); Buttons 1-12 */
 
 
 
