@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-//import edu.wpi.first.wpilibj.Joystick; // joystick input
+//import edu.wpi.first.wpilibj.Joystick; // joystick input button -> joystick.getRawButton((button#) axis -> m_joystick.getX() ;
 
 
 public class RobotContainer {
@@ -30,9 +30,15 @@ public class RobotContainer {
 
   private final CommandXboxController m_driverController = new CommandXboxController(InputConstants.kDriverControllerPort);
   //private final Joystick m_joystick = new Joystick(InputConstants.kDriverControllerPort2);
+  /* joystick.getRawAxis(0);  X-axis
+  joystick.getRawAxis(1);  Y-axis
+  joystick.getRawAxis(2);  wrist (rudder) axis
+  joystick.getRawAxis(3);  Slider axis  
+  joystick.getRawButton(#); Buttons */
+
+
 
   public RobotContainer() {
-
     swerveSubsystem.setDefaultCommand(new Swerve(
                 swerveSubsystem,
                 () -> -m_driverController.getLeftY() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
@@ -44,6 +50,13 @@ public class RobotContainer {
 
   private void configureBindings() {
   }
+
+
+
+
+
+
+  // Auto
 
   public Command getAutonomousCommand() {
     // 1. Create trajectory settings
