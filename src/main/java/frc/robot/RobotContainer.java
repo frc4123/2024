@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+//import edu.wpi.first.wpilibj.Joystick; // joystick input
 
 
 public class RobotContainer {
@@ -28,6 +29,7 @@ public class RobotContainer {
   private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
 
   private final CommandXboxController m_driverController = new CommandXboxController(InputConstants.kDriverControllerPort);
+  //private final Joystick m_joystick = new Joystick(InputConstants.kDriverControllerPort2);
 
   public RobotContainer() {
 
