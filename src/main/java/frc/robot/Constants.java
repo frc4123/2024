@@ -22,6 +22,12 @@ public final class Constants {
     public static final int Back_Right_Turn = 9;
     // turn motors - order - start top left in clockwise rotation
 
+    public static final int Front_Left_Drive_CANcoder = 21;
+    public static final int Front_Right_Drive_CANcoder = 22;
+    public static final int Back_Left_Drive_CANcoder = 23;
+    public static final int Back_Right_Drive_CANcoder = 24;
+    // assigns absolute encoders
+
     public static final boolean Front_Left_Drive_Encoder_Reversed = true;
     public static final boolean Front_Right_Drive_Encoder_Reversed = false;
     public static final boolean Back_Left_Drive_Encoder_Reversed = true;
@@ -34,17 +40,12 @@ public final class Constants {
     public static final boolean Back_Right_Turning_Encoder_Reversed = true;
     // determintes if turn motors are reversed
 
-    public static final int Front_Left_Drive_Absolute_Encoder_Port = 0;
-    public static final int Front_Right_Drive_Absolute_Encoder_Port = 1;
-    public static final int Back_Left_Drive_Absolute_Encoder_Port = 2;
-    public static final int Back_Right_Drive_Absolute_Encoder_Port = 3;
-    // assigns absolute encoders
-
-    public static final double Front_Left_Drive_Absolute_Encoder_Offset_Rad = -0.254;
-    public static final double Front_Right_Drive_Absolute_Encoder_Offset_Rad = -1.816;
-    public static final double Back_Left_Drive_Absolute_Encoder_Offset_Rad = -1.252;
-    public static final double Back_Right_Drive_Absolute_Encoder_Offset_Rad = -4.811;
+    public static final double Front_Left_Drive_CANcoder_Offset_Rad = -0.254;
+    public static final double Front_Right_Drive_CANcoder_Offset_Rad = -1.816;
+    public static final double Back_Left_Drive_CANcoder_Offset_Rad = -1.252;
+    public static final double Back_Right_Drive_CANcoder_Offset_Rad = -4.811;
     // encoder offset in radians
+    // TO CHANGE FOR OUR ROBOT
 
     public static final boolean Front_Left_Drive_Absolute_Encoder_Reversed = false;
     public static final boolean Front_Right_Drive_Absolute_Encoder_Reversed = false;

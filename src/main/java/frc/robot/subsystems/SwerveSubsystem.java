@@ -22,8 +22,8 @@ public class SwerveSubsystem extends SubsystemBase{
             DrivingConstants.Front_Left_Turn,
             DrivingConstants.Front_Left_Drive_Encoder_Reversed,
             DrivingConstants.Front_Left_Turning_Encoder_Reversed,
-            DrivingConstants.Front_Left_Drive_Absolute_Encoder_Port,
-            DrivingConstants.Front_Left_Drive_Absolute_Encoder_Offset_Rad,
+            DrivingConstants.Front_Left_Drive_CANcoder,
+            DrivingConstants.Front_Left_Drive_CANcoder_Offset_Rad,
             DrivingConstants.Front_Left_Drive_Absolute_Encoder_Reversed);
 
     private final SwerveModule frontRight = new SwerveModule(
@@ -31,8 +31,8 @@ public class SwerveSubsystem extends SubsystemBase{
             DrivingConstants.Front_Right_Turn,
             DrivingConstants.Front_Right_Drive_Encoder_Reversed,
             DrivingConstants.Front_Right_Turning_Encoder_Reversed,
-            DrivingConstants.Front_Right_Drive_Absolute_Encoder_Port,
-            DrivingConstants.Front_Right_Drive_Absolute_Encoder_Offset_Rad,
+            DrivingConstants.Front_Right_Drive_CANcoder,
+            DrivingConstants.Front_Right_Drive_CANcoder_Offset_Rad,
             DrivingConstants.Front_Right_Drive_Absolute_Encoder_Reversed);
 
     private final SwerveModule backLeft = new SwerveModule(
@@ -40,8 +40,8 @@ public class SwerveSubsystem extends SubsystemBase{
             DrivingConstants.Back_Left_Turn,
             DrivingConstants.Back_Left_Drive_Encoder_Reversed,
             DrivingConstants.Back_Left_Turning_Encoder_Reversed,
-            DrivingConstants.Back_Left_Drive_Absolute_Encoder_Port,
-            DrivingConstants.Back_Left_Drive_Absolute_Encoder_Offset_Rad,
+            DrivingConstants.Back_Left_Drive_CANcoder,
+            DrivingConstants.Back_Left_Drive_CANcoder_Offset_Rad,
             DrivingConstants.Back_Left_Drive_Absolute_Encoder_Reversed);
 
     private final SwerveModule backRight = new SwerveModule(
@@ -49,8 +49,8 @@ public class SwerveSubsystem extends SubsystemBase{
             DrivingConstants.Back_Right_Turn,
             DrivingConstants.Back_Right_Drive_Encoder_Reversed,
             DrivingConstants.Back_Right_Turning_Encoder_Reversed,
-            DrivingConstants.Back_Right_Drive_Absolute_Encoder_Port,
-            DrivingConstants.Back_Right_Drive_Absolute_Encoder_Offset_Rad,
+            DrivingConstants.Back_Right_Drive_CANcoder,
+            DrivingConstants.Back_Right_Drive_CANcoder_Offset_Rad,
             DrivingConstants.Back_Right_Drive_Absolute_Encoder_Reversed);
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
