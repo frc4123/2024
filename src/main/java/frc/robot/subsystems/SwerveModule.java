@@ -88,11 +88,11 @@ public class SwerveModule {
 
 
     public double getAbsoluteEncoderRad() {
-        double angle = cancoder.getPosition().getValueAsDouble() - Units.radiansToDegrees(cancoderOffsetRad);
-        angle = Math.IEEEremainder(angle, 360);
-        //angle *= 2.0 * Math.PI;
+        double angleRotations = cancoder.getPosition().getValueAsDouble() - Units.radiansToDegrees(cancoderOffsetRad);
+        angleRotations = Math.IEEEremainder(angleRotations, 1);
+        double angleRadians = angleRotations * 2.0 * Math.PI;
         //angle -= absoluteEncoderOffsetRad;
-        return angle * (isAbsoluteEncoderReversed ? -1.0 : 1.0);
+        return angleRadians * (isAbsoluteEncoderReversed ? -1.0 : 1.0);
     }
     // determites offset of wheels with absolute encoder
 
@@ -119,6 +119,8 @@ public class SwerveModule {
         driveMotor.set(state.speedMetersPerSecond / ModuleConstants.kPhysicalMaxSpeedMetersPerSecond);
         turnMotor.set(turnPIDController.calculate(getTurningPosition(), state.angle.getRadians()));
         SmartDashboard.putString("Swerve[" + cancoder.getDeviceID() + "] state", state.toString());
+        SmartDashboard.putNumber("Swerve[" + cancoder.getDeviceID() + "] abs enc", getAbsoluteEncoderRad());
+
         // applies speeds and turns to swerve module
     }
 

@@ -80,7 +80,8 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     public double getHeading() {
-        return Math.IEEEremainder(gyro.getAngle(), 360);
+        // return Math.IEEEremainder(gyro.getAngle(), 360);
+        return 0;
     }
     // keeps degree within 360 degree measurements
 
@@ -114,6 +115,12 @@ public class SwerveSubsystem extends SubsystemBase{
             });
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
+
+        SmartDashboard.putString("Front Left State", frontLeft.getState().toString());
+        SmartDashboard.putString("Front Right State", frontRight.getState().toString());
+        SmartDashboard.putString("Back Left State", backLeft.getState().toString());
+        SmartDashboard.putString("Back Right State", backRight.getState().toString());
+
     }
 
     public void stopModules() {
