@@ -16,8 +16,6 @@ import edu.wpi.first.math.util.Units;
 //import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
-
 public class SwerveModule {
 
     private final CANSparkMax driveMotor;
@@ -31,13 +29,13 @@ public class SwerveModule {
 
     private final CANcoder cancoder; 
     private final boolean isAbsoluteEncoderReversed;
-    private final double absoluteEncoderOffsetRad;
+    private final double cancoderOffsetRad;
     // absoluteEncoder will determinte where to turn wheels to face straight upon initialization, measured in Radians
 
     public SwerveModule(int driveMotorId, int turnMotorId, boolean isDriveMotorReversed, 
     boolean isTurnMotorReversed, int canCoderID, double absoluteEncoderOffset, boolean isAbsoluteEncoderReversed) {
 
-        this.absoluteEncoderOffsetRad = absoluteEncoderOffset;
+        this.cancoderOffsetRad = absoluteEncoderOffset;
         this.isAbsoluteEncoderReversed = isAbsoluteEncoderReversed;
         this.cancoder = new CANcoder(canCoderID);
         // absolute encoder
@@ -90,7 +88,7 @@ public class SwerveModule {
 
 
     public double getAbsoluteEncoderRad() {
-        double angle = cancoder.getPosition().getValueAsDouble() - Units.radiansToDegrees(0);
+        double angle = cancoder.getPosition().getValueAsDouble() - Units.radiansToDegrees(cancoderOffsetRad);
         angle = Math.IEEEremainder(angle, 360);
         //angle *= 2.0 * Math.PI;
         //angle -= absoluteEncoderOffsetRad;

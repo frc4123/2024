@@ -40,10 +40,10 @@ public final class Constants {
     public static final boolean Back_Right_Turning_Encoder_Reversed = true;
     // determintes if turn motors are reversed
 
-    public static final double Front_Left_Drive_CANcoder_Offset_Rad = -0.254;
-    public static final double Front_Right_Drive_CANcoder_Offset_Rad = -1.816;
-    public static final double Back_Left_Drive_CANcoder_Offset_Rad = -1.252;
-    public static final double Back_Right_Drive_CANcoder_Offset_Rad = -4.811;
+    public static final double Front_Left_Drive_CANcoder_Offset_Rad = 0.54609716; // rot * 2 * math.pi
+    public static final double Front_Right_Drive_CANcoder_Offset_Rad = -3.0817674;
+    public static final double Back_Left_Drive_CANcoder_Offset_Rad = -1.05077683;
+    public static final double Back_Right_Drive_CANcoder_Offset_Rad = -0.80687389;
     // encoder offset in radians
     // TO CHANGE FOR OUR ROBOT
 
@@ -102,8 +102,8 @@ public final class Constants {
   public static final class ModuleConstants {
     
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4); //wheel diameter
-    public static final double kDriveMotorGearRatio = 1 / 5.8462; // motor gear ratio
-    public static final double TurningMotorGearRatio = 1 / 18.0; // turning gear ratio
+    public static final double kDriveMotorGearRatio = 6.75 / 1; // motor gear ratio
+    public static final double TurningMotorGearRatio = (150/7) / 1 ; // turning gear ratio
     public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
     public static final double kTurningEncoderRot2Rad = TurningMotorGearRatio * 2 * Math.PI;
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
