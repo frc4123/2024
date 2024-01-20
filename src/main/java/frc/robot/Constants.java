@@ -40,10 +40,10 @@ public final class Constants {
     public static final boolean Back_Right_Turning_Encoder_Reversed = true;
     // determintes if turn motors are reversed
 
-    public static final double Front_Left_Drive_CANcoder_Offset_Rad = 0.54609716; // rot * 2 * math.pi
-    public static final double Front_Right_Drive_CANcoder_Offset_Rad = -3.0817674;
-    public static final double Back_Left_Drive_CANcoder_Offset_Rad = -1.05077683;
-    public static final double Back_Right_Drive_CANcoder_Offset_Rad = -0.80687389;
+    public static final double Front_Left_Drive_CANcoder_Offset_Rad = 0; // 0.54609716 rot * 2 * math.pi
+    public static final double Front_Right_Drive_CANcoder_Offset_Rad = 0; // -3.0817674
+    public static final double Back_Left_Drive_CANcoder_Offset_Rad = 0; // -1.05077683
+    public static final double Back_Right_Drive_CANcoder_Offset_Rad = 0; // -0.80687389
     // encoder offset in radians
     // TO CHANGE FOR OUR ROBOT
 
