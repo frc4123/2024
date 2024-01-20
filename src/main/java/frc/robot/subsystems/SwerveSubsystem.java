@@ -80,8 +80,8 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     public double getHeading() {
-        // return Math.IEEEremainder(gyro.getAngle(), 360);
-        return 0;
+        return Math.IEEEremainder(gyro.getAngle(), 360);
+        // return 0;
     }
     // keeps degree within 360 degree measurements
 

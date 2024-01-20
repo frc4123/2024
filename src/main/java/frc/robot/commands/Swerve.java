@@ -9,6 +9,7 @@ import frc.robot.Constants.DrivingConstants;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
@@ -47,6 +48,9 @@ public class Swerve extends Command{
         xSpeed = Math.abs(xSpeed) > InputConstants.kDeadband ? xSpeed : 0.0;
         ySpeed = Math.abs(ySpeed) > InputConstants.kDeadband ? ySpeed : 0.0;
         turningSpeed = Math.abs(turningSpeed) > InputConstants.kDeadband ? turningSpeed : 0.0;
+
+     SmartDashboard.putString("swerve inputs", String.format(
+        "xSpeed: %.2f\tySpeed: %.2f\tturningSpeed: %.2f", xSpeed, ySpeed, turningSpeed));
 
         // 3. Make the driving smoother
         xSpeed = xLimiter.calculate(xSpeed) * DrivingConstants.kTeleDriveMaxSpeedMetersPerSecond;
