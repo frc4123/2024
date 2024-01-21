@@ -87,7 +87,7 @@ public final class Constants {
     public static final double kMaxSpeedMetersPerSecond = DrivingConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kMaxAngularSpeedRadiansPerSecond = //
         DrivingConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 3; 
     public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
     public static final double kPXController = 1.5;
     public static final double kPYController = 1.5;
@@ -108,8 +108,8 @@ public final class Constants {
     public static final double kTurningEncoderRot2Rad = TurningMotorGearRatio * 2 * Math.PI;
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-    public static final double kPTurning = 0.3; //
-    public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+    public static final double kPTurning = 0.4; //
+    public static final double kPhysicalMaxSpeedMetersPerSecond = 5; 
     // the above will have to be changed after gear ratio measurements, wheel
     // measurements, and pid tuning
 
