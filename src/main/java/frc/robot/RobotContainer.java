@@ -43,7 +43,7 @@ public class RobotContainer {
                 swerveSubsystem,
                 () -> -m_driverController.getLeftY() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
                 () -> -m_driverController.getLeftX() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
-                () -> m_driverController.getRawAxis(4) *  DrivingConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond
+                () -> -m_driverController.getRawAxis(4) *  DrivingConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond
                 ));
     configureBindings();
   }
