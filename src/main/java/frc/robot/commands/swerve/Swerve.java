@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.swerve;
 
 import java.util.function.Supplier;
 
@@ -56,7 +56,7 @@ public class Swerve extends Command{
         xSpeed = xLimiter.calculate(xSpeed) * DrivingConstants.kTeleDriveMaxSpeedMetersPerSecond;
         ySpeed = yLimiter.calculate(ySpeed) * DrivingConstants.kTeleDriveMaxSpeedMetersPerSecond;
         turningSpeed = turningLimiter.calculate(turningSpeed) * DrivingConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-       
+    
         // 4. Construct desired chassis speeds
         ChassisSpeeds chassisSpeeds;
         if (InputConstants.fieldOrientation) {

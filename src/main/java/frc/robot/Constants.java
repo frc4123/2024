@@ -64,13 +64,13 @@ public final class Constants {
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // back left
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); // back right
 
-    public static final double kPhysicalMaxSpeedMetersPerSecond = 7;
+    public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
-    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
+    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 300; // 3
+    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 300; // 3
     // the above is to be adjusted if need be
   }
 
@@ -79,7 +79,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final int kDriverControllerPort2 = 1;
     public static final boolean fieldOrientation = true;
-    public static final double kDeadband = 0.02;
+    public static final double kDeadband = 0.04;
 
   }
 
