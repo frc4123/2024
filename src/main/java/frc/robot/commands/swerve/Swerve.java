@@ -53,8 +53,8 @@ public class Swerve extends Command{
         "xSpeed: %.2f\tySpeed: %.2f\tturningSpeed: %.2f", xSpeed, ySpeed, turningSpeed));
 
         // 3. Make the driving smoother
-        xSpeed = xLimiter.calculate(xSpeed) * DrivingConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        ySpeed = yLimiter.calculate(ySpeed) * DrivingConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        xSpeed = xLimiter.calculate(xSpeed) * DrivingConstants.kTeleDriveMaxSpeedMetersPerSecond; // try settings this to 1 // after that try setting xLimiter.calculate() to 1 // after that try putting the result of the xLimiter.calculate() on smartdashboard
+        ySpeed = yLimiter.calculate(ySpeed) * DrivingConstants.kTeleDriveMaxSpeedMetersPerSecond; // try setting this to 1 // after that try setting yLimiter.calculate() to 1 // after that try putting the result of the xLimiter.calculate() on smartdashboard
         turningSpeed = turningLimiter.calculate(turningSpeed) * DrivingConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
     
         // 4. Construct desired chassis speeds

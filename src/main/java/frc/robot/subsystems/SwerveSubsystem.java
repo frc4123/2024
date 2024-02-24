@@ -120,7 +120,6 @@ public class SwerveSubsystem extends SubsystemBase{
         SmartDashboard.putString("Front Right State", frontRight.getState().toString());
         SmartDashboard.putString("Back Left State", backLeft.getState().toString());
         SmartDashboard.putString("Back Right State", backRight.getState().toString());
-
     }
 
     public void stopModules() {

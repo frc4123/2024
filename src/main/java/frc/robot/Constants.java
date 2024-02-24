@@ -7,13 +7,31 @@ import edu.wpi.first.math.util.Units;
 
 public final class Constants {
 
+  public static final class SubsystemConstants {
+
+    public static final int Front_Left_Arm = 10;
+    public static final int Front_Right_Arm = 11;
+    public static final int Back_Left_Arm = 12;
+    public static final int Back_Right_Arm = 13;
+
+    public static final int Left_Shooter = 15;
+    public static final int Right_Shooter = 16;
+
+    public static final int Ground_Intake = 17; 
+    
+    public static final int Intake_Skipper = 18;
+
+    public static final int Right_Climber = 19;
+    public static final int Left_Climber = 20;
+    
+  }
+
   public static final class DrivingConstants {
 
     public static final int Front_Left_Drive = 2;
     public static final int Front_Right_Drive = 3;
     public static final int Back_Left_Drive = 4;
     public static final int Back_Right_Drive = 5;
-
     // drive motors - order - start top left in clockwise rotation
 
     public static final int Front_Left_Turn = 6;
@@ -32,7 +50,7 @@ public final class Constants {
     public static final boolean Front_Right_Drive_Encoder_Reversed = true;
     public static final boolean Back_Left_Drive_Encoder_Reversed = false;
     public static final boolean Back_Right_Drive_Encoder_Reversed = true;
-    // determines if drive motors are reversed
+    // determines if drive motors are reversed3
 
     public static final boolean Front_Left_Turning_Encoder_Reversed = true;
     public static final boolean Front_Right_Turning_Encoder_Reversed = true;
@@ -40,12 +58,10 @@ public final class Constants {
     public static final boolean Back_Right_Turning_Encoder_Reversed = true;
     // determintes if turn motors are reversed
 
-    public static final double Front_Left_Drive_CANcoder_Offset_Rad = 0; // 0.54609716 rot * 2 * math.pi
-    public static final double Front_Right_Drive_CANcoder_Offset_Rad = 0; // -3.0817674
-    public static final double Back_Left_Drive_CANcoder_Offset_Rad = 0; // -1.05077683
-    public static final double Back_Right_Drive_CANcoder_Offset_Rad = 0; // -0.80687389
-    // encoder offset in radians
-    // TO CHANGE FOR OUR ROBOT
+    public static final double Front_Left_Drive_CANcoder_Offset_Rad = 0; // 2 * math.pi
+    public static final double Front_Right_Drive_CANcoder_Offset_Rad = 0; 
+    public static final double Back_Left_Drive_CANcoder_Offset_Rad = 0; 
+    public static final double Back_Right_Drive_CANcoder_Offset_Rad = 0; 
 
     public static final boolean Front_Left_Drive_Absolute_Encoder_Reversed = true;
     public static final boolean Front_Right_Drive_Absolute_Encoder_Reversed = true;
@@ -69,9 +85,8 @@ public final class Constants {
 
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 300; // 3
-    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 300; // 3
-    // the above is to be adjusted if need be
+    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 5; // 3
+    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 5; // 3
   }
 
   public static final class InputConstants {
@@ -79,14 +94,32 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
     public static final int kDriverControllerPort2 = 1;
     public static final boolean fieldOrientation = true;
-    public static final double kDeadband = 0.04;
+    public static final double kDeadband = 0.05;
 
   }
 
+  public static final class PIDTuning {
+    public static final double Arm_PID_P = 0.4123; // increase until oscillation // upon oscillation, half the P and increase D until oscillation stops
+    public static final double Arm_PID_I = 0;
+    public static final double Arm_PID_D = 0.0;
+    public static final double Arm_FF_S = 1.8764;
+    public static final double Arm_FF_A = 0.066433;
+    public static final double Arm_POSITION_START = 0;
+    public static final double Arm_POSITION_PLACE = 0;
+    public static final double Arm_POSITION_INTAKE = 0; 
+    public static final double Arm_POSITION_SHOOT = 5; //be very careful, slowly increase to 5 and keep going until reaches optimal position
+    public static final double Arm_RADIANS_START = 1.5708;
+    public static final double Arm_RADIANS_PLACE = 1.74533;
+    public static final double Arm_RADIANS_INTAKE = 0;
+    public static final double Arm_RADIANS_SHOOT = 0.174533;
+    public static final double Arm_CONSTRAINTS_VELOCITY = 20; // increase value upon having proper values | THIS STEP IS LAST
+    public static final double Arm_CONSTRAINTS_ACCELERATION = 50; // increase value upon having proper values | THIS STEP IS LAST
+  }
+
   public static final class AutoConstants {
+
     public static final double kMaxSpeedMetersPerSecond = DrivingConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
-    public static final double kMaxAngularSpeedRadiansPerSecond = //
-        DrivingConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
+    public static final double kMaxAngularSpeedRadiansPerSecond = DrivingConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3; 
     public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
     public static final double kPXController = 1.5;
@@ -114,13 +147,4 @@ public final class Constants {
     // measurements, and pid tuning
 
   }
-
-  public static final class PhysicalConstants {
-
-  }
-
-  public static class OperatorConstants {
-
-  }
-
 }
