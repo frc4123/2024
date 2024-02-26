@@ -34,7 +34,7 @@ public class SwerveModule {
 
     public SwerveModule(int driveMotorId, int turnMotorId, boolean isDriveMotorReversed, 
     boolean isTurnMotorReversed, int canCoderID, double absoluteEncoderOffset, boolean isAbsoluteEncoderReversed) {
-
+        
         this.cancoderOffsetRad = absoluteEncoderOffset;
         this.isAbsoluteEncoderReversed = isAbsoluteEncoderReversed;
         this.cancoder = new CANcoder(canCoderID);

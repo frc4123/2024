@@ -8,7 +8,6 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
   public static final class SubsystemConstants {
-
     public static final int Front_Left_Arm = 10;
     public static final int Front_Right_Arm = 11;
     public static final int Back_Left_Arm = 12;
@@ -23,11 +22,9 @@ public final class Constants {
 
     public static final int Right_Climber = 19;
     public static final int Left_Climber = 20;
-    
   }
 
   public static final class DrivingConstants {
-
     public static final int Front_Left_Drive = 2;
     public static final int Front_Right_Drive = 3;
     public static final int Back_Left_Drive = 4;
@@ -85,39 +82,38 @@ public final class Constants {
 
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 5; // 3
-    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 5; // 3
+    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3; // 3
+    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3; // 3
   }
 
   public static final class InputConstants {
-
-    public static final int kDriverControllerPort = 0;
-    public static final int kDriverControllerPort2 = 1;
+    public static final int kDriverControllerPort0 = 0;
+    public static final int kDriverControllerPort1 = 1;
+    public static final int kDriverControllerPort2 = 2;
     public static final boolean fieldOrientation = true;
     public static final double kDeadband = 0.05;
 
   }
 
   public static final class PIDTuning {
-    public static final double Arm_PID_P = 0.4123; // increase until oscillation // upon oscillation, half the P and increase D until oscillation stops
+    public static final double Arm_PID_P = 0.4123; // mult by 10x to see reaction // increase until oscillation // upon oscillation, half the P and increase D until oscillation stops
     public static final double Arm_PID_I = 0;
     public static final double Arm_PID_D = 0.0;
     public static final double Arm_FF_S = 1.8764;
     public static final double Arm_FF_A = 0.066433;
+    public static final double Arm_POSITION_PLACE = 10;
     public static final double Arm_POSITION_START = 0;
-    public static final double Arm_POSITION_PLACE = 0;
-    public static final double Arm_POSITION_INTAKE = 0; 
-    public static final double Arm_POSITION_SHOOT = 5; //be very careful, slowly increase to 5 and keep going until reaches optimal position
+    public static final double Arm_POSITION_SHOOT = -30; //be very careful, slowly increase to 5 and keep going until reaches optimal position
+    public static final double Arm_POSITION_INTAKE = -40; 
     public static final double Arm_RADIANS_START = 1.5708;
     public static final double Arm_RADIANS_PLACE = 1.74533;
     public static final double Arm_RADIANS_INTAKE = 0;
     public static final double Arm_RADIANS_SHOOT = 0.174533;
-    public static final double Arm_CONSTRAINTS_VELOCITY = 20; // increase value upon having proper values | THIS STEP IS LAST
-    public static final double Arm_CONSTRAINTS_ACCELERATION = 50; // increase value upon having proper values | THIS STEP IS LAST
+    public static final double Arm_CONSTRAINTS_VELOCITY = 40; // increase value upon having proper values | THIS STEP IS LAST
+    public static final double Arm_CONSTRAINTS_ACCELERATION = 100; // increase value upon having proper values | THIS STEP IS LAST
   }
 
   public static final class AutoConstants {
-
     public static final double kMaxSpeedMetersPerSecond = DrivingConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kMaxAngularSpeedRadiansPerSecond = DrivingConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3; 
@@ -127,13 +123,12 @@ public final class Constants {
     public static final double kPThetaController = 3;
 
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
-        new TrapezoidProfile.Constraints(
-            kMaxAngularSpeedRadiansPerSecond,
-            kMaxAngularAccelerationRadiansPerSecondSquared);
+      new TrapezoidProfile.Constraints(
+      kMaxAngularSpeedRadiansPerSecond,
+      kMaxAngularAccelerationRadiansPerSecondSquared);
   }
 
   public static final class ModuleConstants {
-
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4); // wheel diameter
     public static final double kDriveMotorGearRatio = 1 / 6.75; // motor gear ratio
     public static final double TurningMotorGearRatio = 1.0 / (150 / 7); // turning gear ratio

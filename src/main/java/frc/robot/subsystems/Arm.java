@@ -17,15 +17,14 @@ public class Arm extends SubsystemBase{
 
     private CANSparkMax frontLeftArm = new CANSparkMax(SubsystemConstants.Front_Left_Arm, MotorType.kBrushless);
     private CANSparkMax frontRightArm = new CANSparkMax(SubsystemConstants.Front_Right_Arm, MotorType.kBrushless); 
-    private CANSparkMax backLeftArm = new CANSparkMax(SubsystemConstants.Back_Left_Arm, MotorType.kBrushless);
-    private CANSparkMax backRightArm = new CANSparkMax(SubsystemConstants.Back_Right_Arm, MotorType.kBrushless); 
+    private CANSparkMax backLeftArm = new CANSparkMax(SubsystemConstants.Back_Left_Arm, MotorType.kBrushless); // INVERTED
+    private CANSparkMax backRightArm = new CANSparkMax(SubsystemConstants.Back_Right_Arm, MotorType.kBrushless); // INVERTED
 
     private SparkLimitSwitch m_forwardLimit = frontLeftArm.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
     private final ArmFeedforward m_feedforward = new ArmFeedforward(PIDTuning.Arm_FF_S, 0, PIDTuning.Arm_FF_A);
 
-    private final TrapezoidProfile.Constraints m_constraints =
-    new TrapezoidProfile.Constraints(PIDTuning.Arm_CONSTRAINTS_VELOCITY, PIDTuning.Arm_CONSTRAINTS_ACCELERATION);
+    private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(PIDTuning.Arm_CONSTRAINTS_VELOCITY, PIDTuning.Arm_CONSTRAINTS_ACCELERATION);
     private TrapezoidProfile.State m_goal = new TrapezoidProfile.State();
     private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
 
@@ -34,18 +33,32 @@ public class Arm extends SubsystemBase{
     private double positionRadians = 0;
 
     public Arm(){
-        frontLeftArm.setOpenLoopRampRate(0.7);
+        frontLeftArm.setOpenLoopRampRate(0.8);
         frontLeftArm.setIdleMode(IdleMode.kBrake);
         frontLeftArm.clearFaults();
+
+        frontRightArm.setOpenLoopRampRate(0.8);
+        frontRightArm.setIdleMode(IdleMode.kBrake);
+        frontRightArm.clearFaults();
+
+        backLeftArm.setOpenLoopRampRate(0.8);
+        backLeftArm.setIdleMode(IdleMode.kBrake);
+        backLeftArm.clearFaults();
+
+        backRightArm.setOpenLoopRampRate(0.8);
+        backRightArm.setIdleMode(IdleMode.kBrake);
+        backRightArm.clearFaults();
 
         frontLeftArm.getPIDController().setP(PIDTuning.Arm_PID_P);
         frontLeftArm.getPIDController().setI(PIDTuning.Arm_PID_I);
         frontLeftArm.getPIDController().setD(PIDTuning.Arm_PID_D);
+
+        backLeftArm.setInverted(true);
+        backRightArm.setInverted(true);
     }
 
     public void setArmVelo(double velo){
         System.err.println("Calling setArmVelo when you should be using setPosition");
-        // wrist.set(velo);
     }
 
     @Override
@@ -74,8 +87,6 @@ public class Arm extends SubsystemBase{
 
         m_setpoint = profile.calculate(kDt,m_setpoint,m_goal);
       
-  
-
         SmartDashboard.putNumber("Arm Position", frontLeftArm.getEncoder().getPosition());
         SmartDashboard.putNumber("Arm Velocity", frontLeftArm.getEncoder().getVelocity());
   
@@ -98,6 +109,5 @@ public class Arm extends SubsystemBase{
         frontRightArm.follow(frontLeftArm);
         backLeftArm.follow(frontLeftArm);
         backRightArm.follow(frontLeftArm);
-            
     }
 }

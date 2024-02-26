@@ -9,8 +9,8 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Skipper;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.SwerveSubsystem;
 
+import frc.robot.subsystems.SwerveSubsystem;
 
 import frc.robot.commands.intake.IntakeIn;
 import frc.robot.commands.shooter.Shoot;
@@ -39,10 +39,10 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-//import edu.wpi.first.wpilibj.Joystick; // joystick input button -> joystick.getRawButton((button#) axis -> m_joystick.getX() ;
+import edu.wpi.first.wpilibj.Joystick;
 
 
 public class RobotContainer {
@@ -54,7 +54,10 @@ public class RobotContainer {
   private final Climber m_climber = new Climber();
   private final Arm m_arm = new Arm();
 
-  private final CommandXboxController m_driverController = new CommandXboxController(InputConstants.kDriverControllerPort);
+  private final CommandXboxController m_driverController1 = new CommandXboxController(InputConstants.kDriverControllerPort0);
+  private final CommandXboxController m_driverController2 = new CommandXboxController(InputConstants.kDriverControllerPort1);
+  private final Joystick m_joystick = new Joystick(InputConstants.kDriverControllerPort2);
+  private final CommandGenericHID m_buttonBoard = new CommandGenericHID(m_joystick.getPort());
 
   private final IntakeIn m_intakeIn = new IntakeIn(m_intake);
   private final Shoot m_shoot = new Shoot(m_shooter);
@@ -65,22 +68,13 @@ public class RobotContainer {
   private final ArmPlace m_ArmPlace = new ArmPlace(m_arm);
   private final ArmShoot m_ArmShoot = new ArmShoot(m_arm);
   private final ArmStart m_ArmStart = new ArmStart(m_arm);
-  //private final Joystick m_joystick = new Joystick(InputConstants.kDriverControllerPort);
-
-  /* joystick.getRawAxis(0);  X-axis
-  joystick.getRawAxis(1);  Y-axis
-  joystick.getRawAxis(2);  wrist (rudder) axis
-  joystick.getRawAxis(3);  Slider axis  
-  joystick.getRawButton(#); Buttons 1-12 */
-
-
-
+  
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(new Swerve(
                 swerveSubsystem,
-                () -> -m_driverController.getLeftY() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
-                () -> -m_driverController.getLeftX() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
-                () -> -m_driverController.getRawAxis(4) *  DrivingConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond
+                () -> -m_driverController1.getLeftY() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
+                () -> -m_driverController1.getLeftX() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
+                () -> -m_driverController1.getRawAxis(4) *  DrivingConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond
                 ));
     configureBindings();
   }
@@ -95,19 +89,19 @@ public class RobotContainer {
   } */
 
   private void configureBindings() {
-    
-    m_driverController.a().whileTrue(m_intakeIn);
-    m_driverController.y().whileTrue(m_shoot);
-    m_driverController.y().whileTrue(new WaitCommand(0.5).andThen(m_skip));
-    m_driverController.povUp().whileTrue(m_climbUp);
-    m_driverController.povDown().whileTrue(m_climbDown);
+    m_driverController2.a().whileTrue(m_intakeIn);
+    m_driverController2.y().whileTrue(m_shoot);
+    m_driverController2.y().whileTrue(new WaitCommand(0.8).andThen(m_skip));
+    m_driverController2.rightTrigger(0.25).whileTrue(m_climbUp);
+    m_driverController2.leftTrigger(0.25).whileTrue(m_climbDown);
 
-  
-  
-    //CommandScheduler.getInstance().schedule(new Shooter(m_shoot), 1);
-    //m_driverController.y().whileTrue(m_skip);
-    
-    // driverController2.rightBumper().onTrue(new WaitCommand(0.1).andThen(m_toggleSet).withTimeout(0.5));
+    m_buttonBoard.button(1).whileTrue(m_intakeIn);
+    m_buttonBoard.button(2).whileTrue(m_shoot);
+    m_buttonBoard.button(2).whileTrue(new WaitCommand(0.8).andThen(m_skip));
+    m_buttonBoard.button(3).whileTrue(m_climbUp);
+    m_buttonBoard.button(4).whileTrue(m_climbDown);
+    //m_buttonBoard.axisGreaterThan(1, 0.5).whileTrue(m_ArmShoot);
+    //m_buttonBoard.axisLessThan(1, -0.5).whileTrue(m_ArmIntake);
   }
 
 
@@ -116,6 +110,11 @@ public class RobotContainer {
 
 
   // Auto
+
+
+
+
+
 
   public Command getAutonomousCommand() {
     // 1. Create trajectory settings
