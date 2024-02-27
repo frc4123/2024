@@ -55,8 +55,7 @@ public class RobotContainer {
   private final Arm m_arm = new Arm();
 
   private final CommandXboxController m_driverController1 = new CommandXboxController(InputConstants.kDriverControllerPort0);
-  private final CommandXboxController m_driverController2 = new CommandXboxController(InputConstants.kDriverControllerPort1);
-  private final Joystick m_joystick = new Joystick(InputConstants.kDriverControllerPort2);
+  private final Joystick m_joystick = new Joystick(InputConstants.kDriverControllerPort1);
   private final CommandGenericHID m_buttonBoard = new CommandGenericHID(m_joystick.getPort());
 
   private final IntakeIn m_intakeIn = new IntakeIn(m_intake);
@@ -89,19 +88,21 @@ public class RobotContainer {
   } */
 
   private void configureBindings() {
-    m_driverController2.a().whileTrue(m_intakeIn);
-    m_driverController2.y().whileTrue(m_shoot);
-    m_driverController2.y().whileTrue(new WaitCommand(0.8).andThen(m_skip));
-    m_driverController2.rightTrigger(0.25).whileTrue(m_climbUp);
-    m_driverController2.leftTrigger(0.25).whileTrue(m_climbDown);
+    // m_driverController2.a().whileTrue(m_intakeIn);
+    // m_driverController2.y().whileTrue(m_shoot);
+    // m_driverController2.y().whileTrue(new WaitCommand(0.8).andThen(m_skip));
+    // m_driverController2.rightTrigger(0.25).whileTrue(m_climbUp);
+    // m_driverController2.leftTrigger(0.25).whileTrue(m_climbDown);
 
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
     m_buttonBoard.button(2).whileTrue(m_shoot);
     m_buttonBoard.button(2).whileTrue(new WaitCommand(0.8).andThen(m_skip));
+    //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_climbUp);
+    //m_buttonBoard.axisLessThan(0, 0.5).whileTrue(m_climbDown);
     m_buttonBoard.button(3).whileTrue(m_climbUp);
     m_buttonBoard.button(4).whileTrue(m_climbDown);
-    //m_buttonBoard.axisGreaterThan(1, 0.5).whileTrue(m_ArmShoot);
-    //m_buttonBoard.axisLessThan(1, -0.5).whileTrue(m_ArmIntake);
+    //try m_buttonBoard.button(2).whileTrue(new InstantCommand(m_shoot::schedule).andThen(new WaitCommand(0.8).andThen(m_skip)));
+    
   }
 
 
