@@ -1,5 +1,6 @@
 package frc.robot.commands.arm;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm;
 
@@ -15,6 +16,7 @@ public class ArmCoastMode extends Command{
     public void execute() {
         arm.enableCoastMode(true);
         System.out.println("coastmodecalled");
+        SmartDashboard.putString("Arm Brake State", "Coast");
     }
 
     @Override
