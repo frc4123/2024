@@ -17,10 +17,11 @@ import frc.robot.commands.shooter.Shoot;
 import frc.robot.commands.skipper.Skip;
 import frc.robot.commands.climber.ClimbDown;
 import frc.robot.commands.climber.ClimbUp;
+import frc.robot.commands.arm.ArmBrakeMode;
+import frc.robot.commands.arm.ArmCoastMode;
 import frc.robot.commands.arm.ArmIntake;
 import frc.robot.commands.arm.ArmPlace;
 import frc.robot.commands.arm.ArmShoot;
-import frc.robot.commands.arm.ArmStart;
 import frc.robot.commands.swerve.Swerve;
 
 import java.util.List;
@@ -33,16 +34,16 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj2.command.Command;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
-
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.DriverStation;
 
 
 public class RobotContainer {
@@ -63,10 +64,13 @@ public class RobotContainer {
   private final Skip m_skip = new Skip(m_skipper);
   private final ClimbUp m_climbUp = new ClimbUp(m_climber);
   private final ClimbDown m_climbDown = new ClimbDown(m_climber);
+  private final ArmBrakeMode m_armBrakeMode = new ArmBrakeMode(m_arm);
+   private final ArmCoastMode m_armCoastMode = new ArmCoastMode(m_arm);
+  Command m_armBrakeModeWrapped = m_armBrakeMode.ignoringDisable(true); // creates wrapped command for .ignoringDisable()
+  Command m_armCoastModeWrapped = m_armCoastMode.ignoringDisable(true); // creates wrapped command for .ignoringDisable()
   private final ArmIntake m_ArmIntake = new ArmIntake(m_arm);
   private final ArmPlace m_ArmPlace = new ArmPlace(m_arm);
   private final ArmShoot m_ArmShoot = new ArmShoot(m_arm);
-  private final ArmStart m_ArmStart = new ArmStart(m_arm);
   
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(new Swerve(
@@ -87,20 +91,35 @@ public class RobotContainer {
     configureBindings();
   } */
 
+  public CommandGenericHID getButtonBoard() {
+    return m_buttonBoard;
+  }
+  
+  public ArmBrakeMode getArmBrakeMode(){
+    return m_armBrakeMode;
+  }
+
+  public ArmCoastMode getArmCoastMode(){
+    return m_armCoastMode;
+  }
+
+
   private void configureBindings() {
-    // m_driverController2.a().whileTrue(m_intakeIn);
-    // m_driverController2.y().whileTrue(m_shoot);
-    // m_driverController2.y().whileTrue(new WaitCommand(0.8).andThen(m_skip));
-    // m_driverController2.rightTrigger(0.25).whileTrue(m_climbUp);
-    // m_driverController2.leftTrigger(0.25).whileTrue(m_climbDown);
+    if (DriverStation.isEnabled() == false); {
+      m_buttonBoard.button(1).whileTrue(m_armBrakeModeWrapped);
+      m_buttonBoard.button(2).whileTrue(m_armCoastModeWrapped);
+    }
 
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
     m_buttonBoard.button(2).whileTrue(m_shoot);
     m_buttonBoard.button(2).whileTrue(new WaitCommand(0.8).andThen(m_skip));
+    //m_buttonBoard.button(3).whileTrue(m_ArmShoot);
+    //m_buttonBoard.button(4).whileTrue(m_ArmIntake);
+    //m_buttonBoard.button(5).whileTrue(m_ArmPlace);
+    //m_buttonBoard.button(3).whileTrue(m_climbUp);
+    //m_buttonBoard.button(4).whileTrue(m_climbDown);
     //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_climbUp);
     //m_buttonBoard.axisLessThan(0, 0.5).whileTrue(m_climbDown);
-    m_buttonBoard.button(3).whileTrue(m_climbUp);
-    m_buttonBoard.button(4).whileTrue(m_climbDown);
     //try m_buttonBoard.button(2).whileTrue(new InstantCommand(m_shoot::schedule).andThen(new WaitCommand(0.8).andThen(m_skip)));
     
   }
