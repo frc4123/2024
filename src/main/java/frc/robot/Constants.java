@@ -96,18 +96,17 @@ public final class Constants {
   }
 
   public static final class PIDTuning {
-    public static final double Arm_PID_P = 0.4123; // mult by 10x to see reaction // increase until oscillation // upon oscillation, half the P and increase D until oscillation stops
+    public static final double Arm_PID_P = 2.4123; // mult by 10x to see reaction // increase until oscillation // upon oscillation, half the P and increase D until oscillation stops
     public static final double Arm_PID_I = 0;
     public static final double Arm_PID_D = 0.0;
     public static final double Arm_FF_S = 1.8764;
     public static final double Arm_FF_A = 0.066433;
-    public static final double Arm_POSITION_PLACE = 19.25;
+    public static final double Arm_POSITION_PLACE = 15.25;
     public static final double Arm_POSITION_SHOOT = 3; //be very careful, slowly increase to 5 and keep going until reaches optimal position
     public static final double Arm_POSITION_INTAKE = 0; 
-    public static final double Arm_RADIANS_START = 1.5708;
-    public static final double Arm_RADIANS_PLACE = 1.74533;
+    public static final double Arm_RADIANS_PLACE = 2.857;
     public static final double Arm_RADIANS_INTAKE = 0;
-    public static final double Arm_RADIANS_SHOOT = 0.174533;
+    public static final double Arm_RADIANS_SHOOT = 0.4123;
     public static final double Arm_CONSTRAINTS_VELOCITY = 40; // increase value upon having proper values | THIS STEP IS LAST
     public static final double Arm_CONSTRAINTS_ACCELERATION = 100; // increase value upon having proper values | THIS STEP IS LAST
   }
