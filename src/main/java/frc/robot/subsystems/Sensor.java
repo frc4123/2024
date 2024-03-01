@@ -14,11 +14,8 @@ public class Sensor extends SubsystemBase{
         sensor.setAverageBits(4);
 
     }
-    
+
     public void Periodic() {
         SmartDashboard.putNumber("Sensor", sensor.getValue());
     }
-    
-
-    
 }

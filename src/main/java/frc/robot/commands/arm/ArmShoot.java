@@ -16,6 +16,7 @@ public class ArmShoot extends Command{
     public void execute() {
         arm.setRadians(PIDTuning.Arm_RADIANS_SHOOT);
         arm.setPosition(PIDTuning.Arm_POSITION_SHOOT);
+        System.out.println("Arm Shoot called");
     }
 
     @Override

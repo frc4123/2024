@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SubsystemConstants;
 
@@ -25,6 +26,15 @@ public class Climber extends SubsystemBase{
     public void setClimberVelo(double velo){
         climberLeader.set(velo);
         climberFollower.follow(climberLeader);
+    }
+
+    public double getClimberPosition() {
+        return climberLeader.getEncoder().getPosition();
+    }
+    
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Climber Position", climberLeader.getEncoder().getPosition());
     }
     
 

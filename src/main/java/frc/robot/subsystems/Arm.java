@@ -82,6 +82,20 @@ public class Arm extends SubsystemBase{
         backRightArm.setIdleMode(IdleMode.kCoast);
     }
 
+    public double getMotorRadians() {
+        // Get current encoder counts
+        double encoderCounts = frontLeftArm.getEncoder().getPosition();
+      
+        // Convert counts to degrees
+        double degrees = (double) encoderCounts * 360.0 / 4096;
+      
+        // Convert degrees to radians, considering gear ratio
+        double radians = degrees * Math.PI / 180.0 * 88;
+      
+        // Return the radians value
+        return radians;
+      }
+
     public void setPosition(double position){
         setpoint = position;
     }
@@ -102,6 +116,7 @@ public class Arm extends SubsystemBase{
         m_setpoint = profile.calculate(kDt,m_setpoint,m_goal);
       
         SmartDashboard.putNumber("Arm Position", frontLeftArm.getEncoder().getPosition());
+        SmartDashboard.putNumber("Arm Radians", getMotorRadians());
         SmartDashboard.putNumber("Arm Velocity", frontLeftArm.getEncoder().getVelocity());
   
         // Create a motion profile with the given maximum velocity and maximum

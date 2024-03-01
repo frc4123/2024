@@ -16,6 +16,7 @@ public class ArmIntake extends Command{
     public void execute() {
         arm.setRadians(PIDTuning.Arm_RADIANS_INTAKE);
         arm.setPosition(PIDTuning.Arm_POSITION_INTAKE);
+        System.out.println("Arm Intake Called");
     }
 
     @Override

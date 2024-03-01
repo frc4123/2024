@@ -49,7 +49,7 @@ public class Swerve extends Command{
         ySpeed = Math.abs(ySpeed) > InputConstants.kDeadband ? ySpeed : 0.0;
         turningSpeed = Math.abs(turningSpeed) > InputConstants.kDeadband ? turningSpeed : 0.0;
 
-     SmartDashboard.putString("swerve inputs", String.format(
+        SmartDashboard.putString("swerve inputs", String.format(
         "xSpeed: %.2f\tySpeed: %.2f\tturningSpeed: %.2f", xSpeed, ySpeed, turningSpeed));
 
         // 3. Make the driving smoother

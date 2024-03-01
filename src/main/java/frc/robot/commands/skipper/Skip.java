@@ -14,13 +14,11 @@ public class Skip extends Command{
 
     @Override
     public void execute() {
-        skipper.setSkipperVelo(0.7); 
+        skipper.setSkipperVelo(0.8); 
     }
 
     @Override
     public void end(boolean interrupted) {
-        skipper.setSkipperVelo(0.0); 
-        System.out.println("method called");
+        skipper.setSkipperVelo(0.0);
     }
-    
 }

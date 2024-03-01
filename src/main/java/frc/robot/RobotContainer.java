@@ -65,7 +65,7 @@ public class RobotContainer {
   private final ClimbUp m_climbUp = new ClimbUp(m_climber);
   private final ClimbDown m_climbDown = new ClimbDown(m_climber);
   private final ArmBrakeMode m_armBrakeMode = new ArmBrakeMode(m_arm);
-   private final ArmCoastMode m_armCoastMode = new ArmCoastMode(m_arm);
+  private final ArmCoastMode m_armCoastMode = new ArmCoastMode(m_arm);
   Command m_armBrakeModeWrapped = m_armBrakeMode.ignoringDisable(true); // creates wrapped command for .ignoringDisable()
   Command m_armCoastModeWrapped = m_armCoastMode.ignoringDisable(true); // creates wrapped command for .ignoringDisable()
   private final ArmIntake m_ArmIntake = new ArmIntake(m_arm);
@@ -81,28 +81,6 @@ public class RobotContainer {
                 ));
     configureBindings();
   }
-    /* public RobotContainer() {
-    swerveSubsystem.setDefaultCommand(new Swerve(
-                swerveSubsystem,
-                () -> -m_joystick.getRawAxis(1) * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
-                () -> -m_joystick.getRawAxis(0) * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
-                () -> -m_joystick.getRawAxis(2) *  DrivingConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond
-                ));
-    configureBindings();
-  } */
-
-  public CommandGenericHID getButtonBoard() {
-    return m_buttonBoard;
-  }
-  
-  public ArmBrakeMode getArmBrakeMode(){
-    return m_armBrakeMode;
-  }
-
-  public ArmCoastMode getArmCoastMode(){
-    return m_armCoastMode;
-  }
-
 
   private void configureBindings() {
     if (DriverStation.isEnabled() == false); {
@@ -113,14 +91,13 @@ public class RobotContainer {
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
     m_buttonBoard.button(2).whileTrue(m_shoot);
     m_buttonBoard.button(2).whileTrue(new WaitCommand(0.8).andThen(m_skip));
-    //m_buttonBoard.button(3).whileTrue(m_ArmShoot);
-    //m_buttonBoard.button(4).whileTrue(m_ArmIntake);
+    m_buttonBoard.button(3).whileTrue(m_climbUp);
+    m_buttonBoard.button(4).whileTrue(m_climbDown);
+    //m_buttonBoard.button(3).whileTrue(m_ArmIntake);
+    //m_buttonBoard.button(4).whileTrue(m_ArmShoot);
     //m_buttonBoard.button(5).whileTrue(m_ArmPlace);
-    //m_buttonBoard.button(3).whileTrue(m_climbUp);
-    //m_buttonBoard.button(4).whileTrue(m_climbDown);
     //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_climbUp);
     //m_buttonBoard.axisLessThan(0, 0.5).whileTrue(m_climbDown);
-    //try m_buttonBoard.button(2).whileTrue(new InstantCommand(m_shoot::schedule).andThen(new WaitCommand(0.8).andThen(m_skip)));
     
   }
 
@@ -129,7 +106,7 @@ public class RobotContainer {
 
 
 
-  // Auto
+  //------------------------------------ Auto ------------------------------------//
 
 
 
