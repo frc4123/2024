@@ -93,9 +93,12 @@ public class RobotContainer {
     m_buttonBoard.button(2).whileTrue(new WaitCommand(0.8).andThen(m_skip));
     m_buttonBoard.button(3).whileTrue(m_climbUp);
     m_buttonBoard.button(4).whileTrue(m_climbDown);
+
+    // the following 3 lines are the triggers using physical buttons for the arm presets
     //m_buttonBoard.button(3).whileTrue(m_ArmIntake);
     //m_buttonBoard.button(4).whileTrue(m_ArmShoot);
     //m_buttonBoard.button(5).whileTrue(m_ArmPlace);
+
     //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_climbUp);
     //m_buttonBoard.axisLessThan(0, 0.5).whileTrue(m_climbDown);
     
