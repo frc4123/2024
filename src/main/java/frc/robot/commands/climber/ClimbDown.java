@@ -14,10 +14,7 @@ public class ClimbDown extends Command{
 
     @Override
     public void execute(){
-        if (climb.getClimberPosition() > -0) {
-            climb.setClimberVelo(0.8);
-            System.out.println("Climber Down");
-        }
+        climb.setClimberVelo(0.8);
     }
 
     @Override

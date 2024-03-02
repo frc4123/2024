@@ -24,6 +24,10 @@ import frc.robot.commands.arm.ArmPlace;
 import frc.robot.commands.arm.ArmShoot;
 import frc.robot.commands.swerve.Swerve;
 
+import frc.robot.commands.arm.ArmOpenBackward;
+import frc.robot.commands.arm.ArmOpenForward;
+import frc.robot.subsystems.ArmOpenVelo;
+
 import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -54,6 +58,7 @@ public class RobotContainer {
   private final Skipper m_skipper = new Skipper();
   private final Climber m_climber = new Climber();
   private final Arm m_arm = new Arm();
+  private final ArmOpenVelo m_armOpenVelo = new ArmOpenVelo();
 
   private final CommandXboxController m_driverController1 = new CommandXboxController(InputConstants.kDriverControllerPort0);
   private final Joystick m_joystick = new Joystick(InputConstants.kDriverControllerPort1);
@@ -71,6 +76,9 @@ public class RobotContainer {
   private final ArmIntake m_ArmIntake = new ArmIntake(m_arm);
   private final ArmPlace m_ArmPlace = new ArmPlace(m_arm);
   private final ArmShoot m_ArmShoot = new ArmShoot(m_arm);
+
+  private final ArmOpenBackward m_ArmOpenBackward = new ArmOpenBackward(m_armOpenVelo);
+  private final ArmOpenForward m_ArmOpenForward = new ArmOpenForward(m_armOpenVelo);
   
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(new Swerve(
@@ -91,11 +99,13 @@ public class RobotContainer {
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
     m_buttonBoard.button(2).whileTrue(m_shoot);
     m_buttonBoard.button(2).whileTrue(new WaitCommand(0.8).andThen(m_skip));
-    m_buttonBoard.button(3).whileTrue(m_climbUp);
-    m_buttonBoard.button(4).whileTrue(m_climbDown);
-    //m_buttonBoard.button(3).whileTrue(m_ArmIntake);
-    //m_buttonBoard.button(4).whileTrue(m_ArmShoot);
-    //m_buttonBoard.button(5).whileTrue(m_ArmPlace);
+    m_buttonBoard.button(3).whileTrue(m_ArmOpenForward);
+    m_buttonBoard.button(4).whileTrue(m_ArmOpenBackward);
+    m_buttonBoard.button(11).whileTrue(m_climbUp);
+    m_buttonBoard.button(11).whileTrue(m_climbDown);
+    m_buttonBoard.button(11).whileTrue(m_ArmIntake);
+    m_buttonBoard.button(11).whileTrue(m_ArmShoot);
+    m_buttonBoard.button(11).whileTrue(m_ArmPlace);
     //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_climbUp);
     //m_buttonBoard.axisLessThan(0, 0.5).whileTrue(m_climbDown);
     

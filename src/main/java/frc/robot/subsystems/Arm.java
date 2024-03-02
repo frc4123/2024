@@ -52,9 +52,6 @@ public class Arm extends SubsystemBase{
         frontLeftArm.getPIDController().setP(PIDTuning.Arm_PID_P);
         frontLeftArm.getPIDController().setI(PIDTuning.Arm_PID_I);
         frontLeftArm.getPIDController().setD(PIDTuning.Arm_PID_D);
-
-        backLeftArm.setInverted(true);
-        backRightArm.setInverted(true);
     }
 
     public void setArmVelo(double velo){
@@ -136,7 +133,7 @@ public class Arm extends SubsystemBase{
         );
 
         frontRightArm.follow(frontLeftArm);
-        backLeftArm.follow(frontLeftArm);
-        backRightArm.follow(frontLeftArm);
+        backLeftArm.follow(frontLeftArm, true);
+        backRightArm.follow(frontLeftArm, true);
     }
 }

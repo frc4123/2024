@@ -8,7 +8,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
   public static final class SubsystemConstants {
-    public static final int Front_Left_Arm = 10;
+    public static final int Front_Left_Arm = 10; // leader
     public static final int Front_Right_Arm = 11;
     public static final int Back_Left_Arm = 12;
     public static final int Back_Right_Arm = 13;
@@ -20,7 +20,7 @@ public final class Constants {
     
     public static final int Intake_Skipper = 18;
 
-    public static final int Right_Climber = 19;
+    public static final int Right_Climber = 19; //leader
     public static final int Left_Climber = 20;
   }
 
@@ -91,12 +91,11 @@ public final class Constants {
     public static final int kDriverControllerPort1 = 1;
     public static final int kDriverControllerPort2 = 2;
     public static final boolean fieldOrientation = true;
-    public static final double kDeadband = 0.05;
-
+    public static final double kDeadband = 0.034123;
   }
 
   public static final class PIDTuning {
-    public static final double Arm_PID_P = 2.4123; // mult by 10x to see reaction // increase until oscillation // upon oscillation, half the P and increase D until oscillation stops
+    public static final double Arm_PID_P = 0.4123; // mult by 10x to see reaction // increase until oscillation // upon oscillation, half the P and increase D until oscillation stops
     public static final double Arm_PID_I = 0;
     public static final double Arm_PID_D = 0.0;
     public static final double Arm_FF_S = 1.8764;
@@ -107,8 +106,8 @@ public final class Constants {
     public static final double Arm_RADIANS_PLACE = 2.857;
     public static final double Arm_RADIANS_INTAKE = 0;
     public static final double Arm_RADIANS_SHOOT = 0.4123;
-    public static final double Arm_CONSTRAINTS_VELOCITY = 40; // increase value upon having proper values | THIS STEP IS LAST
-    public static final double Arm_CONSTRAINTS_ACCELERATION = 100; // increase value upon having proper values | THIS STEP IS LAST
+    public static final double Arm_CONSTRAINTS_VELOCITY = 30; // increase value upon having proper values | THIS STEP IS LAST
+    public static final double Arm_CONSTRAINTS_ACCELERATION = 50; // increase value upon having proper values | THIS STEP IS LAST
   }
 
   public static final class AutoConstants {
@@ -126,6 +125,11 @@ public final class Constants {
       kMaxAngularAccelerationRadiansPerSecondSquared);
   }
 
+  public static final class ClimberConstants {
+    public static final double upperThreshold = 50;
+    public static final double lowerThreshold = 0;
+  }
+
   public static final class ModuleConstants {
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4); // wheel diameter
     public static final double kDriveMotorGearRatio = 1 / 6.75; // motor gear ratio
@@ -134,7 +138,7 @@ public final class Constants {
     public static final double kTurningEncoderRot2Rad = TurningMotorGearRatio * 2 * Math.PI;
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-    public static final double kPTurning = 0.375; //
+    public static final double kPTurning = 0.375; 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 5; 
     // the above will have to be changed after gear ratio measurements, wheel
     // measurements, and pid tuning

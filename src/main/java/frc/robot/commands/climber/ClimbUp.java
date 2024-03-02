@@ -14,10 +14,7 @@ public class ClimbUp extends Command{
 
     @Override
     public void execute(){
-        if (climb.getClimberPosition() < 30) { //INSERT CORRECT POSITION THRESHOLD + 0.1
-            climb.setClimberVelo(-0.8);
-            System.out.println("climber Up");
-        }
+        climb.setClimberVelo(-0.8);
     }
 
     @Override
