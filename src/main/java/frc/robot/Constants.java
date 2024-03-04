@@ -95,19 +95,20 @@ public final class Constants {
   }
 
   public static final class PIDTuning {
-    public static final double Arm_PID_P = 0.4123; // mult by 10x to see reaction // increase until oscillation // upon oscillation, half the P and increase D until oscillation stops
+    public static final double Arm_PID_P = 0; // 0.04123; //last tried 0.14123 // mult by 10x to see reaction // increase until oscillation // upon oscillation, half the P and increase D until oscillation stops
     public static final double Arm_PID_I = 0;
     public static final double Arm_PID_D = 0.0;
     public static final double Arm_FF_S = 1.8764;
+    public static final double Arm_FF_G = 0; // start here 
     public static final double Arm_FF_A = 0.066433;
-    public static final double Arm_POSITION_PLACE = 15.25;
-    public static final double Arm_POSITION_SHOOT = 3; //be very careful, slowly increase to 5 and keep going until reaches optimal position
+    public static final double Arm_POSITION_PLACE = 20;
+    public static final double Arm_POSITION_SHOOT = 12; //be very careful, slowly increase to 5 and keep going until reaches optimal position
     public static final double Arm_POSITION_INTAKE = 0; 
-    public static final double Arm_RADIANS_PLACE = 2.857;
-    public static final double Arm_RADIANS_INTAKE = 0;
-    public static final double Arm_RADIANS_SHOOT = 0.4123;
-    public static final double Arm_CONSTRAINTS_VELOCITY = 30; // increase value upon having proper values | THIS STEP IS LAST
-    public static final double Arm_CONSTRAINTS_ACCELERATION = 50; // increase value upon having proper values | THIS STEP IS LAST
+    // public static final double Arm_RADIANS_PLACE = 2.857;
+    // public static final double Arm_RADIANS_INTAKE = 0;
+    // public static final double Arm_RADIANS_SHOOT = 0.4123;
+    public static final double Arm_CONSTRAINTS_VELOCITY = 50; // increase value upon having proper values | THIS STEP IS LAST
+    public static final double Arm_CONSTRAINTS_ACCELERATION = 100; // increase value upon having proper values | THIS STEP IS LAST
   }
 
   public static final class AutoConstants {

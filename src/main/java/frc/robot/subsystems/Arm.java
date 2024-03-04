@@ -15,14 +15,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase{
 
-    private CANSparkMax frontLeftArm = new CANSparkMax(SubsystemConstants.Front_Left_Arm, MotorType.kBrushless);
-    private CANSparkMax frontRightArm = new CANSparkMax(SubsystemConstants.Front_Right_Arm, MotorType.kBrushless); 
-    private CANSparkMax backLeftArm = new CANSparkMax(SubsystemConstants.Back_Left_Arm, MotorType.kBrushless); // INVERTED
-    private CANSparkMax backRightArm = new CANSparkMax(SubsystemConstants.Back_Right_Arm, MotorType.kBrushless); // INVERTED
+    private CANSparkMax frontLeftArm = new CANSparkMax(SubsystemConstants.Front_Left_Arm, MotorType.kBrushless); // INVERTED
+    private CANSparkMax frontRightArm = new CANSparkMax(SubsystemConstants.Front_Right_Arm, MotorType.kBrushless); // INVERTED
+    private CANSparkMax backLeftArm = new CANSparkMax(SubsystemConstants.Back_Left_Arm, MotorType.kBrushless); 
+    private CANSparkMax backRightArm = new CANSparkMax(SubsystemConstants.Back_Right_Arm, MotorType.kBrushless); 
 
-    private SparkLimitSwitch m_forwardLimit = frontLeftArm.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    private SparkLimitSwitch m_forwardLimit = backRightArm.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
-    private final ArmFeedforward m_feedforward = new ArmFeedforward(PIDTuning.Arm_FF_S, 0, PIDTuning.Arm_FF_A);
+    private final ArmFeedforward m_feedforward = new ArmFeedforward(PIDTuning.Arm_FF_S, PIDTuning.Arm_FF_S, PIDTuning.Arm_FF_A);
 
     private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(PIDTuning.Arm_CONSTRAINTS_VELOCITY, PIDTuning.Arm_CONSTRAINTS_ACCELERATION);
     private TrapezoidProfile.State m_goal = new TrapezoidProfile.State();
@@ -30,7 +30,7 @@ public class Arm extends SubsystemBase{
 
     private static double kDt = 0.02;
     private double setpoint = 0;
-    private double positionRadians = 0;
+    // private double positionRadians = 0;
 
     public Arm(){
         frontLeftArm.setOpenLoopRampRate(0.8);
@@ -61,7 +61,7 @@ public class Arm extends SubsystemBase{
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
-      internalSetPosition(setpoint, positionRadians);
+      internalSetPosition(setpoint);
       SmartDashboard.putBoolean("Where is arm?", !(m_forwardLimit.isPressed()));
     }
 
@@ -79,9 +79,9 @@ public class Arm extends SubsystemBase{
         backRightArm.setIdleMode(IdleMode.kCoast);
     }
 
-    public double getMotorRadians() {
+    public double positionToRadians(double encoderCounts) {
         // Get current encoder counts
-        double encoderCounts = frontLeftArm.getEncoder().getPosition();
+        // double encoderCounts = frontLeftArm.getEncoder().getPosition();
       
         // Convert counts to degrees
         double degrees = (double) encoderCounts * 360.0 / 4096;
@@ -97,15 +97,15 @@ public class Arm extends SubsystemBase{
         setpoint = position;
     }
 
-    public void setRadians(double radians){
-        positionRadians = radians;
-    }
+    // public void setRadians(double radians){
+    //     positionRadians = radians;
+    // }
 
     public double getPosition() {
         return setpoint;
     }
 
-    private void internalSetPosition(double position, double radians) {
+    private void internalSetPosition(double position) {
         m_goal = new TrapezoidProfile.State(position, 0);
         new TrapezoidProfile.State(setpoint,0);
         TrapezoidProfile profile = new TrapezoidProfile(m_constraints);
@@ -113,7 +113,7 @@ public class Arm extends SubsystemBase{
         m_setpoint = profile.calculate(kDt,m_setpoint,m_goal);
       
         SmartDashboard.putNumber("Arm Position", frontLeftArm.getEncoder().getPosition());
-        SmartDashboard.putNumber("Arm Radians", getMotorRadians());
+        SmartDashboard.putNumber("Arm Radians", positionToRadians(frontLeftArm.getEncoder().getPosition()));
         SmartDashboard.putNumber("Arm Velocity", frontLeftArm.getEncoder().getVelocity());
   
         // Create a motion profile with the given maximum velocity and maximum
@@ -124,16 +124,16 @@ public class Arm extends SubsystemBase{
         // toward the goal while obeying the constraints.
     
         // Send setpoint to offboard controller PID
-        frontLeftArm.getPIDController().setReference(
+        backRightArm.getPIDController().setReference(
             m_setpoint.position,
             CANSparkMax.ControlType.kPosition,
             0,
-            m_feedforward.calculate(positionRadians,m_setpoint.velocity) / 12
+            m_feedforward.calculate(positionToRadians(m_setpoint.position),m_setpoint.velocity) / 12
 
         );
 
-        frontRightArm.follow(frontLeftArm);
-        backLeftArm.follow(frontLeftArm, true);
-        backRightArm.follow(frontLeftArm, true);
+        frontRightArm.follow(backRightArm, true);
+        backLeftArm.follow(backRightArm);
+        frontLeftArm.follow(backRightArm, true);
     }
 }
