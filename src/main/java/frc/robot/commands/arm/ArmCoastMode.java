@@ -15,14 +15,10 @@ public class ArmCoastMode extends Command{
     @Override
     public void execute() {
         arm.enableCoastMode(true);
-        System.out.println("coastmodecalled");
         SmartDashboard.putString("Arm Brake State", "Coast");
     }
 
     @Override
     public void end(boolean interrupted) {
     }
-    
-    
-    
 }

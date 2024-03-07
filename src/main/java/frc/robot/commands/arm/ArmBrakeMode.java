@@ -15,14 +15,10 @@ public class ArmBrakeMode extends Command{
     @Override
     public void execute() {
         arm.enableBrakeMode(true);
-        System.out.println("brakemodecalled");
         SmartDashboard.putString("Arm Brake State", "Brake");
     }
 
     @Override
     public void end(boolean interrupted) {
     }
-    
-    
-    
 }
