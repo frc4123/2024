@@ -1,16 +1,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.subsystems.Arm;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
-
-//import edu.wpi.first.wpilibj2.command.WaitCommand;
-
 
 public class Robot extends TimedRobot {
 
   private Command m_autonomousCommand;
+  private Arm arm;
 
   private RobotContainer m_robotContainer;
 
@@ -25,7 +23,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    arm.enableBrakeMode(true);
+  }
 
   @Override
   public void disabledPeriodic() {}
