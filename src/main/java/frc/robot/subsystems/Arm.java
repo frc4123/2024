@@ -30,7 +30,6 @@ public class Arm extends SubsystemBase{
 
     private static double kDt = 0.02;
     private double setpoint = 0;
-    // private double positionRadians = 0;
 
     public Arm(){
         frontLeftArm.setOpenLoopRampRate(0.8);
@@ -60,10 +59,10 @@ public class Arm extends SubsystemBase{
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
-        if (m_reverseLimit.isPressed()) {
+        if (m_reverseLimit.isPressed()) { 
             backRightArm.getEncoder().setPosition(0);
-        }
+        } // limit switch pressed zero's out arm
+
         internalSetPosition(setpoint);
         SmartDashboard.putBoolean("Where is arm?", !(m_reverseLimit.isPressed()));
 
