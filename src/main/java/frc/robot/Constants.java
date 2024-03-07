@@ -8,13 +8,13 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
   public static final class SubsystemConstants {
-    public static final int Front_Left_Arm = 10; // leader
+    public static final int Front_Left_Arm = 10; 
     public static final int Front_Right_Arm = 11;
     public static final int Back_Left_Arm = 12;
-    public static final int Back_Right_Arm = 13;
+    public static final int Back_Right_Arm = 13; // back right
 
-    public static final int Left_Shooter = 15;
-    public static final int Right_Shooter = 16;
+    public static final int Left_Shooter = 16;
+    public static final int Right_Shooter = 15;
 
     public static final int Ground_Intake = 17; 
     
@@ -95,20 +95,20 @@ public final class Constants {
   }
 
   public static final class PIDTuning {
-    public static final double Arm_PID_P = 0; // 0.04123; //last tried 0.14123 // mult by 10x to see reaction // increase until oscillation // upon oscillation, half the P and increase D until oscillation stops
+    public static final double Arm_PID_P = 0.1; // 0.04123; //last tried 0.14123 // mult by 10x to see reaction // increase until oscillation // upon oscillation, half the P and increase D until oscillation stops
     public static final double Arm_PID_I = 0;
     public static final double Arm_PID_D = 0.0;
-    public static final double Arm_FF_S = 1.8764;
-    public static final double Arm_FF_G = 0; // start here 
-    public static final double Arm_FF_A = 0.066433;
-    public static final double Arm_POSITION_PLACE = 20;
-    public static final double Arm_POSITION_SHOOT = 12; //be very careful, slowly increase to 5 and keep going until reaches optimal position
-    public static final double Arm_POSITION_INTAKE = 0; 
+    public static final double Arm_FF_S = 0;
+    public static final double Arm_FF_G = 0.25; // start here 
+    public static final double Arm_FF_A = 0;
+    public static final double Arm_POSITION_PLACE = 35;
+    public static final double Arm_POSITION_SHOOT = 8; //be very careful, slowly increase to 5 and keep going until reaches optimal position
+    public static final double Arm_POSITION_INTAKE = 1; 
     // public static final double Arm_RADIANS_PLACE = 2.857;
     // public static final double Arm_RADIANS_INTAKE = 0;
     // public static final double Arm_RADIANS_SHOOT = 0.4123;
     public static final double Arm_CONSTRAINTS_VELOCITY = 50; // increase value upon having proper values | THIS STEP IS LAST
-    public static final double Arm_CONSTRAINTS_ACCELERATION = 100; // increase value upon having proper values | THIS STEP IS LAST
+    public static final double Arm_CONSTRAINTS_ACCELERATION = 80; // increase value upon having proper values | THIS STEP IS LAST
   }
 
   public static final class AutoConstants {
@@ -120,7 +120,7 @@ public final class Constants {
     public static final double kPYController = 1.5;
     public static final double kPThetaController = 3;
 
-    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
+    public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 
       new TrapezoidProfile.Constraints(
       kMaxAngularSpeedRadiansPerSecond,
       kMaxAngularAccelerationRadiansPerSecondSquared);
