@@ -26,7 +26,7 @@ public class Climber extends SubsystemBase{
     }   
 
     public void setClimberVelo(double velo){
-        if (isUnsafeVelocity(velo)) { 
+        if (isUnsafeVelocity()) { 
             System.out.println("Climber Safety Activated");
         } else { 
         climberLeader.set(velo);
@@ -34,17 +34,21 @@ public class Climber extends SubsystemBase{
         }
     }
 
-    private boolean isUnsafeVelocity(double velo) {
-        return (getClimberPosition() <= ClimberConstants.lowerThreshold && velo > 0) || (getClimberPosition() >= ClimberConstants.upperThreshold && velo < 0);
+    private boolean isUnsafeVelocity() {
+        return getClimberPosition() <= ClimberConstants.lowerThreshold || getClimberPosition() >= ClimberConstants.upperThreshold;
     }
 
     public double getClimberPosition() {
-        return ((climberLeader.getEncoder().getPosition()) * -1);
+        return ((climberLeader.getEncoder().getPosition()) * -1); // to invert climbers, run climbers too high, they will eventually reverse
     }
     
-    @Override
     public void periodic() {
         SmartDashboard.putNumber("Climber Position", (climberLeader.getEncoder().getPosition() * -1));
+
+        if (isUnsafeVelocity()) { 
+            System.out.println("Climber Safety Activated");
+            setClimberVelo(0);
+        }
     }
     
 }
