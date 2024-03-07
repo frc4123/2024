@@ -20,9 +20,9 @@ public class Arm extends SubsystemBase{
     private CANSparkMax backLeftArm = new CANSparkMax(SubsystemConstants.Back_Left_Arm, MotorType.kBrushless); 
     private CANSparkMax backRightArm = new CANSparkMax(SubsystemConstants.Back_Right_Arm, MotorType.kBrushless); 
 
-    private SparkLimitSwitch m_forwardLimit = backRightArm.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
+    private SparkLimitSwitch m_reverseLimit = backRightArm.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
-    private final ArmFeedforward m_feedforward = new ArmFeedforward(PIDTuning.Arm_FF_S, PIDTuning.Arm_FF_S, PIDTuning.Arm_FF_A);
+    private final ArmFeedforward m_feedforward = new ArmFeedforward(PIDTuning.Arm_FF_S, PIDTuning.Arm_FF_G, PIDTuning.Arm_FF_A);
 
     private final TrapezoidProfile.Constraints m_constraints = new TrapezoidProfile.Constraints(PIDTuning.Arm_CONSTRAINTS_VELOCITY, PIDTuning.Arm_CONSTRAINTS_ACCELERATION);
     private TrapezoidProfile.State m_goal = new TrapezoidProfile.State();
@@ -34,24 +34,24 @@ public class Arm extends SubsystemBase{
 
     public Arm(){
         frontLeftArm.setOpenLoopRampRate(0.8);
-        frontLeftArm.setIdleMode(IdleMode.kCoast);
+        frontLeftArm.setIdleMode(IdleMode.kBrake);
         frontLeftArm.clearFaults();
 
         frontRightArm.setOpenLoopRampRate(0.8);
-        frontRightArm.setIdleMode(IdleMode.kCoast);
+        frontRightArm.setIdleMode(IdleMode.kBrake);
         frontRightArm.clearFaults();
 
         backLeftArm.setOpenLoopRampRate(0.8);
-        backLeftArm.setIdleMode(IdleMode.kCoast);
+        backLeftArm.setIdleMode(IdleMode.kBrake);
         backLeftArm.clearFaults();
 
         backRightArm.setOpenLoopRampRate(0.8);
-        backRightArm.setIdleMode(IdleMode.kCoast);
+        backRightArm.setIdleMode(IdleMode.kBrake);
         backRightArm.clearFaults();
 
-        frontLeftArm.getPIDController().setP(PIDTuning.Arm_PID_P);
-        frontLeftArm.getPIDController().setI(PIDTuning.Arm_PID_I);
-        frontLeftArm.getPIDController().setD(PIDTuning.Arm_PID_D);
+        backRightArm.getPIDController().setP(PIDTuning.Arm_PID_P);
+        backRightArm.getPIDController().setI(PIDTuning.Arm_PID_I);
+        backRightArm.getPIDController().setD(PIDTuning.Arm_PID_D);
     }
 
     public void setArmVelo(double velo){
@@ -60,9 +60,13 @@ public class Arm extends SubsystemBase{
 
     @Override
     public void periodic() {
-      // This method will be called once per scheduler run
-      internalSetPosition(setpoint);
-      SmartDashboard.putBoolean("Where is arm?", !(m_forwardLimit.isPressed()));
+        // This method will be called once per scheduler run
+        if (m_reverseLimit.isPressed()) {
+            backRightArm.getEncoder().setPosition(0);
+        }
+        internalSetPosition(setpoint);
+        SmartDashboard.putBoolean("Where is arm?", !(m_reverseLimit.isPressed()));
+
     }
 
     public void enableBrakeMode(boolean isBrakeMode){
@@ -80,9 +84,6 @@ public class Arm extends SubsystemBase{
     }
 
     public double positionToRadians(double encoderCounts) {
-        // Get current encoder counts
-        // double encoderCounts = frontLeftArm.getEncoder().getPosition();
-      
         // Convert counts to degrees
         double degrees = (double) encoderCounts * 360.0 / 4096;
       
@@ -91,15 +92,11 @@ public class Arm extends SubsystemBase{
       
         // Return the radians value
         return radians;
-      }
+    }
 
     public void setPosition(double position){
         setpoint = position;
     }
-
-    // public void setRadians(double radians){
-    //     positionRadians = radians;
-    // }
 
     public double getPosition() {
         return setpoint;
@@ -112,9 +109,9 @@ public class Arm extends SubsystemBase{
 
         m_setpoint = profile.calculate(kDt,m_setpoint,m_goal);
       
-        SmartDashboard.putNumber("Arm Position", frontLeftArm.getEncoder().getPosition());
-        SmartDashboard.putNumber("Arm Radians", positionToRadians(frontLeftArm.getEncoder().getPosition()));
-        SmartDashboard.putNumber("Arm Velocity", frontLeftArm.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Arm Position", backRightArm.getEncoder().getPosition());
+        SmartDashboard.putNumber("Arm Radians", positionToRadians(backRightArm.getEncoder().getPosition()));
+        SmartDashboard.putNumber("Arm Velocity", backRightArm.getEncoder().getVelocity());
   
         // Create a motion profile with the given maximum velocity and maximum
         // acceleration constraints for the next setpoint, the desired goal, and the
@@ -129,7 +126,6 @@ public class Arm extends SubsystemBase{
             CANSparkMax.ControlType.kPosition,
             0,
             m_feedforward.calculate(positionToRadians(m_setpoint.position),m_setpoint.velocity) / 12
-
         );
 
         frontRightArm.follow(backRightArm, true);
