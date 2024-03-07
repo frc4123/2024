@@ -22,6 +22,4 @@ public class ArmShoot extends Command{
     @Override
     public void end(boolean interrupted) {
     }
-    
-    
 }

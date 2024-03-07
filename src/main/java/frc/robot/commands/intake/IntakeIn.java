@@ -21,5 +21,4 @@ public class IntakeIn extends Command{
     public void end(boolean interrupted) {
         intake.setIntakeVelo(0.0); 
     }
-    
 }

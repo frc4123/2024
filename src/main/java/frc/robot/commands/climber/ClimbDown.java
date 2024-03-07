@@ -21,5 +21,4 @@ public class ClimbDown extends Command{
     public void end(boolean interrupted) {
         climb.setClimberVelo(0.0); 
     }
-    
 }

@@ -21,5 +21,4 @@ public class Shoot extends Command{
     public void end(boolean interrupted) {
         shooter.setShooterVelo(0.0); 
     }
-    
 }

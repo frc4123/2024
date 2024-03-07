@@ -22,6 +22,4 @@ public class ArmPlace extends Command{
     @Override
     public void end(boolean interrupted) {
     }
-    
-    
 }
