@@ -94,12 +94,12 @@ public class RobotContainer {
     }
     // enabled commands
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
-    m_buttonBoard.button(2).whileTrue(m_shootSpeaker);
-    m_buttonBoard.button(2).whileTrue(new WaitCommand(1.8).andThen(m_skipShooter)); // 0.8
     m_buttonBoard.axisGreaterThan(0,0.5).whileTrue(m_shootAmp);
     m_buttonBoard.axisGreaterThan(0,0.5).whileTrue(new WaitCommand(.2).andThen(m_skipAmp));
     m_buttonBoard.button(3).whileTrue(m_ArmIntake);
     m_buttonBoard.button(4).whileTrue(m_ArmShoot);
+    m_buttonBoard.button(4).whileTrue(m_shootSpeaker);
+    m_buttonBoard.button(4).whileTrue(new WaitCommand(0.7).andThen(m_skipShooter)); // 0.8
     m_buttonBoard.button(5).whileTrue(m_ArmPlace);
     m_buttonBoard.button(6).whileTrue(m_climbUp);
     m_buttonBoard.button(7).whileTrue(m_climbDown);
