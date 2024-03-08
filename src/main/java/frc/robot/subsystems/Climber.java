@@ -26,16 +26,16 @@ public class Climber extends SubsystemBase{
     }   
 
     public void setClimberVelo(double velo){
-        if (isUnsafeVelocity()) { 
-            System.out.println("Climber Safety Activated");
-        } else { 
         climberLeader.set(velo);
         climberFollower.follow(climberLeader);
-        }
     }
 
-    private boolean isUnsafeVelocity() {
-        return getClimberPosition() <= ClimberConstants.lowerThreshold || getClimberPosition() >= ClimberConstants.upperThreshold;
+    public boolean isUnsafeVelocityUp() {
+        return getClimberPosition() >= ClimberConstants.upperThreshold;
+    }
+
+    public boolean isUnsafeVelocityDown() {
+        return getClimberPosition() <= ClimberConstants.lowerThreshold;
     }
 
     public double getClimberPosition() {
@@ -44,11 +44,6 @@ public class Climber extends SubsystemBase{
     
     public void periodic() {
         SmartDashboard.putNumber("Climber Position", (climberLeader.getEncoder().getPosition() * -1));
-
-        if (isUnsafeVelocity()) { 
-            System.out.println("Climber Safety Activated");
-            setClimberVelo(0);
-        }
     }
     
 }
