@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.Skipper;
 
-public class Skip extends Command{
+public class SkipAmp extends Command{
     Skipper skipper;
 
-    public Skip(Skipper skipper) {
+    public SkipAmp(Skipper skipper) {
         this.skipper = skipper;
         addRequirements(skipper);
     }
