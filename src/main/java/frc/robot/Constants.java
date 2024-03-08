@@ -134,7 +134,7 @@ public final class Constants {
 
   public static final class ClimberConstants {
     public static final double upperThreshold = 50;
-    public static final double lowerThreshold = 0;
+    public static final double lowerThreshold = -0.00001;
   }
 
   public static final class ModuleConstants {

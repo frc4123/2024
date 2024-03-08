@@ -16,6 +16,6 @@ public class Sensor extends SubsystemBase{
     }
 
     public void Periodic() {
-        SmartDashboard.putNumber("Sensor", sensor.getValue());
+        SmartDashboard.putNumber("Sensor: ", sensor.getValue());
     }
 }
