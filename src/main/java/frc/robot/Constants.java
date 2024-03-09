@@ -102,8 +102,9 @@ public final class Constants {
     public static final double Arm_FF_G = 0.25; // start here 
     public static final double Arm_FF_A = 0;
     public static final double Arm_POSITION_PLACE = 40.4123; // 40.642 with bumper // 35 without bumper
+    public static final double Arm_POSITION_SAFE = 35.547;
     public static final double Arm_POSITION_SHOOT = 8; //be very careful, slowly increase to 5 and keep going until reaches optimal position
-    public static final double Arm_POSITION_INTAKE = 0.5; 
+    public static final double Arm_POSITION_INTAKE = 0.2; 
     public static final double Arm_CONSTRAINTS_VELOCITY = 35; // increase value upon having proper values | THIS STEP IS LAST
     public static final double Arm_CONSTRAINTS_ACCELERATION = 70; // increase value upon having proper values | THIS STEP IS LAST
   }
