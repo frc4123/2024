@@ -14,9 +14,7 @@ public class ArmPlace extends Command{
 
     @Override
     public void execute() {
-        // arm.setRadians(PIDTuning.Arm_RADIANS_PLACE);
         arm.setPosition(PIDTuning.Arm_POSITION_PLACE);
-        System.out.println("Arm Place Called");
     }
 
     @Override
