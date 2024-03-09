@@ -14,7 +14,7 @@ public class ShootSpeaker extends Command{
 
     @Override
     public void execute() {
-        shooter.setShooterVelo(0.7); 
+        shooter.setShooterVelo(0.9); 
     }
     
     @Override

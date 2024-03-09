@@ -14,11 +14,11 @@ public class Shooter extends SubsystemBase{
     private CANSparkMax shooterFollower = new CANSparkMax(SubsystemConstants.Right_Shooter, MotorType.kBrushless);
     
     public Shooter(){
-        shooterLeader.setOpenLoopRampRate(0.7);
+        shooterLeader.setOpenLoopRampRate(0.9);
         shooterLeader.setIdleMode(IdleMode.kBrake);
         shooterLeader.clearFaults();
 
-        shooterFollower.setOpenLoopRampRate(0.7);
+        shooterFollower.setOpenLoopRampRate(0.9);
         shooterFollower.setIdleMode(IdleMode.kBrake);
         shooterFollower.clearFaults();
     }
