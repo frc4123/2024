@@ -2,11 +2,14 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants.DrivingConstants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.subsystems.Vision;
 
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -16,6 +19,9 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveSubsystem extends SubsystemBase{
+
+    Vision swerveVision;
+
     private final SwerveModule frontLeft = new SwerveModule(
             DrivingConstants.Front_Left_Drive,
             DrivingConstants.Front_Left_Turn,
@@ -55,7 +61,7 @@ public class SwerveSubsystem extends SubsystemBase{
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DrivingConstants.kDriveKinematics,
-        new Rotation2d(0), 
+        new Rotation2d(), 
         new SwerveModulePosition[]{
             frontLeft.getPosition(),
             frontRight.getPosition(),
@@ -87,7 +93,7 @@ public class SwerveSubsystem extends SubsystemBase{
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());
     }
-    
+
     public Rotation2d getRotation2dFromOdometry() {
         return odometer.getPoseMeters().getRotation();
     }
@@ -95,6 +101,19 @@ public class SwerveSubsystem extends SubsystemBase{
 
     public Pose2d getPose() {
         return odometer.getPoseMeters();   
+    }
+
+    public Pose2d getVisionPose() {
+        Rotation3d visionRotation3d = swerveVision.get3dPose().getRotation();
+        double angleInRadians = Math.atan2(visionRotation3d.getY(), visionRotation3d.getX());
+        Rotation2d convertedRotation = Rotation2d.fromRadians(angleInRadians);
+
+        double visionX = swerveVision.get3dPose().getX();
+        double visionY = swerveVision.get3dPose().getY();
+
+        Pose2d visionPose = new Pose2d(visionX,visionY, convertedRotation);
+
+        return visionPose;
     }
 
     public void resetOdometry(Pose2d pose) {
