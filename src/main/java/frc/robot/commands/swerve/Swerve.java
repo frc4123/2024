@@ -62,7 +62,7 @@ public class Swerve extends Command{
         if (InputConstants.fieldOrientation) {
             // field
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                    xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+                    xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2dFromOdometry());
         } else {
             // robot
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);

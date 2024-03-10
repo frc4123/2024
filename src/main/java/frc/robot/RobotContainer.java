@@ -9,6 +9,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Skipper;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Vision;
 
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -26,6 +27,7 @@ import frc.robot.commands.arm.ArmPlace;
 import frc.robot.commands.arm.ArmSafe;
 import frc.robot.commands.arm.ArmShoot;
 import frc.robot.commands.swerve.Swerve;
+import frc.robot.commands.vision.VisionAllign;
 
 import java.util.List;
 
@@ -77,6 +79,7 @@ public class RobotContainer {
   private final ArmPlace m_ArmPlace = new ArmPlace(m_arm);
   private final ArmShoot m_ArmShoot = new ArmShoot(m_arm);
   private final ArmSafe m_ArmSafe = new ArmSafe(m_arm);
+  //private final VisionAlign m_VisionAlign = new VisionAlign(m_vision);
   
   public RobotContainer() {
     swerveSubsystem.setDefaultCommand(new Swerve(

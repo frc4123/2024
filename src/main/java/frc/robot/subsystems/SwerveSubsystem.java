@@ -87,6 +87,10 @@ public class SwerveSubsystem extends SubsystemBase{
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());
     }
+    
+    public Rotation2d getRotation2dFromOdometry() {
+        return odometer.getPoseMeters().getRotation();
+    }
     // wpilib 
 
     public Pose2d getPose() {
