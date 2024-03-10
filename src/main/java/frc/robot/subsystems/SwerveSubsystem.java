@@ -21,7 +21,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
     Vision swerveVision;
     private long lastCorrection = 0;
-    private final long corectionInterval = 99;
+    private final long corectionInterval = 50;
 
     private final SwerveModule frontLeft = new SwerveModule(
             DrivingConstants.Front_Left_Drive,
@@ -133,8 +133,8 @@ public class SwerveSubsystem extends SubsystemBase{
             });
 
         long currentTime = System.currentTimeMillis();
-        
-        if (currentTime - lastCorrection >= corectionInterval) {
+
+        if (currentTime - lastCorrection >= corectionInterval && swerveVision.hasTarget()) {
             odometer.update(
                 getVisionPose().getRotation(),
                 new SwerveModulePosition[] {

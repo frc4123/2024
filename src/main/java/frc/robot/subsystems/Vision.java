@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -41,13 +42,9 @@ public class Vision extends SubsystemBase {
 
         if (redTargetCount > blueTargetCount && redTargetCount >= VisionConstants.DETECTED_ALLIANCE_TRHESHOLD) {
             return DetectedAlliance.RED;
-        }
-
-        if (blueTargetCount > redTargetCount && blueTargetCount >= VisionConstants.DETECTED_ALLIANCE_TRHESHOLD) {
+        } else if (blueTargetCount > redTargetCount && blueTargetCount >= VisionConstants.DETECTED_ALLIANCE_TRHESHOLD) {
             return DetectedAlliance.BLUE;
-        }
-
-        return null;
+        } else return null;
     }
 
     public Pose3d get3dPose() {
@@ -57,6 +54,11 @@ public class Vision extends SubsystemBase {
 
         Pose3d cameraRobotPose = PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), optionalPose.get(), VisionConstants.cameraToRobot);
         return(cameraRobotPose);
+    }
+
+    public boolean hasTarget() {
+        var result = camera.getLatestResult();
+        return result.hasTargets();
     }
     
     @Override
