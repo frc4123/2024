@@ -2,13 +2,11 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants.DrivingConstants;
 import frc.robot.Constants.ModuleConstants;
-import frc.robot.subsystems.Vision;
 
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -103,6 +101,7 @@ public class SwerveSubsystem extends SubsystemBase{
         return odometer.getPoseMeters();   
     }
 
+    // converts vision Pose3d to Pose2d 
     public Pose2d getVisionPose() {
         Rotation3d visionRotation3d = swerveVision.get3dPose().getRotation();
         double angleInRadians = Math.atan2(visionRotation3d.getY(), visionRotation3d.getX());
