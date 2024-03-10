@@ -18,8 +18,6 @@ import frc.robot.Constants.VisionConstants;
 
 public class Vision extends SubsystemBase {
 
-
-
     PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
     static final Set<Integer> redTargets = new HashSet<>(Arrays.asList(3, 4, 5, 9, 10, 11, 12, 13));
     static final Set<Integer> blueTargets = new HashSet<>(Arrays.asList(1, 2, 6, 7, 8, 14, 15, 16));
@@ -54,7 +52,6 @@ public class Vision extends SubsystemBase {
 
     public Pose3d get3dPose() {
         var result = camera.getLatestResult();
-        List<PhotonTrackedTarget> targets = result.getTargets();
         PhotonTrackedTarget target = result.getBestTarget();
         Optional<Pose3d> optionalPose = aprilTagFieldLayout.getTagPose(target.getFiducialId());
 
@@ -62,8 +59,8 @@ public class Vision extends SubsystemBase {
         return(cameraRobotPose);
     }
     
-
-    public void Periodic() {
+    @Override
+    public void periodic() {
     }
 
 }

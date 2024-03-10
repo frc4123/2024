@@ -1,6 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -115,7 +118,11 @@ public final class Constants {
     public static final double kCameraPitch = 0;
     public static final double kTargetPitch = 0;
     public static final double targetPose = 0;
-    public static final double cameraToRobot = 0;
+    public static final Transform3d cameraToRobot = new Transform3d(
+      new Translation3d(1,1,1), // to meausure
+      new Rotation3d()
+    );
+    public static final int DETECTED_ALLIANCE_TRHESHOLD = 1;
   }
 
   public static final class AutoConstants {
