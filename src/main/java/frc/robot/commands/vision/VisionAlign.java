@@ -8,7 +8,7 @@ import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.Vision.DetectedAlliance;
 
 
-public class VisionAllign extends Command{
+public class VisionAlign extends Command{
     Vision vision;
     Pose3d visionPose;
 
