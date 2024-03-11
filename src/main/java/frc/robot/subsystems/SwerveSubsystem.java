@@ -83,6 +83,7 @@ public class SwerveSubsystem extends SubsystemBase{
 
     public void zeroHeading() {
         gyro.reset();
+        gyro.setAngleAdjustment(0);
     }
 
     public double getHeading() {
@@ -112,6 +113,21 @@ public class SwerveSubsystem extends SubsystemBase{
         return convertedPose2d;
     }
 
+    public void overrideSwervePose() {
+        double poseAngleDifference = getVisionPose().getRotation().getDegrees() - getHeading();
+        gyro.setAngleAdjustment(poseAngleDifference);
+
+        odometer.update(
+            getVisionPose().getRotation(),
+            new SwerveModulePosition[] {
+                frontLeft.getPosition(),
+                frontRight.getPosition(),
+                backLeft.getPosition(),
+                backRight.getPosition()
+            });
+
+    }
+
     public void resetOdometry(Pose2d pose) {
         odometer.resetPosition(getRotation2d(), new SwerveModulePosition[] {
             frontLeft.getPosition(),
@@ -135,14 +151,7 @@ public class SwerveSubsystem extends SubsystemBase{
         long currentTime = System.currentTimeMillis();
 
         if (currentTime - lastCorrection >= corectionInterval && swerveVision.hasTarget()) {
-            odometer.update(
-                getVisionPose().getRotation(),
-                new SwerveModulePosition[] {
-                    frontLeft.getPosition(),
-                    frontRight.getPosition(),
-                    backLeft.getPosition(),
-                    backRight.getPosition()
-            });
+            overrideSwervePose();
             lastCorrection = currentTime;
         }
 
