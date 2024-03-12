@@ -13,6 +13,7 @@ import frc.robot.subsystems.Arm;
 
 import frc.robot.subsystems.SwerveSubsystem;
 
+import frc.robot.commands.auto.DriveToNote;
 import frc.robot.commands.intake.IntakeIn;
 import frc.robot.commands.shooter.ShootSpeaker;
 import frc.robot.commands.shooter.ShootAmp;
@@ -48,12 +49,14 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DriverStation;
 
 
 public class RobotContainer {
 
-  private final SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
   private final Skipper m_skipper = new Skipper();
@@ -80,10 +83,13 @@ public class RobotContainer {
   private final ArmShoot m_ArmShoot = new ArmShoot(m_arm);
   private final ArmSafe m_ArmSafe = new ArmSafe(m_arm);
   //private final VisionAlign m_VisionAlign = new VisionAlign(m_vision);
+
+  private final SendableChooser<Command> m_autoChooser = new SendableChooser<Command>();
+
   
   public RobotContainer() {
-    swerveSubsystem.setDefaultCommand(new Swerve(
-                swerveSubsystem,
+    m_swerveSubsystem.setDefaultCommand(new Swerve(
+                m_swerveSubsystem,
                 () -> -m_driverController1.getLeftY() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
                 () -> -m_driverController1.getLeftX() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
                 () -> -m_driverController1.getRawAxis(4) *  DrivingConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond
@@ -98,7 +104,7 @@ public class RobotContainer {
       m_driverController1.povDown().whileTrue(m_armCoastModeWrapped);
     }
     // enabled commands
-    m_driverController1.y().whileTrue(m_ArmSafe); // sets arm to safe position while driving
+    m_driverController1.y().whileTrue(m_ArmSafe); // sets arm to safe position while driving - diego was here
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
     m_buttonBoard.button(2).whileTrue(m_shootAmp);
     m_buttonBoard.button(2).whileTrue(new WaitCommand(.2).andThen(m_skipAmp));;
@@ -121,50 +127,20 @@ public class RobotContainer {
 
   //------------------------------------ Auto ------------------------------------//
 
+  public void initializeAutoChooser(){
+    m_autoChooser.setDefaultOption(
+      "Speaker Mid",
+        new WaitCommand(0.01)
+          .andThen(new ArmShoot(m_arm)
+          .alongWith(new ShootSpeaker(m_shooter).withTimeout(1.25))
+          .andThen(new ShootSpeaker(m_shooter).withTimeout(0.15))
+          .andThen(new DriveToNote(m_swerveSubsystem).withTimeout(2)))); 
+  
 
-
-
-
+    SmartDashboard.putData("Auto Selector", m_autoChooser);
+  }
 
   public Command getAutonomousCommand() {
-    // 1. Create trajectory settings
-    TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-    AutoConstants.kMaxSpeedMetersPerSecond,
-    AutoConstants.kMaxAccelerationMetersPerSecondSquared)
-            .setKinematics(DrivingConstants.kDriveKinematics);
-            
-    // 2. Generate trajectory
-    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0, 0, new Rotation2d(0)),
-      List.of(
-              new Translation2d(1, 0),
-              new Translation2d(1, -1)),
-      new Pose2d(2, -1, Rotation2d.fromDegrees(180)),
-      trajectoryConfig);
-
-    // 3. Define PID controllers for tracking trajectory
-    PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-    PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
-    ProfiledPIDController thetaController = new ProfiledPIDController(
-          AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-    // 4. Construct command to follow trajectory
-    SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
-          trajectory,
-          swerveSubsystem::getPose,
-          DrivingConstants.kDriveKinematics,
-          xController,
-          yController,
-          thetaController,
-          swerveSubsystem::setModuleStates,
-          swerveSubsystem);
-
-    // 5. Add some init and wrap-up, and return everything
-    return new SequentialCommandGroup(
-          new InstantCommand(() -> swerveSubsystem.resetOdometry(trajectory.getInitialPose())),
-          swerveControllerCommand,
-          new InstantCommand(() -> swerveSubsystem.stopModules()));   
-
+    return m_autoChooser.getSelected();
   }
 }
