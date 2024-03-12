@@ -2,26 +2,24 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants.DrivingConstants;
 import frc.robot.Constants.ModuleConstants;
+import frc.robot.Constants.VisionConstants;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.TimedRobot;
 
 public class SwerveSubsystem extends SubsystemBase{
 
     Vision swerveVision;
-    private long lastCorrection = 0;
-    private final long corectionInterval = 50;
 
     private final SwerveModule frontLeft = new SwerveModule(
             DrivingConstants.Front_Left_Drive,
@@ -61,14 +59,14 @@ public class SwerveSubsystem extends SubsystemBase{
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
-    private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(DrivingConstants.kDriveKinematics,
+    private final SwerveDrivePoseEstimator odometer = new SwerveDrivePoseEstimator(DrivingConstants.kDriveKinematics,
         new Rotation2d(), 
         new SwerveModulePosition[]{
             frontLeft.getPosition(),
             frontRight.getPosition(),
             backLeft.getPosition(),
             backRight.getPosition()
-        }
+        }, VisionConstants.startingPose, null, null
         );
 
         public SwerveSubsystem() {
@@ -97,35 +95,19 @@ public class SwerveSubsystem extends SubsystemBase{
     }
 
     public Rotation2d getRotation2dFromOdometry() {
-        return odometer.getPoseMeters().getRotation();
+        return odometer.getEstimatedPosition().getRotation();
     }
     // wpilib 
 
     public Pose2d getPose() {
-        return odometer.getPoseMeters();   
+        return odometer.getEstimatedPosition();
     }
 
     // converts vision Pose3d to Pose2d 
     public Pose2d getVisionPose() {
         Pose3d visionPose3d = swerveVision.get3dPose();
         Pose2d convertedPose2d = visionPose3d.toPose2d();
-
         return convertedPose2d;
-    }
-
-    public void overrideSwervePose() {
-        double poseAngleDifference = getVisionPose().getRotation().getDegrees() - getHeading();
-        gyro.setAngleAdjustment(poseAngleDifference);
-
-        odometer.update(
-            getVisionPose().getRotation(),
-            new SwerveModulePosition[] {
-                frontLeft.getPosition(),
-                frontRight.getPosition(),
-                backLeft.getPosition(),
-                backRight.getPosition()
-            });
-
     }
 
     public void resetOdometry(Pose2d pose) {
@@ -148,12 +130,9 @@ public class SwerveSubsystem extends SubsystemBase{
               backRight.getPosition()
             });
 
-        long currentTime = System.currentTimeMillis();
-
-        if (currentTime - lastCorrection >= corectionInterval && swerveVision.hasTarget()) {
-            overrideSwervePose();
-            lastCorrection = currentTime;
-        }
+        SmartDashboard.putString("Robot Location Pre-Vision: ", odometer.getEstimatedPosition().toString());
+        odometer.addVisionMeasurement(getVisionPose(), swerveVision.getCamTimeStamp());
+        SmartDashboard.putString("Robot Location Post-Vision: ", odometer.getEstimatedPosition().toString());
 
         SmartDashboard.putNumber("Robot Heading", getHeading());
         //SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());

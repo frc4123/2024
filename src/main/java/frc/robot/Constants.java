@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -113,15 +114,11 @@ public final class Constants {
   }
 
   public static final class VisionConstants {
-    public static final double kCameraHeight = 0;
-    public static final double kTargetHeight = 0;
-    public static final double kCameraPitch = 0;
-    public static final double kTargetPitch = 0;
-    public static final double targetPose = 0;
     public static final Transform3d cameraToRobot = new Transform3d(
-      new Translation3d(1,1,1), // to meausure
-      new Rotation3d()
+      new Translation3d(0,Units.inchesToMeters(-12.3),Units.inchesToMeters(12)), // milton: 14
+      new Rotation3d(0,0.413,3.412)
     );
+    public static final Pose2d startingPose = new Pose2d();
     public static final int DETECTED_ALLIANCE_TRHESHOLD = 1;
   }
 
@@ -132,7 +129,7 @@ public final class Constants {
     public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
     public static final double kPXController = 1.5;
     public static final double kPYController = 1.5;
-    public static final double kPThetaController = 3;
+    public static final double kPThetaController = 1.5;
 
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 
       new TrapezoidProfile.Constraints(

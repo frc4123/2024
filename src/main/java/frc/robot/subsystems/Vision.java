@@ -8,7 +8,6 @@ import java.util.Set;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
-import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -59,6 +58,11 @@ public class Vision extends SubsystemBase {
     public boolean hasTarget() {
         var result = camera.getLatestResult();
         return result.hasTargets();
+    }
+
+    public double getCamTimeStamp() {
+        var imageCaptureTime = camera.getLatestResult().getTimestampSeconds();
+        return imageCaptureTime;
     }
     
     @Override
