@@ -10,6 +10,7 @@ import com.revrobotics.SparkLimitSwitch;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -29,7 +30,7 @@ public class Arm extends SubsystemBase{
     private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
 
     private static double kDt = 0.02;
-    private double setpoint = 0;
+    private double setpoint = backRightArm.getEncoder().getPosition();
 
     public Arm(){
         frontLeftArm.setOpenLoopRampRate(0.8);
@@ -63,8 +64,12 @@ public class Arm extends SubsystemBase{
             backRightArm.getEncoder().setPosition(0);
         } // limit switch pressed zero's out arm
 
+        if (DriverStation.isDisabled()) {
+            setpoint = backRightArm.getEncoder().getPosition();
+        }
         internalSetPosition(setpoint);
-        SmartDashboard.putBoolean("Where is arm?", !(m_reverseLimit.isPressed()));
+        
+        SmartDashboard.putNumber("setpoint", setpoint);
 
     }
 
@@ -83,13 +88,9 @@ public class Arm extends SubsystemBase{
     }
 
     public double positionToRadians(double encoderCounts) {
-        // Convert counts to degrees
         double degrees = (double) encoderCounts * 360.0 / 4096;
-      
-        // Convert degrees to radians, considering gear ratio
         double radians = degrees * Math.PI / 180.0 * 88;
-      
-        // Return the radians value
+
         return radians;
     }
 
@@ -111,13 +112,6 @@ public class Arm extends SubsystemBase{
         SmartDashboard.putNumber("Arm Position", backRightArm.getEncoder().getPosition());
         SmartDashboard.putNumber("Arm Radians", positionToRadians(backRightArm.getEncoder().getPosition()));
         SmartDashboard.putNumber("Arm Velocity", backRightArm.getEncoder().getVelocity());
-  
-        // Create a motion profile with the given maximum velocity and maximum
-        // acceleration constraints for the next setpoint, the desired goal, and the
-        // current setpoint.
-    
-        // Retrieve the profiled setpoint for the next timestep. This setpoint moves
-        // toward the goal while obeying the constraints.
     
         // Send setpoint to offboard controller PID
         backRightArm.getPIDController().setReference(

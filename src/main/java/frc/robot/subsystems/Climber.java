@@ -30,6 +30,14 @@ public class Climber extends SubsystemBase{
         climberFollower.follow(climberLeader);
     }
 
+    public void setRightClimberVelo(double velo){
+        climberLeader.set(velo);
+    }
+
+    public void setLeftClimberVelo(double velo){
+        climberFollower.set(velo);
+    }
+
     public boolean isUnsafeVelocityUp() {
         return getClimberPosition() >= ClimberConstants.upperThreshold;
     }

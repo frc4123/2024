@@ -6,20 +6,25 @@ import frc.robot.Constants.VisionConstants;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveSubsystem extends SubsystemBase{
 
-    Vision swerveVision;
+    Vision vision;
+    Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.4, 0.4, 0.4); 
+    Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.6, 0.6, 0.6); 
 
     private final SwerveModule frontLeft = new SwerveModule(
             DrivingConstants.Front_Left_Drive,
@@ -66,10 +71,11 @@ public class SwerveSubsystem extends SubsystemBase{
             frontRight.getPosition(),
             backLeft.getPosition(),
             backRight.getPosition()
-        }, VisionConstants.startingPose, null, null
+        }, VisionConstants.startingPose, stateStdDevs, visionMeasurementStdDevs
         );
 
-        public SwerveSubsystem() {
+        public SwerveSubsystem(Vision vision) {
+            this.vision = vision;
             new Thread(() -> {
                 try {
                     Thread.sleep(1000);
@@ -81,7 +87,6 @@ public class SwerveSubsystem extends SubsystemBase{
 
     public void zeroHeading() {
         gyro.reset();
-        gyro.setAngleAdjustment(0);
     }
 
     public double getHeading() {
@@ -105,13 +110,16 @@ public class SwerveSubsystem extends SubsystemBase{
 
     // converts vision Pose3d to Pose2d 
     public Pose2d getVisionPose() {
-        Pose3d visionPose3d = swerveVision.get3dPose();
-        Pose2d convertedPose2d = visionPose3d.toPose2d();
-        return convertedPose2d;
+        if (vision.get3dPose() != null) {
+            Pose2d convertedPose2d = this.vision.get3dPose().toPose2d();
+            return convertedPose2d;
+        } else return null;
+
     }
 
     public void resetOdometry(Pose2d pose) {
-        odometer.resetPosition(getRotation2d(), new SwerveModulePosition[] {
+        odometer.resetPosition(getRotation2d(), 
+        new SwerveModulePosition[] {
             frontLeft.getPosition(),
             frontRight.getPosition(),
             backLeft.getPosition(),
@@ -122,8 +130,8 @@ public class SwerveSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         odometer.update(
-            gyro.getRotation2d(),
-            new SwerveModulePosition[] {
+        gyro.getRotation2d(),
+        new SwerveModulePosition[] {
               frontLeft.getPosition(),
               frontRight.getPosition(),
               backLeft.getPosition(),
@@ -131,8 +139,11 @@ public class SwerveSubsystem extends SubsystemBase{
             });
 
         SmartDashboard.putString("Robot Location Pre-Vision: ", odometer.getEstimatedPosition().toString());
-        odometer.addVisionMeasurement(getVisionPose(), swerveVision.getCamTimeStamp());
-        SmartDashboard.putString("Robot Location Post-Vision: ", odometer.getEstimatedPosition().toString());
+        if (getVisionPose() != null){
+            //odometer.addVisionMeasurement(getVisionPose(), vision.getCamTimeStamp());
+            SmartDashboard.putString("Robot Location Post-Vision: ", odometer.getEstimatedPosition().toString());
+        }
+
 
         SmartDashboard.putNumber("Robot Heading", getHeading());
         //SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());

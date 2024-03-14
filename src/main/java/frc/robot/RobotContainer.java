@@ -2,18 +2,19 @@ package frc.robot;
 
 import frc.robot.Constants.InputConstants;
 import frc.robot.Constants.DrivingConstants;
-import frc.robot.Constants.AutoConstants;
 
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Skipper;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Arm;
-//import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.Vision;
 
 import frc.robot.subsystems.SwerveSubsystem;
 
 import frc.robot.commands.auto.DriveToNote;
+import frc.robot.commands.auto.DriveToSpeaker;
+import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.intake.IntakeIn;
 import frc.robot.commands.shooter.ShootSpeaker;
 import frc.robot.commands.shooter.ShootAmp;
@@ -21,30 +22,20 @@ import frc.robot.commands.skipper.SkipShooter;
 import frc.robot.commands.skipper.SkipAmp;
 import frc.robot.commands.climber.ClimbDown;
 import frc.robot.commands.climber.ClimbUp;
+import frc.robot.commands.climber.RightClimbDown;
+import frc.robot.commands.climber.RightClimbUp;
+import frc.robot.commands.climber.LeftClimbDown;
+import frc.robot.commands.climber.LeftClimbUp;
 import frc.robot.commands.arm.ArmBrakeMode;
 import frc.robot.commands.arm.ArmCoastMode;
 import frc.robot.commands.arm.ArmIntake;
 import frc.robot.commands.arm.ArmPlace;
 import frc.robot.commands.arm.ArmSafe;
 import frc.robot.commands.arm.ArmShoot;
+import frc.robot.commands.arm.ArmInitialize;
 import frc.robot.commands.swerve.Swerve;
-//import frc.robot.commands.vision.VisionAllign;
-
-import java.util.List;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -55,17 +46,18 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 
 public class RobotContainer {
-
-  private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
   private final Skipper m_skipper = new Skipper();
   private final Climber m_climber = new Climber();
   private final Arm m_arm = new Arm();
+  private final Vision m_vision = new Vision();
+  private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem(m_vision);
 
   private final CommandXboxController m_driverController1 = new CommandXboxController(InputConstants.kDriverControllerPort0);
   private final Joystick m_joystick = new Joystick(InputConstants.kDriverControllerPort1);
   private final CommandGenericHID m_buttonBoard = new CommandGenericHID(m_joystick.getPort());
+  private final CommandXboxController m_driverController2 = new CommandXboxController(InputConstants.kDriverControllerPort2);
 
   private final IntakeIn m_intakeIn = new IntakeIn(m_intake);
   private final ShootSpeaker m_shootSpeaker = new ShootSpeaker(m_shooter);
@@ -74,6 +66,14 @@ public class RobotContainer {
   private final SkipAmp m_skipAmp = new SkipAmp(m_skipper);
   private final ClimbUp m_climbUp = new ClimbUp(m_climber);
   private final ClimbDown m_climbDown = new ClimbDown(m_climber);
+  private final RightClimbUp m_RightClimbUp = new RightClimbUp(m_climber);
+  private final RightClimbDown m_RightClimbDown = new RightClimbDown(m_climber);
+  private final LeftClimbUp m_LeftClimbUp = new LeftClimbUp(m_climber);
+  private final LeftClimbDown m_LeftClimbDown = new LeftClimbDown(m_climber);
+  Command m_rightClimbUpWrapped = m_RightClimbUp.ignoringDisable(true);
+  Command m_rightClimbDownWrapped = m_RightClimbDown.ignoringDisable(true);
+  Command m_leftClimbUpWrapped = m_LeftClimbUp.ignoringDisable(true);
+  Command m_leftClimbDownWrapped = m_LeftClimbDown.ignoringDisable(true);
   private final ArmBrakeMode m_armBrakeMode = new ArmBrakeMode(m_arm);
   private final ArmCoastMode m_armCoastMode = new ArmCoastMode(m_arm);
   Command m_armBrakeModeWrapped = m_armBrakeMode.ignoringDisable(true); // creates wrapped command for .ignoringDisable()
@@ -95,6 +95,7 @@ public class RobotContainer {
                 () -> -m_driverController1.getRawAxis(4) *  DrivingConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond
                 ));
     configureBindings();
+    initializeAutoChooser();
   }
 
   private void configureBindings() {
@@ -102,6 +103,11 @@ public class RobotContainer {
     if (DriverStation.isEnabled() == false) {
       m_driverController1.povUp().whileTrue(m_armBrakeModeWrapped);
       m_driverController1.povDown().whileTrue(m_armCoastModeWrapped);
+
+      //m_driverController2.a().whileTrue(m_rightClimbDownWrapped);
+      //m_driverController2.b().whileTrue(m_rightClimbUpWrapped);
+      //m_driverController2.y().whileTrue(m_leftClimbUpWrapped);
+      //m_driverController2.x().whileTrue(m_leftClimbDownWrapped);
     }
     // enabled commands
     m_driverController1.y().whileTrue(m_ArmSafe); // sets arm to safe position while driving - diego was here
@@ -120,21 +126,35 @@ public class RobotContainer {
     
   }
 
-
-
-
-
-
   //------------------------------------ Auto ------------------------------------//
 
   public void initializeAutoChooser(){
     m_autoChooser.setDefaultOption(
-      "Speaker Mid",
-        new WaitCommand(0.01)
-          .andThen(new ArmShoot(m_arm)
+      "1 Note",new WaitCommand(0.1)
+        .andThen(new ArmInitialize(m_arm).withTimeout(0.5))
+        .andThen(new ArmShoot(m_arm).withTimeout(1.5))
+        .alongWith(new ShootSpeaker(m_shooter).withTimeout(1.25))
+        .andThen(new SkipShooter(m_skipper).withTimeout(0.5))
+        //.alongWith(new ShootSpeaker(m_shooter).withTimeout(0.5)) 
+        .andThen(new ArmIntake(m_arm).withTimeout(0.5))
+        );
+
+    m_autoChooser.addOption(
+      "2 Note",
+        new ArmInitialize(m_arm).withTimeout(0.5)
+          .andThen(new ArmShoot(m_arm).withTimeout(0.7)
           .alongWith(new ShootSpeaker(m_shooter).withTimeout(1.25))
-          .andThen(new ShootSpeaker(m_shooter).withTimeout(0.15))
-          .andThen(new DriveToNote(m_swerveSubsystem).withTimeout(2)))); 
+          .andThen(new SkipShooter(m_skipper).withTimeout(0.5))
+          .andThen(new ArmIntake(m_arm)).withTimeout(0.7))
+          .alongWith(new IntakeIn(m_intake).withTimeout(2.25))
+          .alongWith(new DriveToNote(m_swerveSubsystem).withTimeout(2))
+          .andThen(new DriveToSpeaker(m_swerveSubsystem).withTimeout(2))
+          .andThen(new ArmShoot(m_arm).withTimeout(0.7))
+          .andThen(new ShootSpeaker(m_shooter).withTimeout(1.25))
+          .andThen(new SkipShooter(m_skipper).withTimeout(0.5))
+          .andThen(new ArmSafe(m_arm).withTimeout(0.5))
+          .andThen(new Taxi(m_swerveSubsystem).withTimeout(2.5))
+          ); 
   
 
     SmartDashboard.putData("Auto Selector", m_autoChooser);

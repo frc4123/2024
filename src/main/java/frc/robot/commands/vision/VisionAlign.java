@@ -17,7 +17,7 @@ public class VisionAlign extends Command{
     }
 
     // Pose3d cameraRobotPose = PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), aprilTagFieldLayout.getTagPose(target.getFiducialId()), cameraToRobot);
-    void periodic() {
+    void periodic(Vision vision) {
         visionPose = vision.get3dPose();
         SmartDashboard.putString("Detected Alliance: ", vision.getAllianceStatus() == DetectedAlliance.BLUE ? "BLUE"
                 : vision.getAllianceStatus() == DetectedAlliance.RED ? "RED" : "None");

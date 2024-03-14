@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -22,10 +23,10 @@ public class Vision extends SubsystemBase {
     static final Set<Integer> redTargets = new HashSet<>(Arrays.asList(3, 4, 5, 9, 10, 11, 12, 13));
     static final Set<Integer> blueTargets = new HashSet<>(Arrays.asList(1, 2, 6, 7, 8, 14, 15, 16));
     public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();    
-    public enum DetectedAlliance {RED,BLUE};
+    public enum DetectedAlliance {RED,BLUE,NONE};
 
     public DetectedAlliance getAllianceStatus() {
-        var result = camera.getLatestResult();
+        var result = getCamResult();
         List<PhotonTrackedTarget> targets = result.getTargets();
         var redTargetCount = 0;
         var blueTargetCount = 0;
@@ -43,25 +44,35 @@ public class Vision extends SubsystemBase {
             return DetectedAlliance.RED;
         } else if (blueTargetCount > redTargetCount && blueTargetCount >= VisionConstants.DETECTED_ALLIANCE_TRHESHOLD) {
             return DetectedAlliance.BLUE;
-        } else return null;
+        } else return DetectedAlliance.NONE;
     }
 
     public Pose3d get3dPose() {
-        var result = camera.getLatestResult();
-        PhotonTrackedTarget target = result.getBestTarget();
-        Optional<Pose3d> optionalPose = aprilTagFieldLayout.getTagPose(target.getFiducialId());
+        var result = getCamResult();
+        if (result.hasTargets() != false) {
+            PhotonTrackedTarget target = result.getBestTarget();
+            Optional<Pose3d> optionalPose = aprilTagFieldLayout.getTagPose(target.getFiducialId());
 
-        Pose3d cameraRobotPose = PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), optionalPose.get(), VisionConstants.cameraToRobot);
-        return(cameraRobotPose);
+            Pose3d cameraRobotPose = PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), optionalPose.get(), VisionConstants.cameraToRobot);
+            return(cameraRobotPose);
+        } else { 
+            return null;
+        }
+  
+    }
+
+    public PhotonPipelineResult getCamResult(){
+        var result = camera.getLatestResult();
+        return result;
     }
 
     public boolean hasTarget() {
-        var result = camera.getLatestResult();
+        var result = getCamResult();
         return result.hasTargets();
     }
 
     public double getCamTimeStamp() {
-        var imageCaptureTime = camera.getLatestResult().getTimestampSeconds();
+        var imageCaptureTime = getCamResult().getTimestampSeconds();
         return imageCaptureTime;
     }
     
