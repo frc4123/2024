@@ -1,24 +1,24 @@
-// package frc.robot.commands.arm;
+package frc.robot.commands.arm;
 
-// import edu.wpi.first.wpilibj2.command.Command;
-// import frc.robot.subsystems.Arm;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ArmOpen;
 
-// public class ArmUp extends Command{
+public class ArmUp extends Command{
 
-//     Arm arm;
+    ArmOpen arm;
 
-//     public ArmUp(Arm arm) {
-//         this.arm = arm;
-//         addRequirements(arm);
-//     }
+    public ArmUp(ArmOpen arm) {
+        this.arm = arm;
+        addRequirements(arm);
+    }
 
-//     @Override
-//     public void execute() {
-//         arm.setArmVelo(0.3); 
-//     }
+    @Override
+    public void execute() {
+        arm.setArmVelo(1); 
+    }
     
-//     @Override
-//     public void end(boolean interrupted) {
-//         arm.setArmVelo(0); 
-//     }
-// }
+    @Override
+    public void end(boolean interrupted) {
+        arm.setArmVelo(0); 
+    }
+}
