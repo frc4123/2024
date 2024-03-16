@@ -8,7 +8,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Skipper;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Vision;
+// import frc.robot.subsystems.Vision;
 
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -19,8 +19,8 @@ import frc.robot.commands.intake.IntakeIn;
 import frc.robot.commands.shooter.ShootSpeaker;
 import frc.robot.commands.shooter.ShootAmp;
 import frc.robot.commands.skipper.SkipShooter;
-import frc.robot.commands.skipper.SkipAmp;
 import frc.robot.commands.skipper.AutoSkipShooter;
+import frc.robot.commands.skipper.SkipAmp;
 import frc.robot.commands.climber.ClimbDown;
 import frc.robot.commands.climber.ClimbUp;
 import frc.robot.commands.climber.RightClimbDown;
@@ -52,20 +52,18 @@ public class RobotContainer {
   private final Skipper m_skipper = new Skipper();
   private final Climber m_climber = new Climber();
   private final Arm m_arm = new Arm();
-  private final Vision m_vision = new Vision();
-  private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem(m_vision);
+  // private final Vision m_vision = new Vision();
+  private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
 
   private final CommandXboxController m_driverController1 = new CommandXboxController(InputConstants.kDriverControllerPort0);
   private final Joystick m_joystick = new Joystick(InputConstants.kDriverControllerPort1);
   private final CommandGenericHID m_buttonBoard = new CommandGenericHID(m_joystick.getPort());
-  //private final CommandXboxController m_driverController2 = new CommandXboxController(InputConstants.kDriverControllerPort2);
 
   private final IntakeIn m_intakeIn = new IntakeIn(m_intake);
   private final ShootSpeaker m_shootSpeaker = new ShootSpeaker(m_shooter);
   private final ShootAmp m_shootAmp = new ShootAmp(m_shooter);
   private final SkipShooter m_skipShooter = new SkipShooter(m_skipper);
   private final SkipAmp m_skipAmp = new SkipAmp(m_skipper);
-  private final AutoSkipShooter m_AutoSkipShooter = new AutoSkipShooter(m_skipper);
   private final ClimbUp m_climbUp = new ClimbUp(m_climber);
   private final ClimbDown m_climbDown = new ClimbDown(m_climber);
   private final RightClimbUp m_RightClimbUp = new RightClimbUp(m_climber);
@@ -135,27 +133,26 @@ public class RobotContainer {
       "1 Note",new WaitCommand(0.1)
         .andThen(new ArmInitialize(m_arm).withTimeout(0.5))
         .andThen(new ArmShoot(m_arm).withTimeout(3))
-        .alongWith(new ShootSpeaker(m_shooter).withTimeout(2.25))
-        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.5))
-        //.alongWith(new ShootSpeaker(m_shooter).withTimeout(0.5)) 
+        .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
         .andThen(new ArmIntake(m_arm).withTimeout(0.5))
         );
 
     m_autoChooser.addOption(
-      "2 Note",
-        new ArmInitialize(m_arm).withTimeout(0.5)
-          .andThen(new ArmShoot(m_arm).withTimeout(0.7)
-          .alongWith(new ShootSpeaker(m_shooter).withTimeout(1.25))
-          .andThen(new SkipShooter(m_skipper).withTimeout(0.5))
-          .andThen(new ArmIntake(m_arm)).withTimeout(0.7))
-          .alongWith(new IntakeIn(m_intake).withTimeout(2.25))
-          .alongWith(new DriveToNote(m_swerveSubsystem).withTimeout(2))
-          .andThen(new DriveToSpeaker(m_swerveSubsystem).withTimeout(2))
-          .andThen(new ArmShoot(m_arm).withTimeout(0.7))
-          .andThen(new ShootSpeaker(m_shooter).withTimeout(1.25))
-          .andThen(new SkipShooter(m_skipper).withTimeout(0.5))
-          .andThen(new ArmSafe(m_arm).withTimeout(0.5))
-          .andThen(new Taxi(m_swerveSubsystem).withTimeout(2.5))
+      "2 Note",new WaitCommand(0.1)
+        .andThen(new ArmInitialize(m_arm).withTimeout(0.5))
+        .andThen(new ArmShoot(m_arm).withTimeout(3))
+        .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
+        .andThen(new ArmIntake(m_arm).withTimeout(0.5))
+        //
+        .alongWith(new IntakeIn(m_intake).withTimeout(2.25))
+        .alongWith(new DriveToNote(m_swerveSubsystem).withTimeout(3))
+        .andThen(new DriveToSpeaker(m_swerveSubsystem).withTimeout(3))
+        .andThen(new ArmShoot(m_arm).withTimeout(3))
+        .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
+        .andThen(new ArmIntake(m_arm).withTimeout(0.5))
           ); 
   
 

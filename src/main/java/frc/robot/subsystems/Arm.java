@@ -70,7 +70,6 @@ public class Arm extends SubsystemBase{
         internalSetPosition(setpoint);
         
         SmartDashboard.putNumber("setpoint", setpoint);
-
     }
 
     public void enableBrakeMode(boolean isBrakeMode){
@@ -110,8 +109,8 @@ public class Arm extends SubsystemBase{
         m_setpoint = profile.calculate(kDt,m_setpoint,m_goal);
       
         SmartDashboard.putNumber("Arm Position", backRightArm.getEncoder().getPosition());
-        SmartDashboard.putNumber("Arm Radians", positionToRadians(backRightArm.getEncoder().getPosition()));
-        SmartDashboard.putNumber("Arm Velocity", backRightArm.getEncoder().getVelocity());
+        // SmartDashboard.putNumber("Arm Radians", positionToRadians(backRightArm.getEncoder().getPosition()));
+        // SmartDashboard.putNumber("Arm Velocity", backRightArm.getEncoder().getVelocity());
     
         // Send setpoint to offboard controller PID
         backRightArm.getPIDController().setReference(

@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants.SubsystemConstants;
@@ -49,9 +48,4 @@ public class Climber extends SubsystemBase{
     public double getClimberPosition() {
         return ((climberLeader.getEncoder().getPosition()) * -1); // to invert climbers, run climbers too high, they will eventually reverse
     }
-    
-    public void periodic() {
-        SmartDashboard.putNumber("Climber Position", (climberLeader.getEncoder().getPosition() * -1));
-    }
-    
 }

@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveSubsystem extends SubsystemBase{
 
-    Vision vision;
     Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.4, 0.4, 0.4); 
     Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.6, 0.6, 0.6); 
 
@@ -74,8 +73,7 @@ public class SwerveSubsystem extends SubsystemBase{
         }, VisionConstants.startingPose, stateStdDevs, visionMeasurementStdDevs
         );
 
-        public SwerveSubsystem(Vision vision) {
-            this.vision = vision;
+        public SwerveSubsystem() {
             new Thread(() -> {
                 try {
                     Thread.sleep(1000);
@@ -108,14 +106,14 @@ public class SwerveSubsystem extends SubsystemBase{
         return odometer.getEstimatedPosition();
     }
 
-    // converts vision Pose3d to Pose2d 
-    public Pose2d getVisionPose() {
-        if (vision.get3dPose() != null) {
-            Pose2d convertedPose2d = this.vision.get3dPose().toPose2d();
-            return convertedPose2d;
-        } else return null;
+    // // converts vision Pose3d to Pose2d 
+    // public Pose2d getVisionPose() {
+    //     if (vision.get3dPose() != null) {
+    //         Pose2d convertedPose2d = this.vision.get3dPose().toPose2d();
+    //         return convertedPose2d;
+    //     } else return null;
 
-    }
+    // }
 
     public void resetOdometry(Pose2d pose) {
         odometer.resetPosition(getRotation2d(), 
@@ -139,10 +137,10 @@ public class SwerveSubsystem extends SubsystemBase{
             });
 
         SmartDashboard.putString("Robot Location Pre-Vision: ", odometer.getEstimatedPosition().toString());
-        if (getVisionPose() != null){
-            //odometer.addVisionMeasurement(getVisionPose(), vision.getCamTimeStamp());
-            SmartDashboard.putString("Robot Location Post-Vision: ", odometer.getEstimatedPosition().toString());
-        }
+        // if (getVisionPose() != null){
+        //     //odometer.addVisionMeasurement(getVisionPose(), vision.getCamTimeStamp());
+        //     SmartDashboard.putString("Robot Location Post-Vision: ", odometer.getEstimatedPosition().toString());
+        // }
 
 
         SmartDashboard.putNumber("Robot Heading", getHeading());

@@ -81,13 +81,13 @@ public final class Constants {
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // back left
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); // back right
 
-    public static final double kPhysicalMaxSpeedMetersPerSecond = 5;
+    public static final double kPhysicalMaxSpeedMetersPerSecond = 4; // 5
     public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
     public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond / 4;
     public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
-    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3; // 3
-    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3; // 3
+    public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 4; // 3
+    public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 4; // 3
   }
 
   public static final class InputConstants {
@@ -107,9 +107,9 @@ public final class Constants {
     public static final double Arm_FF_A = 0;
     public static final double Arm_POSITION_PLACE = 40.4123; 
     public static final double Arm_POSITION_SAFE = 35.547;
-    public static final double Arm_POSITION_SHOOT = 8; 
-    public static final double Arm_POSITION_INTAKE = 0.2; 
-    public static final double Arm_CONSTRAINTS_VELOCITY = 35; 
+    public static final double Arm_POSITION_SHOOT = 6.5; 
+    public static final double Arm_POSITION_INTAKE = 0.1; 
+    public static final double Arm_CONSTRAINTS_VELOCITY = 50; //35
     public static final double Arm_CONSTRAINTS_ACCELERATION = 100; 
   }
 
@@ -123,10 +123,10 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = DrivingConstants.kPhysicalMaxSpeedMetersPerSecond / 4;
+    public static final double kMaxSpeedMetersPerSecond = DrivingConstants.kPhysicalMaxSpeedMetersPerSecond / 4; // make this same as kPhysicalMaxSpeedMetersPerSecond
     public static final double kMaxAngularSpeedRadiansPerSecond = DrivingConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3; 
-    public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4;
+    public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4; // make this same as kPhysicalMaxSpeedMetersPerSecond
     public static final double kPXController = 1.5;
     public static final double kPYController = 1.5;
     public static final double kPThetaController = 1.5;
@@ -151,7 +151,7 @@ public final class Constants {
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
     public static final double kPTurning = 0.375; 
-    public static final double kPhysicalMaxSpeedMetersPerSecond = 5; 
+    public static final double kPhysicalMaxSpeedMetersPerSecond = 4; //5
     // the above will have to be changed after gear ratio measurements, wheel
     // measurements, and pid tuning
 

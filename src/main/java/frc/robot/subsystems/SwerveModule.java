@@ -116,10 +116,12 @@ public class SwerveModule {
         // prevents wheels from zeroing upon no input
 
         state = SwerveModuleState.optimize(state, getState().angle);
+        SmartDashboard.putNumber(driveMotor.getDeviceId()+" Drive Raw", state.speedMetersPerSecond / ModuleConstants.kPhysicalMaxSpeedMetersPerSecond);
+
         driveMotor.set(state.speedMetersPerSecond / ModuleConstants.kPhysicalMaxSpeedMetersPerSecond);
         turnMotor.set(turnPIDController.calculate(getTurningPosition(), state.angle.getRadians()));
-        SmartDashboard.putString("Swerve[" + cancoder.getDeviceID() + "] state", state.toString());
-        SmartDashboard.putNumber("Swerve[" + cancoder.getDeviceID() + "] abs enc", getAbsoluteEncoderRad());
+        // SmartDashboard.putString("Swerve[" + cancoder.getDeviceID() + "] state", state.toString());
+        // SmartDashboard.putNumber("Swerve[" + cancoder.getDeviceID() + "] abs enc", getAbsoluteEncoderRad());
 
         // applies speeds and turns to swerve module
     }
