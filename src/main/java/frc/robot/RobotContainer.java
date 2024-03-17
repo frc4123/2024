@@ -12,7 +12,7 @@ import frc.robot.subsystems.Arm;
 // import frc.robot.subsystems.Vision;
 
 import frc.robot.subsystems.SwerveSubsystem;
-
+import frc.robot.commands.auto.Autos;
 import frc.robot.commands.auto.DriveToNote;
 import frc.robot.commands.auto.DriveToSpeaker;
 import frc.robot.commands.auto.Taxi;
@@ -40,6 +40,7 @@ import frc.robot.commands.arm.ArmInitialize;
 import frc.robot.commands.swerve.Swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -94,6 +95,7 @@ public class RobotContainer {
 
   
   public RobotContainer() {
+    Autos auton = new Autos(m_swerveSubsystem);
     m_swerveSubsystem.setDefaultCommand(new Swerve(
                 m_swerveSubsystem,
                 () -> -m_driverController1.getLeftY() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
@@ -117,6 +119,7 @@ public class RobotContainer {
     }
     // enabled commands
     m_driverController1.y().whileTrue(m_ArmSafe); // sets arm to safe position while driving - diego was here
+    m_driverController1.a().whileTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading()));
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
     m_buttonBoard.button(2).whileTrue(m_shootAmp);
     m_buttonBoard.button(2).whileTrue(new WaitCommand(.2).andThen(m_skipAmp));;
@@ -126,7 +129,7 @@ public class RobotContainer {
     m_buttonBoard.button(4).whileTrue(new WaitCommand(1.25).andThen(m_skipShooter)); // 0.8
     m_buttonBoard.button(5).whileTrue(m_ArmPlace);
     m_buttonBoard.button(6).whileTrue(m_climbUp);
-  m_buttonBoard.button(7).whileTrue(m_climbDown);
+    m_buttonBoard.button(7).whileTrue(m_climbDown);
     //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_ArmUp);
     //m_buttonBoard.axisLessThan(0, 0.5).whileTrue(m_ArmDown);
     
@@ -144,25 +147,41 @@ public class RobotContainer {
         .andThen(new ArmIntake(m_arm).withTimeout(0.5))
         );
 
+    // m_autoChooser.addOption(
+    //   "2 Note",new WaitCommand(0.1)
+    //     .andThen(new ArmShoot(m_arm).withTimeout(2))
+    //     .alongWith(new ShootSpeaker(m_shooter).withTimeout(2))
+    //     .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2))
+    //     .andThen(new ArmIntake(m_arm).withTimeout(0.5))
+    //     //
+    //     .alongWith(new IntakeIn(m_intake).withTimeout(2.25))
+    //     .alongWith(new DriveToNote(m_swerveSubsystem).withTimeout(2))
+    //     .andThen(new DriveToSpeaker(m_swerveSubsystem).withTimeout(2))
+    //     //
+    //     .andThen(new ArmShoot(m_arm).withTimeout(2))
+    //     .alongWith(new ShootSpeaker(m_shooter).withTimeout(2))
+    //     .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2))
+    //     .andThen(new ArmIntake(m_arm).withTimeout(0.5))
+    //     //
+    //     .andThen(new DriveToNote(m_swerveSubsystem).withTimeout(2))
+    //       ); 
+
     m_autoChooser.addOption(
-      "2 Note",new WaitCommand(0.1)
-        .andThen(new ArmShoot(m_arm).withTimeout(2))
-        .alongWith(new ShootSpeaker(m_shooter).withTimeout(2))
-        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2))
+      "Sweep", new WaitCommand(0.1)
+      .andThen(new InstantCommand(()-> System.out.println("Sweep started")))
+      .andThen(new Autos(m_swerveSubsystem).sweepAuto())
+      );
+
+    m_autoChooser.addOption(
+      "Shoot then Sweep", new WaitCommand(0.1)
+        .andThen(new ArmInitialize(m_arm).withTimeout(0.5))
+        .andThen(new ArmShoot(m_arm).withTimeout(3))
+        .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
         .andThen(new ArmIntake(m_arm).withTimeout(0.5))
         //
-        .alongWith(new IntakeIn(m_intake).withTimeout(2.25))
-        .alongWith(new DriveToNote(m_swerveSubsystem).withTimeout(2))
-        .andThen(new DriveToSpeaker(m_swerveSubsystem).withTimeout(2))
-        //
-        .andThen(new ArmShoot(m_arm).withTimeout(2))
-        .alongWith(new ShootSpeaker(m_shooter).withTimeout(2))
-        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2))
-        .andThen(new ArmIntake(m_arm).withTimeout(0.5))
-        //
-        .andThen(new DriveToNote(m_swerveSubsystem).withTimeout(2))
-          ); 
-  
+        .andThen(new Autos(m_swerveSubsystem).sweepAuto())
+    );
 
     SmartDashboard.putData("Auto Selector", m_autoChooser);
   }

@@ -11,6 +11,7 @@ import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -24,6 +25,8 @@ public class SwerveSubsystem extends SubsystemBase{
 
     Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.4, 0.4, 0.4); 
     Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.6, 0.6, 0.6); 
+    
+    SwerveDriveKinematics SwerveDriveKinematics;
 
     private final SwerveModule frontLeft = new SwerveModule(
             DrivingConstants.Front_Left_Drive,
@@ -157,6 +160,14 @@ public class SwerveSubsystem extends SubsystemBase{
         frontRight.stop();
         backLeft.stop();
         backRight.stop();
+    }
+
+    public ChassisSpeeds getCurrentRobotChassiSpeeds() {
+        return DrivingConstants.kDriveKinematics.toChassisSpeeds(frontLeft.getState(), frontRight.getState(), backLeft.getState(), backRight.getState());
+    }
+
+    public void setRobotChassiSpeeds(ChassisSpeeds chassiSpeeds){
+        setModuleStates(DrivingConstants.kDriveKinematics.toSwerveModuleStates(chassiSpeeds));
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
