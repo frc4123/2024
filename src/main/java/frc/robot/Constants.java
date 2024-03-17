@@ -95,7 +95,7 @@ public final class Constants {
     public static final int kDriverControllerPort1 = 1;
     public static final int kDriverControllerPort2 = 2;
     public static final boolean fieldOrientation = true;
-    public static final double kDeadband = 0.034123;
+    public static final double kDeadband = 0.038; // was 0.04123
   }
 
   public static final class PIDTuning {
@@ -107,7 +107,7 @@ public final class Constants {
     public static final double Arm_FF_A = 0;
     public static final double Arm_POSITION_PLACE = 40.4123; 
     public static final double Arm_POSITION_SAFE = 35.547;
-    public static final double Arm_POSITION_SHOOT = 6.5; //6.5 /earlier in the day / 7.5 after
+    public static final double Arm_POSITION_SHOOT = 6.7; //6.5 /earlier in the day / 7.5 after
     public static final double Arm_POSITION_INTAKE = 0.1; 
     public static final double Arm_CONSTRAINTS_VELOCITY = 50; //35
     public static final double Arm_CONSTRAINTS_ACCELERATION = 100; 
@@ -124,7 +124,7 @@ public final class Constants {
 
   public static final class AutoConstants {
     public static final double kMaxSpeedMetersPerSecond = DrivingConstants.kPhysicalMaxSpeedMetersPerSecond / 4; // make this same as kPhysicalMaxSpeedMetersPerSecond
-    public static final double kMaxAngularSpeedRadiansPerSecond = DrivingConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 10;
+    public static final double kMaxAngularSpeedRadiansPerSecond = DrivingConstants.kPhysicalMaxAngularSpeedRadiansPerSecond / 4;
     public static final double kMaxAccelerationMetersPerSecondSquared = 3; 
     public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI / 4; // make this same as kPhysicalMaxSpeedMetersPerSecond
     public static final double kPXController = 1.5;

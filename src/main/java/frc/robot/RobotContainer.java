@@ -144,22 +144,24 @@ public class RobotContainer {
         .andThen(new ArmIntake(m_arm).withTimeout(0.5))
         );
 
-    // m_autoChooser.addOption(
-    //   "2 Note",new WaitCommand(0.1)
-    //     .andThen(new ArmInitialize(m_arm).withTimeout(0.5))
-    //     .andThen(new ArmShoot(m_arm).withTimeout(3))
-    //     .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
-    //     .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
-    //     .andThen(new ArmIntake(m_arm).withTimeout(0.5))
-    //     //
-    //     .alongWith(new IntakeIn(m_intake).withTimeout(2.25))
-    //     .alongWith(new DriveToNote(m_swerveSubsystem).withTimeout(3))
-    //     .andThen(new DriveToSpeaker(m_swerveSubsystem).withTimeout(3))
-    //     .andThen(new ArmShoot(m_arm).withTimeout(3))
-    //     .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
-    //     .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
-    //     .andThen(new ArmIntake(m_arm).withTimeout(0.5))
-          // ); 
+    m_autoChooser.addOption(
+      "2 Note",new WaitCommand(0.1)
+        .andThen(new ArmShoot(m_arm).withTimeout(2))
+        .alongWith(new ShootSpeaker(m_shooter).withTimeout(2))
+        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2))
+        .andThen(new ArmIntake(m_arm).withTimeout(0.5))
+        //
+        .alongWith(new IntakeIn(m_intake).withTimeout(2.25))
+        .alongWith(new DriveToNote(m_swerveSubsystem).withTimeout(2))
+        .andThen(new DriveToSpeaker(m_swerveSubsystem).withTimeout(2))
+        //
+        .andThen(new ArmShoot(m_arm).withTimeout(2))
+        .alongWith(new ShootSpeaker(m_shooter).withTimeout(2))
+        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2))
+        .andThen(new ArmIntake(m_arm).withTimeout(0.5))
+        //
+        .andThen(new DriveToNote(m_swerveSubsystem).withTimeout(2))
+          ); 
   
 
     SmartDashboard.putData("Auto Selector", m_autoChooser);
