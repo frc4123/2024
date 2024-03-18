@@ -148,7 +148,6 @@ public class SwerveSubsystem extends SubsystemBase{
 
         SmartDashboard.putNumber("Robot Heading", getHeading());
         //SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-
         SmartDashboard.putString("Front Left State", frontLeft.getState().toString());
         SmartDashboard.putString("Front Right State", frontRight.getState().toString());
         SmartDashboard.putString("Back Left State", backLeft.getState().toString());
@@ -166,8 +165,8 @@ public class SwerveSubsystem extends SubsystemBase{
         return DrivingConstants.kDriveKinematics.toChassisSpeeds(frontLeft.getState(), frontRight.getState(), backLeft.getState(), backRight.getState());
     }
 
-    public void setRobotChassiSpeeds(ChassisSpeeds chassiSpeeds){
-        setModuleStates(DrivingConstants.kDriveKinematics.toSwerveModuleStates(chassiSpeeds));
+    public void setRobotChassiSpeeds(ChassisSpeeds chassisSpeeds){
+        setModuleStates(DrivingConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds));
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
