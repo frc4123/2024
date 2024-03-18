@@ -12,13 +12,14 @@ import frc.robot.subsystems.Arm;
 // import frc.robot.subsystems.Vision;
 
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.commands.auto.Autos;
+import frc.robot.commands.auto.SweepAuto;
 import frc.robot.commands.auto.DriveToNote;
 import frc.robot.commands.auto.DriveToSpeaker;
 import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.intake.IntakeIn;
 import frc.robot.commands.shooter.ShootSpeaker;
 import frc.robot.commands.shooter.ShootAmp;
+import frc.robot.commands.shooter.ShootFourNote;
 import frc.robot.commands.skipper.SkipShooter;
 import frc.robot.commands.skipper.AutoSkipShooter;
 import frc.robot.commands.skipper.SkipAmp;
@@ -40,6 +41,7 @@ import frc.robot.commands.arm.ArmInitialize;
 import frc.robot.commands.swerve.Swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
@@ -95,7 +97,7 @@ public class RobotContainer {
 
   
   public RobotContainer() {
-    Autos auton = new Autos(m_swerveSubsystem);
+    // SweepAuto auton = new SweepAuto(m_swerveSubsystem);
     m_swerveSubsystem.setDefaultCommand(new Swerve(
                 m_swerveSubsystem,
                 () -> -m_driverController1.getLeftY() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
@@ -169,18 +171,18 @@ public class RobotContainer {
     m_autoChooser.addOption(
       "Sweep", new WaitCommand(0.1)
       .andThen(new InstantCommand(()-> System.out.println("Sweep started")))
-      .andThen(new Autos(m_swerveSubsystem).sweepAuto())
+      .andThen(new SweepAuto(m_swerveSubsystem).sweepAuto())
       );
 
     m_autoChooser.addOption(
       "Shoot then Sweep", new WaitCommand(0.1)
         .andThen(new ArmInitialize(m_arm).withTimeout(0.5))
         .andThen(new ArmShoot(m_arm).withTimeout(3))
-        .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
         .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
         .andThen(new ArmIntake(m_arm).withTimeout(0.5))
         //
-        .andThen(new Autos(m_swerveSubsystem).sweepAuto())
+        .andThen(new SweepAuto(m_swerveSubsystem).sweepAuto())
+        .beforeStarting(new ShootFourNote(m_shooter))
     );
 
     SmartDashboard.putData("Auto Selector", m_autoChooser);
