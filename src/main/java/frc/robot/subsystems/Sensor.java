@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Sensor extends SubsystemBase{
@@ -15,7 +14,7 @@ public class Sensor extends SubsystemBase{
 
     }
 
-    public void Periodic() {
-        SmartDashboard.putNumber("Sensor: ", sensor.getValue());
-    }
+    // public void Periodic() {
+    //     SmartDashboard.putNumber("Sensor: ", sensor.getValue());
+    // }
 }

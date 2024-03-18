@@ -27,6 +27,6 @@ public class Intake extends SubsystemBase{
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Intake Speed", -1 * intakeLeader.getEncoder().getVelocity());
-        SmartDashboard.putNumber("Intake Temp", intakeLeader.getMotorTemperature());
+        // SmartDashboard.putNumber("Intake Temp", intakeLeader.getMotorTemperature());
     }
 }

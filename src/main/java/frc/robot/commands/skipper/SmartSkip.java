@@ -29,10 +29,13 @@ public class SmartSkip extends Command {
     }
 
     public void periodic() {
-        if (arm.getArmPosition() < PIDTuning.Arm_Position_Threshold_UP &&
-            arm.getArmPosition() > PIDTuning.Arm_Position_Threshold_Down &&
-            shooter.getShooterVelo() > PIDTuning.Shooter_Velo_Threshold) {
-                
+        double armPosition = arm.getArmPosition();
+        double shooterVelo = shooter.getShooterVelo();
+
+        if (armPosition < PIDTuning.Arm_Position_Threshold_UP &&
+            armPosition > PIDTuning.Arm_Position_Threshold_Down &&
+            shooterVelo > PIDTuning.Shooter_Velo_Threshold) {
+
             execute();
         } else {
             end(true);

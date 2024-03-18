@@ -27,4 +27,8 @@ public class Shooter extends SubsystemBase{
         shooterLeader.set(velo);
         shooterFollower.follow(shooterLeader);
     }
+
+    public double getShooterVelo() {
+        return shooterLeader.getEncoder().getVelocity();
+    }
 }
