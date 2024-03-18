@@ -15,7 +15,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import frc.robot.commands.auto.DriveToNote;
 import frc.robot.commands.auto.DriveToSpeaker;
-import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.intake.IntakeIn;
 import frc.robot.commands.shooter.ShootSpeaker;
 import frc.robot.commands.shooter.ShootAmp;
@@ -82,10 +81,10 @@ public class RobotContainer {
   private final ArmCoastMode m_armCoastMode = new ArmCoastMode(m_arm);
   Command m_armBrakeModeWrapped = m_armBrakeMode.ignoringDisable(true); // creates wrapped command for .ignoringDisable()
   Command m_armCoastModeWrapped = m_armCoastMode.ignoringDisable(true); // creates wrapped command for .ignoringDisable()
-  private final ArmIntake m_ArmIntake = new ArmIntake(m_arm);
-  private final ArmPlace m_ArmPlace = new ArmPlace(m_arm);
-  private final ArmShoot m_ArmShoot = new ArmShoot(m_arm);
-  private final ArmSafe m_ArmSafe = new ArmSafe(m_arm);
+  private final ArmIntake m_armIntake = new ArmIntake(m_arm);
+  private final ArmPlace m_armPlace = new ArmPlace(m_arm);
+  private final ArmShoot m_armShoot = new ArmShoot(m_arm);
+  private final ArmSafe m_armSafe = new ArmSafe(m_arm);
   // private final ArmUp m_ArmUp = new ArmUp(m_arm);
   // private final ArmDown m_ArmDown = new ArmDown(m_arm);
   //private final VisionAlign m_VisionAlign = new VisionAlign(m_vision);
@@ -116,17 +115,23 @@ public class RobotContainer {
       //m_driverController2.x().whileTrue(m_leftClimbDownWrapped);
     }
     // enabled commands
-    m_driverController1.y().whileTrue(m_ArmSafe); // sets arm to safe position while driving - diego was here
+    m_driverController1.y().whileTrue(m_armSafe); // sets arm to safe position while driving - diego was here
+
+    m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_shootSpeaker);
+
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
-    m_buttonBoard.button(2).whileTrue(m_shootAmp);
-    m_buttonBoard.button(2).whileTrue(new WaitCommand(.2).andThen(m_skipAmp));;
-    m_buttonBoard.button(3).whileTrue(m_ArmIntake);
-    m_buttonBoard.button(4).whileTrue(m_ArmShoot);
-    m_buttonBoard.button(4).whileTrue(m_shootSpeaker);
-    m_buttonBoard.button(4).whileTrue(new WaitCommand(1.25).andThen(m_skipShooter)); // 0.8
-    m_buttonBoard.button(5).whileTrue(m_ArmPlace);
+    m_buttonBoard.button(1).whileTrue(m_armIntake);
+
+    m_buttonBoard.button(2).whileTrue(m_armShoot);
+    m_buttonBoard.button(2).whileTrue(m_shootSpeaker);
+    m_buttonBoard.button(2).whileTrue(new WaitCommand(1.25).andThen(m_skipShooter)); // 0.8
+
+    m_buttonBoard.button(3).whileTrue(m_shootAmp);
+    m_buttonBoard.button(3).whileTrue(new WaitCommand(.2).andThen(m_skipAmp));;
+    m_buttonBoard.button(3).whileTrue(m_armPlace);
+
     m_buttonBoard.button(6).whileTrue(m_climbUp);
-  m_buttonBoard.button(7).whileTrue(m_climbDown);
+    m_buttonBoard.button(7).whileTrue(m_climbDown);
     //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_ArmUp);
     //m_buttonBoard.axisLessThan(0, 0.5).whileTrue(m_ArmDown);
     
