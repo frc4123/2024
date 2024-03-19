@@ -14,9 +14,6 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.auto.SweepAuto;
 import frc.robot.commands.auto.FourNoteAuto;
-import frc.robot.commands.auto.DriveToNote;
-import frc.robot.commands.auto.DriveToSpeaker;
-import frc.robot.commands.auto.Taxi;
 import frc.robot.commands.intake.IntakeIn;
 import frc.robot.commands.shooter.ShootSpeaker;
 import frc.robot.commands.shooter.ShootAmp;
@@ -42,7 +39,6 @@ import frc.robot.commands.arm.ArmInitialize;
 import frc.robot.commands.swerve.Swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
