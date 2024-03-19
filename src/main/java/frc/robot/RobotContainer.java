@@ -13,6 +13,7 @@ import frc.robot.subsystems.Arm;
 
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.commands.auto.SweepAuto;
+import frc.robot.commands.auto.FiveNoteAuto;
 import frc.robot.commands.auto.FourNoteAuto;
 import frc.robot.commands.intake.IntakeIn;
 import frc.robot.commands.shooter.ShootSpeaker;
@@ -185,6 +186,12 @@ public class RobotContainer {
       "FourNote", new WaitCommand(0.1)
         .beforeStarting(new ShootFourNote(m_shooter))
         .beforeStarting(new FourNoteAuto(m_swerveSubsystem).fourNote())
+    );
+
+        m_autoChooser.addOption(
+      "FiveNote", new WaitCommand(0.1)
+        .beforeStarting(new ShootFourNote(m_shooter))
+        .beforeStarting(new FiveNoteAuto(m_swerveSubsystem).fourNote())
     );
 
     SmartDashboard.putData("Auto Selector", m_autoChooser);
