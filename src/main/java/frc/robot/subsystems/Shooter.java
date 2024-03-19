@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.SubsystemConstants;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -27,4 +27,11 @@ public class Shooter extends SubsystemBase{
         shooterLeader.set(velo);
         shooterFollower.follow(shooterLeader);
     }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Shooter Velo", shooterLeader.getEncoder().getVelocity());
+    }
+
+
 }

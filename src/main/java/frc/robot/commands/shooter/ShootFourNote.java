@@ -1,6 +1,5 @@
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
@@ -14,17 +13,11 @@ public class ShootFourNote extends Command{
     }
 
     @Override
-    public void initialize() {
-        shooter.setShooterVelo(0.7); 
-    }
-    
-    @Override
-    public boolean isFinished() {
-        return DriverStation.isDisabled() || DriverStation.isAutonomousEnabled() == false;
+    public void execute() {
+        shooter.setShooterVelo(0.7);
     }
 
-    @Override
-    public void end(boolean interrupted) {
+    public void teleopInit() {
         shooter.setShooterVelo(0.0);
     }
 }
