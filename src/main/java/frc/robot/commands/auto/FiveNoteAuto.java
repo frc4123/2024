@@ -31,7 +31,7 @@ public class FiveNoteAuto extends SubsystemBase {
         );
   }
 
-  public Command fourNote() {
+  public Command fiveNote() {
     return AutoBuilder.buildAuto("fiveNote");
   }
 

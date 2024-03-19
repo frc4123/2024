@@ -191,7 +191,7 @@ public class RobotContainer {
         m_autoChooser.addOption(
       "FiveNote", new WaitCommand(0.1)
         .beforeStarting(new ShootFourNote(m_shooter))
-        .beforeStarting(new FiveNoteAuto(m_swerveSubsystem).fourNote())
+        .beforeStarting(new FiveNoteAuto(m_swerveSubsystem).fiveNote())
     );
 
     SmartDashboard.putData("Auto Selector", m_autoChooser);
