@@ -17,6 +17,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,6 +29,9 @@ public class SwerveSubsystem extends SubsystemBase{
     Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.6, 0.6, 0.6); 
     
     SwerveDriveKinematics SwerveDriveKinematics;
+
+    StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault()
+        .getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
 
     private final SwerveModule frontLeft = new SwerveModule(
             DrivingConstants.Front_Left_Drive,
@@ -75,6 +80,13 @@ public class SwerveSubsystem extends SubsystemBase{
             backRight.getPosition()
         }, VisionConstants.startingPose, stateStdDevs, visionMeasurementStdDevs
         );
+
+    SwerveModuleState[] states = new SwerveModuleState[] {
+        new SwerveModuleState(),
+        new SwerveModuleState(),
+        new SwerveModuleState(),
+        new SwerveModuleState()
+    };
 
         public SwerveSubsystem() {
             new Thread(() -> {
@@ -138,6 +150,8 @@ public class SwerveSubsystem extends SubsystemBase{
               backLeft.getPosition(),
               backRight.getPosition()
             });
+            
+        publisher.set(states);
 
         SmartDashboard.putString("Robot Location Pre-Vision: ", odometer.getEstimatedPosition().toString());
         // if (getVisionPose() != null){
