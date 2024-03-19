@@ -171,7 +171,6 @@ public class RobotContainer {
 
     m_autoChooser.addOption(
       "Sweep", new WaitCommand(0.1)
-      .andThen(new InstantCommand(()-> System.out.println("Sweep started")))
       .andThen(new SweepAuto(m_swerveSubsystem).sweepAuto())
       );
 
@@ -188,7 +187,6 @@ public class RobotContainer {
 
     m_autoChooser.addOption(
       "FourNote", new WaitCommand(0.1)
-        .andThen(new InstantCommand(()-> System.out.println("Four Note Initiated")))
         .beforeStarting(new ShootFourNote(m_shooter))
         .beforeStarting(new FourNoteAuto(m_swerveSubsystem).fourNote())
     );
