@@ -16,6 +16,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,6 +26,9 @@ public class SwerveSubsystem extends SubsystemBase{
 
     Matrix<N3, N1> stateStdDevs = VecBuilder.fill(0.4, 0.4, 0.4); 
     Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.6, 0.6, 0.6); 
+
+    StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault()
+    .getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
 
     private final SwerveModule frontLeft = new SwerveModule(
             DrivingConstants.Front_Left_Drive,
@@ -62,6 +67,13 @@ public class SwerveSubsystem extends SubsystemBase{
             DrivingConstants.Back_Right_Drive_Absolute_Encoder_Reversed);
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+
+    SwerveModuleState[] advantageScopeStates = new SwerveModuleState[] {
+        new SwerveModuleState(),
+        new SwerveModuleState(),
+        new SwerveModuleState(),
+        new SwerveModuleState()
+    };
 
     private final SwerveDrivePoseEstimator odometer = new SwerveDrivePoseEstimator(DrivingConstants.kDriveKinematics,
         new Rotation2d(), 
@@ -135,6 +147,8 @@ public class SwerveSubsystem extends SubsystemBase{
               backLeft.getPosition(),
               backRight.getPosition()
             });
+
+        publisher.set(advantageScopeStates);
 
         SmartDashboard.putString("Robot Location Pre-Vision: ", odometer.getEstimatedPosition().toString());
         // if (getVisionPose() != null){
