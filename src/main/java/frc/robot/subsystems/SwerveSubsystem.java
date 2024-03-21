@@ -71,6 +71,13 @@ public class SwerveSubsystem extends SubsystemBase{
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
 
+    SwerveModuleState[] advantageScopeStates = new SwerveModuleState[] {
+        new SwerveModuleState(),
+        new SwerveModuleState(),
+        new SwerveModuleState(),
+        new SwerveModuleState()
+    };
+
     private final SwerveDrivePoseEstimator odometer = new SwerveDrivePoseEstimator(DrivingConstants.kDriveKinematics,
         new Rotation2d(), 
         new SwerveModulePosition[]{
@@ -153,6 +160,8 @@ public class SwerveSubsystem extends SubsystemBase{
             
         publisher.set(states);
 
+        publisher.set(advantageScopeStates);
+
         SmartDashboard.putString("Robot Location Pre-Vision: ", odometer.getEstimatedPosition().toString());
         // if (getVisionPose() != null){
         //     //odometer.addVisionMeasurement(getVisionPose(), vision.getCamTimeStamp());
@@ -162,10 +171,11 @@ public class SwerveSubsystem extends SubsystemBase{
 
         SmartDashboard.putNumber("Robot Heading", getHeading());
         //SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
-        SmartDashboard.putString("Front Left State", frontLeft.getState().toString());
-        SmartDashboard.putString("Front Right State", frontRight.getState().toString());
-        SmartDashboard.putString("Back Left State", backLeft.getState().toString());
-        SmartDashboard.putString("Back Right State", backRight.getState().toString());
+
+        // SmartDashboard.putString("Front Left State", frontLeft.getState().toString());
+        // SmartDashboard.putString("Front Right State", frontRight.getState().toString());
+        // SmartDashboard.putString("Back Left State", backLeft.getState().toString());
+        // SmartDashboard.putString("Back Right State", backRight.getState().toString());
     }
 
     public void stopModules() {

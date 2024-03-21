@@ -14,7 +14,7 @@ public class Intake extends SubsystemBase{
     private CANSparkMax intakeLeader = new CANSparkMax(SubsystemConstants.Ground_Intake, MotorType.kBrushless);
 
     public Intake(){
-        intakeLeader.setOpenLoopRampRate(-0.7);
+        intakeLeader.setOpenLoopRampRate(0.3);
         intakeLeader.setIdleMode(IdleMode.kBrake);
         intakeLeader.clearFaults();
     }
@@ -27,6 +27,6 @@ public class Intake extends SubsystemBase{
     @Override
     public void periodic(){
         SmartDashboard.putNumber("Intake Speed", -1 * intakeLeader.getEncoder().getVelocity());
-        SmartDashboard.putNumber("Intake Temp", intakeLeader.getMotorTemperature());
+        // SmartDashboard.putNumber("Intake Temp", intakeLeader.getMotorTemperature());
     }
 }

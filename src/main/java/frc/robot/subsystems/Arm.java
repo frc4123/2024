@@ -33,19 +33,19 @@ public class Arm extends SubsystemBase{
     private double setpoint = backRightArm.getEncoder().getPosition();
 
     public Arm(){
-        frontLeftArm.setOpenLoopRampRate(0.8);
+        frontLeftArm.setOpenLoopRampRate(0.3);
         frontLeftArm.setIdleMode(IdleMode.kBrake);
         frontLeftArm.clearFaults();
 
-        frontRightArm.setOpenLoopRampRate(0.8);
+        frontRightArm.setOpenLoopRampRate(0.3);
         frontRightArm.setIdleMode(IdleMode.kBrake);
         frontRightArm.clearFaults();
 
-        backLeftArm.setOpenLoopRampRate(0.8);
+        backLeftArm.setOpenLoopRampRate(0.3);
         backLeftArm.setIdleMode(IdleMode.kBrake);
         backLeftArm.clearFaults();
 
-        backRightArm.setOpenLoopRampRate(0.8);
+        backRightArm.setOpenLoopRampRate(0.3);
         backRightArm.setIdleMode(IdleMode.kBrake);
         backRightArm.clearFaults();
 
@@ -101,6 +101,10 @@ public class Arm extends SubsystemBase{
         return setpoint;
     }
 
+    public double getArmPosition(){
+        return backRightArm.getEncoder().getPosition();
+    }
+
     private void internalSetPosition(double position) {
         m_goal = new TrapezoidProfile.State(position, 0);
         new TrapezoidProfile.State(setpoint,0);
@@ -108,7 +112,7 @@ public class Arm extends SubsystemBase{
 
         m_setpoint = profile.calculate(kDt,m_setpoint,m_goal);
       
-        SmartDashboard.putNumber("Arm Position", backRightArm.getEncoder().getPosition());
+        SmartDashboard.putNumber("Arm Position", getArmPosition());
         // SmartDashboard.putNumber("Arm Radians", positionToRadians(backRightArm.getEncoder().getPosition()));
         // SmartDashboard.putNumber("Arm Velocity", backRightArm.getEncoder().getVelocity());
     

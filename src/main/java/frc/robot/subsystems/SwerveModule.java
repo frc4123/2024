@@ -14,7 +14,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 //import edu.wpi.first.wpilibj.AnalogInput;
 //import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModule {
 
@@ -116,7 +115,7 @@ public class SwerveModule {
         // prevents wheels from zeroing upon no input
 
         state = SwerveModuleState.optimize(state, getState().angle);
-        SmartDashboard.putNumber(driveMotor.getDeviceId()+" Drive Raw", state.speedMetersPerSecond / ModuleConstants.kPhysicalMaxSpeedMetersPerSecond);
+        // SmartDashboard.putNumber(driveMotor.getDeviceId()+" Drive Raw", state.speedMetersPerSecond / ModuleConstants.kPhysicalMaxSpeedMetersPerSecond);
 
         driveMotor.set(state.speedMetersPerSecond / ModuleConstants.kPhysicalMaxSpeedMetersPerSecond);
         turnMotor.set(turnPIDController.calculate(getTurningPosition(), state.angle.getRadians()));

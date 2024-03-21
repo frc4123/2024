@@ -15,11 +15,11 @@ public class Climber extends SubsystemBase{
     private CANSparkMax climberFollower = new CANSparkMax(SubsystemConstants.Left_Climber, MotorType.kBrushless); 
 
     public Climber(){
-        climberLeader.setOpenLoopRampRate(0.8);
+        climberLeader.setOpenLoopRampRate(0.2);
         climberLeader.setIdleMode(IdleMode.kBrake);
         climberLeader.clearFaults();
 
-        climberFollower.setOpenLoopRampRate(0.8);
+        climberFollower.setOpenLoopRampRate(0.2);
         climberFollower.setIdleMode(IdleMode.kBrake);
         climberFollower.clearFaults();
     }   

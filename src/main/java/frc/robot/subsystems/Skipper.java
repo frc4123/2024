@@ -14,7 +14,7 @@ public class Skipper extends SubsystemBase{
     private CANSparkMax intakeSkipper = new CANSparkMax(SubsystemConstants.Intake_Skipper, MotorType.kBrushless);
 
     public Skipper(){
-        intakeSkipper.setOpenLoopRampRate(0.8);
+        intakeSkipper.setOpenLoopRampRate(0.2);
         intakeSkipper.setIdleMode(IdleMode.kBrake);
         intakeSkipper.clearFaults();
     }
