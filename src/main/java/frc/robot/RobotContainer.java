@@ -194,11 +194,13 @@ public class RobotContainer {
     m_autoChooser.addOption(
       "FourNote", new WaitCommand(0.1)
         .andThen(new ArmShoot(m_arm).withTimeout(3))
-        .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
         .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
         .andThen(new ArmIntake(m_arm).withTimeout(0.5))
+
+        //creates two paralell commands during the auto, shooter, and path follower
         .beforeStarting(new ShootFourNote(m_shooter))
-        .beforeStarting(new FourNoteAuto(m_swerveSubsystem).fourNote())
+        .beforeStarting(new WaitCommand(4)) 
+          .andThen(new FourNoteAuto(m_swerveSubsystem).fourNote())
     );
 
     m_autoChooser.addOption(
