@@ -205,14 +205,27 @@ public class RobotContainer {
 
     m_autoChooser.addOption(
       "FiveNote", new WaitCommand(0.1)
+        .andThen(new ArmShoot(m_arm).withTimeout(3))
+        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
+        .andThen(new ArmIntake(m_arm).withTimeout(0.5))
+
+        //creates two paralell commands during the auto, shooter, and path follower
         .beforeStarting(new ShootFourNote(m_shooter))
-        .beforeStarting(new FiveNoteAuto(m_swerveSubsystem).fiveNote())
+        .beforeStarting(new WaitCommand(4)) 
+          .andThen(new FiveNoteAuto(m_swerveSubsystem).fiveNote())
+
     );
 
     m_autoChooser.addOption(
-      "ThreeLong", new WaitCommand(0.1)
-      .beforeStarting(new ShootFourNote(m_shooter))
-      .beforeStarting(new ThreeNoteLong(m_swerveSubsystem).threeNoteLong())
+      "Three Note Long", new WaitCommand(0.1)
+        .andThen(new ArmShoot(m_arm).withTimeout(3))
+        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
+        .andThen(new ArmIntake(m_arm).withTimeout(0.5))
+
+        //creates two paralell commands during the auto, shooter, and path follower
+        .beforeStarting(new ShootFourNote(m_shooter))
+        .beforeStarting(new WaitCommand(4)) 
+          .andThen(new SweepAuto(m_swerveSubsystem).sweepAuto())
     );
 
     SmartDashboard.putData("Auto Selector", m_autoChooser);
