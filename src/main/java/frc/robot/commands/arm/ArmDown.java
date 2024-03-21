@@ -14,7 +14,7 @@ public class ArmDown extends Command{
 
     @Override
     public void execute() {
-        arm.setArmVelo(-0.3); 
+        arm.setArmVelo(-0.5); 
     }
     
     @Override

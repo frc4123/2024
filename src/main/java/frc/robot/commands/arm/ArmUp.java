@@ -14,7 +14,7 @@ public class ArmUp extends Command{
 
     @Override
     public void execute() {
-        arm.setArmVelo(1); 
+        arm.setArmVelo(0.5); 
     }
     
     @Override
