@@ -3,18 +3,18 @@ package frc.robot.commands.shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 
-public class ShootFourNote extends Command{
+public class AutoShooter extends Command{
 
     Shooter shooter;
 
-    public ShootFourNote(Shooter shooter) {
+    public AutoShooter(Shooter shooter) {
         this.shooter = shooter;
         addRequirements(shooter);
     }
 
     @Override
     public void execute() {
-        shooter.setShooterVelo(0.7);
+        shooter.setShooterVelo(0.9);
     }
 
     public void teleopInit() {
