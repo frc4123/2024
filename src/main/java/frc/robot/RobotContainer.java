@@ -13,6 +13,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 // import frc.robot.subsystems.Vision;
 
 import frc.robot.commands.auto.SweepAuto;
+import frc.robot.commands.auto.SweepAutoRed;
 import frc.robot.commands.auto.FiveNoteAuto;
 import frc.robot.commands.auto.FourNoteAuto;
 import frc.robot.commands.auto.ThreeNoteLong;
@@ -176,8 +177,13 @@ public class RobotContainer {
     //       ); 
 
     m_autoChooser.addOption(
-      "Sweep", new WaitCommand(0.1)
+      "Sweep Blue", new WaitCommand(0.1)
       .andThen(new SweepAuto(m_swerveSubsystem).sweepAuto())
+      );
+
+    m_autoChooser.addOption(
+      "Sweep Red", new WaitCommand(0.1)
+      .andThen(new SweepAutoRed(m_swerveSubsystem).sweepAutoRed())
       );
 
     m_autoChooser.addOption(
