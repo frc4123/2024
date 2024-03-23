@@ -21,6 +21,8 @@ public class Shooter extends SubsystemBase{
         shooterFollower.setOpenLoopRampRate(0.2);
         shooterFollower.setIdleMode(IdleMode.kBrake);
         shooterFollower.clearFaults();
+
+        // τηισ ισ ωερυ ιμπορταντ
     }
 
     public void setShooterVelo(double velo){
@@ -34,6 +36,6 @@ public class Shooter extends SubsystemBase{
 
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Shooter Velo", getShooterVelo());
+        //SmartDashboard.putNumber("Shooter Velo", getShooterVelo());
     }
 }

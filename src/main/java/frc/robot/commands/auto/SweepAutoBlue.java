@@ -14,11 +14,11 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-public class SweepAuto extends SubsystemBase {
+public class SweepAutoBlue extends SubsystemBase {
   SwerveSubsystem swerve;
 
   /** Creates a new Autos. */
-  public SweepAuto(SwerveSubsystem swerveSubsystem) {
+  public SweepAutoBlue(SwerveSubsystem swerveSubsystem) {
     this.swerve = swerveSubsystem;
     AutoBuilder.configureHolonomic(
         () -> swerve.getPose(),
@@ -31,8 +31,8 @@ public class SweepAuto extends SubsystemBase {
         );
   }
 
-  public Command sweepAuto() {
-    return AutoBuilder.buildAuto("sweepAuto");
+  public Command sweepAutoBlue() {
+    return AutoBuilder.buildAuto("sweepAutoBlue");
   }
 
   @Override
