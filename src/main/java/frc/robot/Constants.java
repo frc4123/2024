@@ -119,7 +119,7 @@ public final class Constants {
 
   public static final class VisionConstants {
     public static final Transform3d cameraToRobot = new Transform3d(
-      new Translation3d(0,Units.inchesToMeters(-12.3),Units.inchesToMeters(12)), // milton: 14
+      new Translation3d(7,Units.inchesToMeters(-10.3625),Units.inchesToMeters(12)), // milton: 14
       new Rotation3d(0,0.413,3.412)
     );
     public static final Pose2d startingPose = new Pose2d();

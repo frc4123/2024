@@ -14,10 +14,11 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import frc.robot.commands.auto.SweepAutoBlue;
 import frc.robot.commands.auto.SweepAutoRed;
-import frc.robot.commands.auto.FiveNoteAuto;
 import frc.robot.commands.auto.FourNoteAuto;
-import frc.robot.commands.auto.ThreeNoteLong;
-import frc.robot.commands.auto.TwoNoteLongRed;
+import frc.robot.commands.auto.TaxiRightRed;
+import frc.robot.commands.auto.TaxiLeftRed;
+import frc.robot.commands.auto.TaxiRightBlue;
+import frc.robot.commands.auto.TaxiLeftBlue;
 
 import frc.robot.commands.intake.IntakeIn;
 import frc.robot.commands.shooter.ShootSpeaker;
@@ -151,11 +152,9 @@ public class RobotContainer {
   public void initializeAutoChooser(){
     m_autoChooser.setDefaultOption(
       "1 Note",new WaitCommand(0.1)
-        .andThen(new ArmInitialize(m_arm).withTimeout(0.5))
         .andThen(new ArmShoot(m_arm).withTimeout(3))
         .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
         .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
-        .andThen(new ArmIntake(m_arm).withTimeout(0.5))
         );
 
     m_autoChooser.addOption(
@@ -178,9 +177,49 @@ public class RobotContainer {
     //     .andThen(new SweepAuto(m_swerveSubsystem).sweepAuto())
     //     .beforeStarting(new AutoShooter(m_shooter))
     // );
+    m_autoChooser.addOption(
+      "Taxi Red Right", new WaitCommand(0.1)
+      .andThen(new ArmShoot(m_arm).withTimeout(3))
+      .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+      .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
+
+      .beforeStarting(new WaitCommand(9)) 
+      .andThen(new TaxiRightRed(m_swerveSubsystem).taxiRightRed())
+    );
 
     m_autoChooser.addOption(
-      "FourNote", new WaitCommand(0.1)
+      "Taxi Red Left", new WaitCommand(0.1)
+      .andThen(new ArmShoot(m_arm).withTimeout(3))
+      .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+      .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
+
+      .beforeStarting(new WaitCommand(4)) 
+      .andThen(new TaxiLeftRed(m_swerveSubsystem).taxiLeftRed())
+    );
+
+    m_autoChooser.addOption(
+      "Taxi Blue Left", new WaitCommand(0.1)
+      .andThen(new ArmShoot(m_arm).withTimeout(3))
+      .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+      .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
+
+      .beforeStarting(new WaitCommand(4)) 
+      .andThen(new TaxiLeftBlue(m_swerveSubsystem).taxiLeftBlue())
+    );
+
+    m_autoChooser.addOption(
+      "Taxi Blue Left", new WaitCommand(0.1)
+      .andThen(new ArmShoot(m_arm).withTimeout(3))
+      .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+      .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
+
+      .beforeStarting(new WaitCommand(9)) 
+      .andThen(new TaxiRightBlue(m_swerveSubsystem).taxiRightBlue())
+    );
+
+
+    m_autoChooser.addOption(
+      "Four Note Middle", new WaitCommand(0.1)
         // //shoot first note
         // .andThen(new ArmIntake(m_arm).withTimeout(2.5))
         // .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.5))
