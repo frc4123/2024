@@ -1,0 +1,114 @@
+Date : 2024-03-23 18:33:45
+Directory : /Users/bradyspak/Desktop/Robotics/2024 FRC/Main
+Total : 62 files,  2428 codes, 313 comments, 581 blanks, all 3322 lines
+
+Languages
++-----------------+------------+------------+------------+------------+------------+
+| language        | files      | code       | comment    | blank      | total      |
++-----------------+------------+------------+------------+------------+------------+
+| Java            |         46 |      1,550 |        263 |        527 |      2,340 |
+| JSON            |         11 |        719 |          0 |          4 |        723 |
+| Gradle          |          2 |         89 |         20 |         24 |        133 |
+| Batch           |          1 |         41 |         30 |         22 |         93 |
+| Markdown        |          1 |         22 |          0 |          3 |         25 |
+| Java Properties |          1 |          7 |          0 |          1 |          8 |
++-----------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                          | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                             |         62 |      2,428 |        313 |        581 |      3,322 |
+| . (Files)                                                                                                     |          7 |        278 |         50 |         52 |        380 |
+| .wpilib                                                                                                       |          1 |          6 |          0 |          0 |          6 |
+| gradle                                                                                                        |          1 |          7 |          0 |          1 |          8 |
+| gradle/wrapper                                                                                                |          1 |          7 |          0 |          1 |          8 |
+| src                                                                                                           |         47 |      1,551 |        263 |        527 |      2,341 |
+| src/main                                                                                                      |         47 |      1,551 |        263 |        527 |      2,341 |
+| src/main/deploy                                                                                               |          1 |          1 |          0 |          0 |          1 |
+| src/main/deploy/pathplanner                                                                                   |          1 |          1 |          0 |          0 |          1 |
+| src/main/java                                                                                                 |         46 |      1,550 |        263 |        527 |      2,340 |
+| src/main/java/frc                                                                                             |         46 |      1,550 |        263 |        527 |      2,340 |
+| src/main/java/frc/robot                                                                                       |         46 |      1,550 |        263 |        527 |      2,340 |
+| src/main/java/frc/robot (Files)                                                                               |          4 |        317 |         89 |         89 |        495 |
+| src/main/java/frc/robot/commands                                                                              |         32 |        712 |         87 |        252 |      1,051 |
+| src/main/java/frc/robot/commands/arm                                                                          |          9 |        127 |         37 |         56 |        220 |
+| src/main/java/frc/robot/commands/auto                                                                         |          6 |        180 |         24 |         48 |        252 |
+| src/main/java/frc/robot/commands/climber                                                                      |          6 |        144 |          0 |         48 |        192 |
+| src/main/java/frc/robot/commands/intake                                                                       |          1 |         18 |          0 |          7 |         25 |
+| src/main/java/frc/robot/commands/shooter                                                                      |          4 |         85 |          0 |         32 |        117 |
+| src/main/java/frc/robot/commands/skipper                                                                      |          4 |         98 |          0 |         31 |        129 |
+| src/main/java/frc/robot/commands/swerve                                                                       |          1 |         60 |          8 |         20 |         88 |
+| src/main/java/frc/robot/commands/vision                                                                       |          1 |          0 |         18 |         10 |         28 |
+| src/main/java/frc/robot/subsystems                                                                            |         10 |        521 |         87 |        186 |        794 |
+| vendordeps                                                                                                    |          6 |        586 |          0 |          1 |        587 |
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
+| filename                                                                                                      | language        | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/.wpilib/wpilib_preferences.json                               | JSON            |          6 |          0 |          0 |          6 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/WPILib-License.md                                             | Markdown        |         22 |          0 |          3 |         25 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/build.gradle                                                  | Gradle          |         61 |         20 |         21 |        102 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/gradle/wrapper/gradle-wrapper.properties                      | Java Properties |          7 |          0 |          1 |          8 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/gradlew.bat                                                   | Batch           |         41 |         30 |         22 |         93 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/networktables.json                                            | JSON            |          1 |          0 |          1 |          2 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/settings.gradle                                               | Gradle          |         28 |          0 |          3 |         31 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/simgui-ds.json                                                | JSON            |         92 |          0 |          1 |         93 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/simgui.json                                                   | JSON            |         33 |          0 |          1 |         34 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/deploy/pathplanner/navgrid.json                      | JSON            |          1 |          0 |          0 |          1 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/Constants.java                        | Java            |        125 |         10 |         28 |        163 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/Main.java                             | Java            |          8 |          0 |          4 |         12 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/Robot.java                            | Java            |         47 |          6 |         21 |         74 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/RobotContainer.java                   | Java            |        137 |         73 |         36 |        246 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/arm/ArmBrakeMode.java        | Java            |         19 |          0 |          6 |         25 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/arm/ArmCoastMode.java        | Java            |         19 |          0 |          6 |         25 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/arm/ArmDown.java             | Java            |          0 |         18 |          7 |         25 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/arm/ArmInitialize.java       | Java            |         17 |          1 |          6 |         24 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/arm/ArmIntake.java           | Java            |         18 |          0 |          6 |         24 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/arm/ArmPlace.java            | Java            |         18 |          0 |          6 |         24 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/arm/ArmSafe.java             | Java            |         18 |          0 |          6 |         24 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/arm/ArmShoot.java            | Java            |         18 |          0 |          6 |         24 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/arm/ArmUp.java               | Java            |          0 |         18 |          7 |         25 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/auto/FiveNoteAuto.java       | Java            |         30 |          4 |          8 |         42 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/auto/FourNoteAuto.java       | Java            |         30 |          4 |          8 |         42 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/auto/SweepAutoBlue.java      | Java            |         30 |          4 |          8 |         42 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/auto/SweepAutoRed.java       | Java            |         30 |          4 |          8 |         42 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/auto/ThreeNoteLong.java      | Java            |         30 |          4 |          8 |         42 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/auto/TwoNoteLongRed.java     | Java            |         30 |          4 |          8 |         42 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/climber/ClimbDown.java       | Java            |         24 |          0 |          8 |         32 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/climber/ClimbUp.java         | Java            |         24 |          0 |          8 |         32 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/climber/LeftClimbDown.java   | Java            |         24 |          0 |          8 |         32 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/climber/LeftClimbUp.java     | Java            |         24 |          0 |          8 |         32 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/climber/RightClimbDown.java  | Java            |         24 |          0 |          8 |         32 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/climber/RightClimbUp.java    | Java            |         24 |          0 |          8 |         32 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/intake/IntakeIn.java         | Java            |         18 |          0 |          7 |         25 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/shooter/AutoShooter.java     | Java            |         17 |          0 |          7 |         24 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/shooter/ShootAmp.java        | Java            |         18 |          0 |          7 |         25 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/shooter/ShootSpeaker.java    | Java            |         18 |          0 |          7 |         25 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/shooter/SmartShoot.java      | Java            |         32 |          0 |         11 |         43 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/skipper/AutoSkipShooter.java | Java            |         26 |          0 |          7 |         33 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/skipper/SkipAmp.java         | Java            |         18 |          0 |          7 |         25 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/skipper/SkipShooter.java     | Java            |         18 |          0 |          7 |         25 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/skipper/SmartSkip.java       | Java            |         36 |          0 |         10 |         46 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/swerve/Swerve.java           | Java            |         60 |          8 |         20 |         88 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/commands/vision/VisionAlign.java      | Java            |          0 |         18 |         10 |         28 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/subsystems/Arm.java                   | Java            |         98 |          3 |         31 |        132 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/subsystems/ArmOpen.java               | Java            |          0 |         34 |         14 |         48 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/subsystems/Climber.java               | Java            |         38 |          0 |         14 |         52 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/subsystems/Intake.java                | Java            |         21 |          3 |          9 |         33 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/subsystems/Sensor.java                | Java            |         10 |          3 |          8 |         21 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/subsystems/Shooter.java               | Java            |         29 |          2 |         11 |         42 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/subsystems/Skipper.java               | Java            |         17 |          1 |          9 |         27 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/subsystems/SwerveModule.java          | Java            |         81 |         20 |         32 |        133 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/subsystems/SwerveSubsystem.java       | Java            |        148 |         21 |         36 |        205 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/src/main/java/frc/robot/subsystems/Vision.java                | Java            |         79 |          0 |         22 |        101 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/vendordeps/NavX.json                                          | JSON            |         40 |          0 |          0 |         40 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/vendordeps/PathplannerLib.json                                | JSON            |         38 |          0 |          0 |         38 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/vendordeps/Phoenix6.json                                      | JSON            |        339 |          0 |          0 |        339 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/vendordeps/REVLib.json                                        | JSON            |         74 |          0 |          0 |         74 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/vendordeps/WPILibNewCommands.json                             | JSON            |         38 |          0 |          1 |         39 |
+| /Users/bradyspak/Desktop/Robotics/2024 FRC/Main/vendordeps/photonlib.json                                     | JSON            |         57 |          0 |          0 |         57 |
+| Total                                                                                                         |                 |      2,428 |        313 |        581 |      3,322 |
++---------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
