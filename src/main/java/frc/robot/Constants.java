@@ -107,14 +107,13 @@ public final class Constants {
     public static final double Arm_FF_A = 0;
     public static final double Arm_POSITION_PLACE = 40.4123; 
     public static final double Arm_POSITION_SAFE = 35.547;
-    public static final double Arm_POSITION_SHOOT = 6.7; //6.5 /earlier in the day / 7.5 after
+    public static final double Arm_POSITION_SHOOT = 0.1; //6.5 /earlier in the day / 7.5 after
     public static final double Arm_POSITION_INTAKE = 0.1; 
 
     public static final double Arm_CONSTRAINTS_VELOCITY = 50; //35
     public static final double Arm_CONSTRAINTS_ACCELERATION = 100; 
 
-    public static final double Arm_Position_Threshold_UP = Arm_POSITION_SHOOT + 0.25;
-    public static final double Arm_Position_Threshold_Down = Arm_POSITION_SHOOT - 0.25;
+    public static final double Arm_Position_Threshold_UP = Arm_POSITION_SHOOT + 0.3;
     public static final double Shooter_Velo_Threshold = 0; // change this 
   }
 

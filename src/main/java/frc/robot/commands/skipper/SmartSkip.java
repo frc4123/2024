@@ -15,7 +15,10 @@ public class SmartSkip extends Command {
         this.skipper = skipper;
         this.arm = arm;
         this.shooter = shooter;
+        
         addRequirements(skipper);
+        addRequirements(arm);
+        addRequirements(shooter);
     }
 
     @Override
@@ -32,10 +35,7 @@ public class SmartSkip extends Command {
         double armPosition = arm.getArmPosition();
         double shooterVelo = shooter.getShooterVelo();
 
-        if (armPosition < PIDTuning.Arm_Position_Threshold_UP &&
-            armPosition > PIDTuning.Arm_Position_Threshold_Down &&
-            shooterVelo > PIDTuning.Shooter_Velo_Threshold) {
-
+        if (armPosition < PIDTuning.Arm_Position_Threshold_UP && shooterVelo > PIDTuning.Shooter_Velo_Threshold) {
             execute();
         } else {
             end(true);
