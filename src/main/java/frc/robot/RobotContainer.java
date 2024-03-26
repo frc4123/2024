@@ -21,6 +21,7 @@ import frc.robot.commands.auto.TaxiRightBlue;
 import frc.robot.commands.auto.TaxiLeftBlue;
 
 import frc.robot.commands.intake.IntakeIn;
+import frc.robot.commands.intake.IntakeOut;
 import frc.robot.commands.shooter.ShootSpeaker;
 import frc.robot.commands.shooter.ShootAmp;
 import frc.robot.commands.shooter.AutoShooter;
@@ -39,7 +40,6 @@ import frc.robot.commands.arm.ArmIntake;
 import frc.robot.commands.arm.ArmPlace;
 import frc.robot.commands.arm.ArmSafe;
 import frc.robot.commands.arm.ArmShoot;
-import frc.robot.commands.arm.ArmInitialize;
 // import frc.robot.commands.arm.ArmUp;
 // import frc.robot.commands.arm.ArmDown;
 import frc.robot.commands.swerve.Swerve;
@@ -70,6 +70,7 @@ public class RobotContainer {
   private final CommandGenericHID m_buttonBoard = new CommandGenericHID(m_joystick.getPort());
 
   private final IntakeIn m_intakeIn = new IntakeIn(m_intake);
+  private final IntakeOut m_intakeOut = new IntakeOut(m_intake);
   private final ShootSpeaker m_shootSpeaker = new ShootSpeaker(m_shooter);
   private final ShootAmp m_shootAmp = new ShootAmp(m_shooter);
   private final SkipShooter m_skipShooter = new SkipShooter(m_skipper);
@@ -128,6 +129,7 @@ public class RobotContainer {
     m_driverController1.y().whileTrue(m_armSafe); // sets arm to safe position while driving - diego was here
 
     m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_shootSpeaker);
+    m_buttonBoard.axisLessThan(0, -0.5).whileTrue(m_intakeOut);
 
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
     m_buttonBoard.button(1).whileTrue(m_armIntake);
@@ -220,27 +222,33 @@ public class RobotContainer {
 
     m_autoChooser.addOption(
       "Four Note Middle", new WaitCommand(0.1)
-        // //shoot first note
-        // .andThen(new ArmIntake(m_arm).withTimeout(2.5))
-        // .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.5))
-        // //intake and shoot second note
-        // .andThen(new WaitCommand(0.2)) // 0.2 (total seconds) 
-        // .andThen(new IntakeIn(m_intake).withTimeout(1.5)) // 1.7
-        // .andThen(new WaitCommand(0.6)) // 2.3
-        // .andThen(new SkipShooter(m_skipper).withTimeout(0.5)) // 2.8
-        // //intake and shoot third note
-        // .andThen(new WaitCommand(0.3)) // 3.1
-        // .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
-        // .andThen(new WaitCommand(1.23)) // 5.03
-        // .andThen(new SkipShooter(m_skipper).withTimeout(0.57)) // 5.6
-        // .andThen(new WaitCommand(0.4)) // 6.0
-        // //intake and shoot fourth note
-        // .andThen(new IntakeIn(m_intake).withTimeout(1.1)) // 7.1
-        // .andThen(new WaitCommand(1.2)) // 8.3
-        // .andThen(new SkipShooter(m_skipper).withTimeout(2.2)) // 10.5 // end of auto
+        //shoot first note
+        .andThen(new ArmShoot(m_arm).withTimeout(2.5))
+        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.5))
+        //intake and shoot second note
+        .andThen(new ArmIntake(m_arm).withTimeout(0.2))
+        .alongWith(new WaitCommand(0.2)) // 0.2 (total seconds) 
+        .andThen(new IntakeIn(m_intake).withTimeout(1.5)) // 1.7
+        .andThen(new WaitCommand(0.6)) // 2.3
+        .alongWith(new ArmShoot(m_arm).withTimeout(0.6))
+        .andThen(new SkipShooter(m_skipper).withTimeout(0.5)) // 2.8
+        //intake and shoot third note
+        .andThen(new WaitCommand(0.3)) // 3.1
+        .alongWith(new ArmIntake(m_arm).withTimeout(0.3))
+        .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
+        .andThen(new WaitCommand(1.23)) // 5.03
+        .alongWith(new ArmShoot(m_arm).withTimeout(1.23))
+        .andThen(new SkipShooter(m_skipper).withTimeout(0.57)) // 5.6
+        .andThen(new WaitCommand(0.4)) // 6.0
+        .alongWith(new ArmIntake(m_arm).withTimeout(0.4))
+        //intake and shoot fourth note
+        .andThen(new IntakeIn(m_intake).withTimeout(1.1)) // 7.1
+        .andThen(new WaitCommand(1.2)) // 8.3
+        .alongWith(new ArmShoot(m_arm).withTimeout(1.2))
+        .andThen(new SkipShooter(m_skipper).withTimeout(2.2)) // 10.5 // end of auto
 
-        // //creates two paralell commands during the auto, shooter, and path follower
-        // .beforeStarting(new AutoShooter(m_shooter))
+        //creates two paralell commands during the auto, shooter, and path follower
+        .beforeStarting(new AutoShooter(m_shooter))
         .beforeStarting(new WaitCommand(2.5)) 
           .andThen(new FourNoteAuto(m_swerveSubsystem).fourNote()) // path completes in 12.12 seconds
 
