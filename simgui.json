@@ -21,6 +21,19 @@
       }
     }
   },
+  "NetworkTables": {
+    "Persistent Values": {
+      "open": false
+    },
+    "transitory": {
+      "SmartDashboard": {
+        "open": true
+      },
+      "SwerveModuleState[]##v_MyStates": {
+        "open": true
+      }
+    }
+  },
   "NetworkTables Info": {
     "Connections": {
       "open": true

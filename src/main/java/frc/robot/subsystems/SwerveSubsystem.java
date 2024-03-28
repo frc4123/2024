@@ -19,6 +19,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,8 +31,13 @@ public class SwerveSubsystem extends SubsystemBase{
     
     SwerveDriveKinematics SwerveDriveKinematics;
 
-    StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault()
+    StructArrayPublisher<SwerveModuleState> statespublisher = NetworkTableInstance.getDefault()
         .getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
+
+    StructPublisher<Pose2d> publisher = NetworkTableInstance.getDefault()
+        .getStructTopic("MyPose", Pose2d.struct).publish();
+    StructArrayPublisher<Pose2d> arrayPublisher = NetworkTableInstance.getDefault()
+        .getStructArrayTopic("MyPoseArray", Pose2d.struct).publish();
 
     private final SwerveModule frontLeft = new SwerveModule(
             DrivingConstants.Front_Left_Drive,
@@ -70,6 +76,9 @@ public class SwerveSubsystem extends SubsystemBase{
             DrivingConstants.Back_Right_Drive_Absolute_Encoder_Reversed);
 
     private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+
+    Pose2d poseA = new Pose2d();
+    Pose2d poseB = new Pose2d();
 
     SwerveModuleState[] advantageScopeStates = new SwerveModuleState[] {
         new SwerveModuleState(),
@@ -158,9 +167,12 @@ public class SwerveSubsystem extends SubsystemBase{
               backRight.getPosition()
             });
             
-        publisher.set(states);
+        statespublisher.set(states);
 
-        publisher.set(advantageScopeStates);
+        statespublisher.set(advantageScopeStates);
+
+        publisher.set(poseA);
+        arrayPublisher.set(new Pose2d[] {poseA, poseB});
 
         SmartDashboard.putString("Robot Location Pre-Vision: ", odometer.getEstimatedPosition().toString());
         // if (getVisionPose() != null){
