@@ -33,20 +33,20 @@ public class Arm extends SubsystemBase{
     private double setpoint = backRightArm.getEncoder().getPosition();
 
     public Arm(){
-        frontLeftArm.setOpenLoopRampRate(0.3);
-        frontLeftArm.setIdleMode(IdleMode.kBrake);
+        frontLeftArm.setOpenLoopRampRate(0.8);
+        frontLeftArm.setIdleMode(IdleMode.kCoast);
         frontLeftArm.clearFaults();
 
-        frontRightArm.setOpenLoopRampRate(0.3);
-        frontRightArm.setIdleMode(IdleMode.kBrake);
+        frontRightArm.setOpenLoopRampRate(0.8);
+        frontRightArm.setIdleMode(IdleMode.kCoast);
         frontRightArm.clearFaults();
 
-        backLeftArm.setOpenLoopRampRate(0.3);
-        backLeftArm.setIdleMode(IdleMode.kBrake);
+        backLeftArm.setOpenLoopRampRate(0.8);
+        backLeftArm.setIdleMode(IdleMode.kCoast);
         backLeftArm.clearFaults();
 
-        backRightArm.setOpenLoopRampRate(0.3);
-        backRightArm.setIdleMode(IdleMode.kBrake);
+        backRightArm.setOpenLoopRampRate(0.8);
+        backRightArm.setIdleMode(IdleMode.kCoast);
         backRightArm.clearFaults();
 
         backRightArm.getPIDController().setP(PIDTuning.Arm_PID_P);

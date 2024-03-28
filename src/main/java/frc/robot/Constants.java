@@ -103,15 +103,15 @@ public final class Constants {
     public static final double Arm_PID_I = 0;
     public static final double Arm_PID_D = 0.0145;
     public static final double Arm_FF_S = 0;
-    public static final double Arm_FF_G = 0.3;
-    public static final double Arm_FF_A = 0;
+    public static final double Arm_FF_G = 0.5;
+    public static final double Arm_FF_A = 0.03;
     public static final double Arm_POSITION_PLACE = 38.4123; 
     public static final double Arm_POSITION_SAFE = 35.547;
-    public static final double Arm_POSITION_SHOOT = 4.5; //6.5 /earlier in the day / 7.5 after
+    public static final double Arm_POSITION_SHOOT = 5; //6.5 /earlier in the day / 7.5 after
     public static final double Arm_POSITION_INTAKE = 0.1; 
 
-    public static final double Arm_CONSTRAINTS_VELOCITY = 90; //35
-    public static final double Arm_CONSTRAINTS_ACCELERATION = 100; 
+    public static final double Arm_CONSTRAINTS_VELOCITY = 35; //35
+    public static final double Arm_CONSTRAINTS_ACCELERATION = 70; 
 
     public static final double Arm_Position_Threshold_UP = Arm_POSITION_SHOOT + 0.3;
     public static final double Arm_Position_Threshold_Down = Arm_POSITION_SHOOT - 0.3;
@@ -155,7 +155,7 @@ public final class Constants {
     public static final double kTurningEncoderRot2Rad = TurningMotorGearRatio * 2 * Math.PI;
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-    public static final double kPTurning = 0.375; 
+    public static final double kPTurning = 0.4; // 0.375; 
     public static final double kPhysicalMaxSpeedMetersPerSecond = 4; //5
     // the above will have to be changed after gear ratio measurements, wheel
     // measurements, and pid tuning
