@@ -14,7 +14,7 @@ public class IntakeIn extends Command{
 
     @Override
     public void execute() {
-        intake.setIntakeVelo(-0.7); // was-1
+        intake.setIntakeVelo(-0.56); // was 7// was-1
     }
 
     @Override
