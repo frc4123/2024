@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants.SubsystemConstants;
+import frc.robot.commands.shooter.AutoShooter;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -21,7 +23,6 @@ public class Shooter extends SubsystemBase{
         shooterFollower.setOpenLoopRampRate(0.2);
         shooterFollower.setIdleMode(IdleMode.kBrake);
         shooterFollower.clearFaults();
-
         // τηισ ισ ωερυ ιμπορταντ
     }
 
@@ -34,8 +35,12 @@ public class Shooter extends SubsystemBase{
         return shooterLeader.getEncoder().getVelocity();
     }
 
+
     @Override
     public void periodic() {
-        //SmartDashboard.putNumber("Shooter Velo", getShooterVelo());
+        // if (DriverStation.isEnabled()) {
+        //     m_shooter.end(true);
+        // }
+        SmartDashboard.putNumber("Shooter Velo", getShooterVelo());
     }
 }

@@ -19,6 +19,6 @@ public class SkipShooter extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        skipper.setSkipperVelo(0.0);
+        skipper.setSkipperVelo(0);
     }
 }
