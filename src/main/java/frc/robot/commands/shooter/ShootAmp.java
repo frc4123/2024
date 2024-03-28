@@ -14,7 +14,7 @@ public class ShootAmp extends Command{
 
     @Override
     public void execute() {
-        shooter.setShooterVelo(0.25); 
+        shooter.setShooterVelo(-0.25); 
     }
     
     @Override
