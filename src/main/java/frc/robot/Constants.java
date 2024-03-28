@@ -20,9 +20,9 @@ public final class Constants {
     public static final int Left_Shooter = 16;
     public static final int Right_Shooter = 15;
 
-    public static final int Ground_Intake = 17; 
+    public static final int Ground_Intake = 18; 
     
-    public static final int Intake_Skipper = 18;
+    public static final int Intake_Skipper = 17;
 
     public static final int Right_Climber = 19; //leader
     public static final int Left_Climber = 20;
@@ -103,18 +103,19 @@ public final class Constants {
     public static final double Arm_PID_I = 0;
     public static final double Arm_PID_D = 0.0145;
     public static final double Arm_FF_S = 0;
-    public static final double Arm_FF_G = 0.25;
+    public static final double Arm_FF_G = 0.3;
     public static final double Arm_FF_A = 0;
-    public static final double Arm_POSITION_PLACE = 40.4123; 
+    public static final double Arm_POSITION_PLACE = 38.4123; 
     public static final double Arm_POSITION_SAFE = 35.547;
-    public static final double Arm_POSITION_SHOOT = 0.1; //6.5 /earlier in the day / 7.5 after
+    public static final double Arm_POSITION_SHOOT = 4.5; //6.5 /earlier in the day / 7.5 after
     public static final double Arm_POSITION_INTAKE = 0.1; 
 
-    public static final double Arm_CONSTRAINTS_VELOCITY = 50; //35
+    public static final double Arm_CONSTRAINTS_VELOCITY = 90; //35
     public static final double Arm_CONSTRAINTS_ACCELERATION = 100; 
 
     public static final double Arm_Position_Threshold_UP = Arm_POSITION_SHOOT + 0.3;
-    public static final double Shooter_Velo_Threshold = 0; // change this 
+    public static final double Arm_Position_Threshold_Down = Arm_POSITION_SHOOT - 0.3;
+    public static final double Shooter_Velo_Threshold = -3700; // change this 
   }
 
   public static final class VisionConstants {
