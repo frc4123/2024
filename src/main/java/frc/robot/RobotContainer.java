@@ -126,7 +126,6 @@ public class RobotContainer {
     // enabled commands
     m_driverController1.y().whileTrue(m_armSafe); // sets arm to safe position while driving - diego was here
     m_driverController1.a().whileTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading()));
-    m_driverController1.y().whileTrue(m_armSafe); // sets arm to safe position while driving - diego was here
 
     m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_shootSpeaker);
     m_buttonBoard.axisLessThan(0, -0.5).whileTrue(m_intakeOut);

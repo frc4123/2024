@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants.SubsystemConstants;
 import frc.robot.Constants.PIDTuning;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -21,6 +22,8 @@ public class Arm extends SubsystemBase{
     private CANSparkMax backLeftArm = new CANSparkMax(SubsystemConstants.Back_Left_Arm, MotorType.kBrushless); 
     private CANSparkMax backRightArm = new CANSparkMax(SubsystemConstants.Back_Right_Arm, MotorType.kBrushless); 
 
+    DutyCycleEncoder m_encoder = new DutyCycleEncoder(0);
+
     private SparkLimitSwitch m_reverseLimit = backRightArm.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyOpen);
 
     private final ArmFeedforward m_feedforward = new ArmFeedforward(PIDTuning.Arm_FF_S, PIDTuning.Arm_FF_G, PIDTuning.Arm_FF_A);
@@ -30,7 +33,7 @@ public class Arm extends SubsystemBase{
     private TrapezoidProfile.State m_setpoint = new TrapezoidProfile.State();
 
     private static double kDt = 0.02;
-    private double setpoint = backRightArm.getEncoder().getPosition();
+    private double setpoint = m_encoder.getAbsolutePosition();
 
     public Arm(){
         frontLeftArm.setOpenLoopRampRate(0.8);
@@ -60,15 +63,7 @@ public class Arm extends SubsystemBase{
 
     @Override
     public void periodic() {
-        if (m_reverseLimit.isPressed()) { 
-            backRightArm.getEncoder().setPosition(0);
-        } // limit switch pressed zero's out arm
-
-        if (DriverStation.isDisabled()) {
-            setpoint = backRightArm.getEncoder().getPosition();
-        }
         internalSetPosition(setpoint);
-        
         SmartDashboard.putNumber("setpoint", setpoint);
     }
 
@@ -102,7 +97,7 @@ public class Arm extends SubsystemBase{
     }
 
     public double getArmPosition(){
-        return backRightArm.getEncoder().getPosition();
+        return m_encoder.getAbsolutePosition();
     }
 
     private void internalSetPosition(double position) {
