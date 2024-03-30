@@ -57,7 +57,7 @@ public class SwerveModule {
         turnEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
         // converts encoders to work with radians
 
-        turnPIDController = new PIDController(ModuleConstants.kPTurning,0,0);
+        turnPIDController = new PIDController(ModuleConstants.kPTurning,0,ModuleConstants.kDTurning);
         turnPIDController.enableContinuousInput(-Math.PI, Math.PI);
         // PID controller -  continuous readings
 
