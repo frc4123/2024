@@ -115,7 +115,15 @@ public final class Constants {
 
     public static final double Arm_Position_Threshold_UP = Arm_POSITION_SHOOT + 0.3;
     public static final double Arm_Position_Threshold_Down = Arm_POSITION_SHOOT - 0.3;
-    public static final double Shooter_Velo_Threshold = -3700; // change this 
+
+    public static final double Shooter_PID_P = 0.075; // TUNE
+    public static final double Shooter_PID_I = 0;
+    public static final double Shooter_PID_D = 0;
+    public static final double Shooter_FF_V = 0.1; // TUNE
+
+    public static final double Shooter_Max_Velo = -12000; // TUNE, should have 12v when measuring free rps
+    public static final double Shooter_Target_Velo = -12000; 
+    public static final double Shooter_Stopped_Velo = 0;
   }
 
   public static final class VisionConstants {
