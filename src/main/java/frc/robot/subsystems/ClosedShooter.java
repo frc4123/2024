@@ -20,50 +20,64 @@ public class ClosedShooter extends SubsystemBase{
 
     // THIS IS USING VELOCITY/RPM POSITION CONTROL
 
-    private CANSparkMax shooterLeader = new CANSparkMax(SubsystemConstants.Left_Shooter, MotorType.kBrushless);
-    private CANSparkMax shooterFollower = new CANSparkMax(SubsystemConstants.Right_Shooter, MotorType.kBrushless);
+    private CANSparkMax topShooter = new CANSparkMax(SubsystemConstants.Top_Shooter, MotorType.kBrushless);
+    private CANSparkMax bottomShooter = new CANSparkMax(SubsystemConstants.Bottom_Shooter, MotorType.kBrushless);
     private final SimpleMotorFeedforward m_feedforward = new SimpleMotorFeedforward(0, PIDTuning.Shooter_FF_V, 0);
 
     private double targetVelo = 0;
     
     public ClosedShooter(){
-        shooterLeader.setOpenLoopRampRate(0.2);
-        shooterLeader.setIdleMode(IdleMode.kBrake);
-        shooterLeader.clearFaults();
+        topShooter.setOpenLoopRampRate(0.2);
+        topShooter.setIdleMode(IdleMode.kBrake);
+        topShooter.clearFaults();
 
-        shooterFollower.setOpenLoopRampRate(0.2);
-        shooterFollower.setIdleMode(IdleMode.kBrake);
-        shooterFollower.clearFaults();
+        bottomShooter.setOpenLoopRampRate(0.2);
+        bottomShooter.setIdleMode(IdleMode.kBrake);
+        bottomShooter.clearFaults();
         // τηισ ισ ωερυ ιμπορταντ
 
-        shooterLeader.getPIDController().setP(PIDTuning.Shooter_PID_P);
-        shooterLeader.getPIDController().setI(PIDTuning.Shooter_PID_I);
-        shooterLeader.getPIDController().setD(PIDTuning.Shooter_PID_D);
+        topShooter.getPIDController().setP(PIDTuning.Shooter_PID_P);
+        topShooter.getPIDController().setI(PIDTuning.Shooter_PID_I);
+        topShooter.getPIDController().setD(PIDTuning.Shooter_PID_D);
+
+        bottomShooter.getPIDController().setP(PIDTuning.Shooter_PID_P);
+        bottomShooter.getPIDController().setI(PIDTuning.Shooter_PID_I);
+        bottomShooter.getPIDController().setD(PIDTuning.Shooter_PID_D);
     }
 
     public void setShooterVelo(double targetVelo){
-        shooterLeader.getPIDController().setReference(
+        topShooter.getPIDController().setReference(
             Constants.PIDTuning.Shooter_Target_Velo,
             CANSparkMax.ControlType.kVelocity,
             0,
             m_feedforward.calculate(targetVelo)
         );
 
-        shooterFollower.follow(shooterLeader);
+        bottomShooter.getPIDController().setReference(
+            Constants.PIDTuning.Shooter_Target_Velo,
+            CANSparkMax.ControlType.kVelocity,
+            0,
+            m_feedforward.calculate(targetVelo)
+        );
     }
 
     public void setTargetVelo(double velo) {
         targetVelo = velo;
     }
 
-    public double getShooterVelo() {
-        return shooterLeader.getEncoder().getVelocity();
+    public double getTopShooterVelo() {
+        return topShooter.getEncoder().getVelocity();
+    }
+    
+    public double getBottomShooterVelo() {
+        return bottomShooter.getEncoder().getVelocity();
     }
 
 
     @Override
     public void periodic() {
         setTargetVelo(targetVelo);
-        SmartDashboard.putNumber("Shooter Velo", getShooterVelo());
+        SmartDashboard.putNumber("Shooter Velo (Top)", getTopShooterVelo());
+        SmartDashboard.putNumber("Shooter Velo (Bottom)", getBottomShooterVelo());
     }
 }

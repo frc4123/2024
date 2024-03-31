@@ -12,8 +12,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 
 public class Shooter extends SubsystemBase{
 
-    private CANSparkMax shooterLeader = new CANSparkMax(SubsystemConstants.Left_Shooter, MotorType.kBrushless);
-    private CANSparkMax shooterFollower = new CANSparkMax(SubsystemConstants.Right_Shooter, MotorType.kBrushless);
+    private CANSparkMax shooterLeader = new CANSparkMax(SubsystemConstants.Top_Shooter, MotorType.kBrushless);
+    private CANSparkMax shooterFollower = new CANSparkMax(SubsystemConstants.Bottom_Shooter, MotorType.kBrushless);
     
     public Shooter(){
         shooterLeader.setOpenLoopRampRate(0.2);

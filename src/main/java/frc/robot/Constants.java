@@ -17,8 +17,8 @@ public final class Constants {
     public static final int Back_Left_Arm = 12;
     public static final int Back_Right_Arm = 13; // back right
 
-    public static final int Left_Shooter = 16;
-    public static final int Right_Shooter = 15;
+    public static final int Top_Shooter = 16;
+    public static final int Bottom_Shooter = 15;
 
     public static final int Ground_Intake = 18; 
     
