@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants.SubsystemConstants;
 import frc.robot.Constants.PIDTuning;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -59,6 +60,11 @@ public class Arm extends SubsystemBase{
 
     @Override
     public void periodic() {
+
+        if (DriverStation.isDisabled()) {
+            setpoint = m_encoder.getAbsolutePosition();
+        }
+
         internalSetPosition(setpoint);
         SmartDashboard.putNumber("setpoint", setpoint);
     }
