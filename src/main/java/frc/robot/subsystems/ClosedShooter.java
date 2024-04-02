@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.Constants;
 import frc.robot.Constants.PIDTuning;
 import frc.robot.Constants.SubsystemConstants;
-import frc.robot.commands.shooter.AutoShooter;
+//import frc.robot.commands.shooter.AutoShooter;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -28,11 +28,11 @@ public class ClosedShooter extends SubsystemBase{
     
     public ClosedShooter(){
         topShooter.setOpenLoopRampRate(0.2);
-        topShooter.setIdleMode(IdleMode.kBrake);
+        topShooter.setIdleMode(IdleMode.kCoast);
         topShooter.clearFaults();
 
         bottomShooter.setOpenLoopRampRate(0.2);
-        bottomShooter.setIdleMode(IdleMode.kBrake);
+        bottomShooter.setIdleMode(IdleMode.kCoast);
         bottomShooter.clearFaults();
         // τηισ ισ ωερυ ιμπορταντ
 

@@ -7,7 +7,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PIDTuning;
 import frc.robot.Constants.SubsystemConstants;
-import frc.robot.subsystems.Shooter;
+//import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Arm;
 import frc.robot.RobotContainer;
 

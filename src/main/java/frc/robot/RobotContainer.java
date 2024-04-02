@@ -4,7 +4,7 @@ import frc.robot.Constants.InputConstants;
 import frc.robot.Constants.DrivingConstants;
 
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+//import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ClosedShooter;
 import frc.robot.subsystems.Skipper;
 import frc.robot.subsystems.Climber;
@@ -23,11 +23,11 @@ import frc.robot.commands.auto.TaxiLeftBlue;
 
 import frc.robot.commands.intake.IntakeIn;
 import frc.robot.commands.intake.IntakeOut;
-import frc.robot.commands.shooter.ShootSpeaker;
-import frc.robot.commands.shooter.ShootAmp;
+// import frc.robot.commands.shooter.ShootSpeaker;
+// import frc.robot.commands.shooter.ShootAmp;
 import frc.robot.commands.shooter.ClosedShootAmp;
 import frc.robot.commands.shooter.ClosedShootSpeaker;
-import frc.robot.commands.shooter.AutoShooter;
+// import frc.robot.commands.shooter.AutoShooter;
 import frc.robot.commands.skipper.SkipShooter;
 import frc.robot.commands.skipper.AutoSkipShooter;
 import frc.robot.commands.skipper.SkipAmp;
@@ -60,7 +60,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class RobotContainer {
   private final Intake m_intake = new Intake();
-  private final Shooter m_shooter = new Shooter();
+  //private final Shooter m_shooter = new Shooter();
   private final ClosedShooter m_closedShooter = new ClosedShooter();
   /* ^ if works we can just rename as "shooter" and delete
       the old shooter subsystem */
@@ -78,8 +78,8 @@ public class RobotContainer {
 
   private final IntakeIn m_intakeIn = new IntakeIn(m_intake);
   private final IntakeOut m_intakeOut = new IntakeOut(m_intake);
-  private final ShootSpeaker m_shootSpeaker = new ShootSpeaker(m_shooter);
-  private final ShootAmp m_shootAmp = new ShootAmp(m_shooter);
+  //private final ShootSpeaker m_shootSpeaker = new ShootSpeaker(m_shooter);
+  //private final ShootAmp m_shootAmp = new ShootAmp(m_shooter);
   private final ClosedShootAmp m_closedAmp = new ClosedShootAmp(m_closedShooter);
   private final ClosedShootSpeaker m_closedSpeaker = new ClosedShootSpeaker(m_closedShooter);
   private final SkipShooter m_skipShooter = new SkipShooter(m_skipper);
@@ -136,7 +136,7 @@ public class RobotContainer {
     m_driverController1.y().whileTrue(m_armSafe); // sets arm to safe position while driving - diego was here
     m_driverController1.a().whileTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading()));
 
-    m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_shootSpeaker);
+    //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_shootSpeaker);
     m_buttonBoard.axisLessThan(0, -0.5).whileTrue(m_intakeOut);
 
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
@@ -145,7 +145,7 @@ public class RobotContainer {
     m_buttonBoard.button(2).whileTrue(m_armShoot);
     m_buttonBoard.button(2).whileTrue(m_closedSpeaker);
     //m_buttonBoard.button(2).whileTrue(m_shootSpeaker);
-    m_buttonBoard.button(2).whileTrue(new WaitCommand(1.25).andThen(m_skipShooter)); // 0.8
+    m_buttonBoard.button(2).whileTrue(new WaitCommand(0.6).andThen(m_skipShooter)); // 0.8
 
     //m_buttonBoard.button(3).whileTrue(m_shootAmp);
     m_buttonBoard.button(2).whileTrue(m_closedAmp);
@@ -165,7 +165,7 @@ public class RobotContainer {
     m_autoChooser.setDefaultOption(
       "1 Note",new WaitCommand(0.1)
         .andThen(new ArmShoot(m_arm).withTimeout(3))
-        .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+        //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
         .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
         );
 
@@ -192,7 +192,7 @@ public class RobotContainer {
     m_autoChooser.addOption(
       "Taxi Red Right", new WaitCommand(0.1)
       .andThen(new ArmShoot(m_arm).withTimeout(3))
-      .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+      //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
       .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
 
       .beforeStarting(new WaitCommand(9)) 
@@ -202,7 +202,7 @@ public class RobotContainer {
     m_autoChooser.addOption(
       "Taxi Red Left", new WaitCommand(0.1)
       .andThen(new ArmShoot(m_arm).withTimeout(3))
-      .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+      //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
       .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
 
       .beforeStarting(new WaitCommand(4)) 
@@ -212,7 +212,7 @@ public class RobotContainer {
     m_autoChooser.addOption(
       "Taxi Blue Left", new WaitCommand(0.1)
       .andThen(new ArmShoot(m_arm).withTimeout(3))
-      .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+      //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
       .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
 
       .beforeStarting(new WaitCommand(4)) 
@@ -222,7 +222,7 @@ public class RobotContainer {
     m_autoChooser.addOption(
       "Taxi Blue Left", new WaitCommand(0.1)
       .andThen(new ArmShoot(m_arm).withTimeout(3))
-      .alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+      //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
       .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
 
       .beforeStarting(new WaitCommand(9)) 

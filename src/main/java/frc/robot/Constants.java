@@ -116,14 +116,14 @@ public final class Constants {
     public static final double Arm_Position_Threshold_UP = Arm_POSITION_SHOOT + 0.3;
     public static final double Arm_Position_Threshold_Down = Arm_POSITION_SHOOT - 0.3;
 
-    public static final double Shooter_PID_P = 0; // 0.075; // TUNE THIS SECOND
+    public static final double Shooter_PID_P = 0.000001; // 0.075; // TUNE THIS SECOND
     public static final double Shooter_PID_I = 0;
     public static final double Shooter_PID_D = 0;
-    public static final double Shooter_FF_V = 0.1; // TUNE THIS FIRST
+    public static final double Shooter_FF_V = 0.0085; // TUNE THIS FIRST
 
     public static final double Shooter_Max_Velo = -12000; // TUNE, should have 12v when measuring free rps
-    public static final double Shooter_Target_Velo = -12000; 
-    public static final double Shooter_Stopped_Velo = 0;
+    public static final double Shooter_Target_Velo = -4200; 
+    public static final double Shooter_Stopped_Velo = -200;
   }
 
   public static final class VisionConstants {
@@ -163,7 +163,7 @@ public final class Constants {
     public static final double kTurningEncoderRot2Rad = TurningMotorGearRatio * 2 * Math.PI;
     public static final double kDriveEncoderRPM2MeterPerSec = kDriveEncoderRot2Meter / 60;
     public static final double kTurningEncoderRPM2RadPerSec = kTurningEncoderRot2Rad / 60;
-    public static final double kPTurning = 0.6; // 0.375; 
+    public static final double kPTurning = 0.5; // 0.375; 
     public static final double kDTurning = 0;
     public static final double kPhysicalMaxSpeedMetersPerSecond = 4; //5
     // the above will have to be changed after gear ratio measurements, wheel

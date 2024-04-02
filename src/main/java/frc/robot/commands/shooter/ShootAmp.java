@@ -1,24 +1,24 @@
-package frc.robot.commands.shooter;
+// package frc.robot.commands.shooter;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Shooter;
+// import edu.wpi.first.wpilibj2.command.Command;
+// import frc.robot.subsystems.Shooter;
 
-public class ShootAmp extends Command{
+// public class ShootAmp extends Command{
 
-    Shooter shooter;
+//     Shooter shooter;
 
-    public ShootAmp(Shooter shooter) {
-        this.shooter = shooter;
-        addRequirements(shooter);
-    }
+//     public ShootAmp(Shooter shooter) {
+//         this.shooter = shooter;
+//         addRequirements(shooter);
+//     }
 
-    @Override
-    public void execute() {
-        shooter.setShooterVelo(-0.25); 
-    }
+//     @Override
+//     public void execute() {
+//         shooter.setShooterVelo(-0.25); 
+//     }
     
-    @Override
-    public void end(boolean interrupted) {
-        shooter.setShooterVelo(0.0); 
-    }
-}
+//     @Override
+//     public void end(boolean interrupted) {
+//         shooter.setShooterVelo(0.0); 
+//     }
+// }

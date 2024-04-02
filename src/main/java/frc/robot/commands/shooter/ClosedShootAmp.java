@@ -16,6 +16,7 @@ public class ClosedShootAmp extends Command{
     @Override
     public void execute() {
         shooter.setShooterVelo(Constants.PIDTuning.Shooter_Target_Velo / 4); 
+        
         // one fourth velo of speaker shooting
     }
     
