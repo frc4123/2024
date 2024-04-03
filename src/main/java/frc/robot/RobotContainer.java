@@ -23,6 +23,7 @@ import frc.robot.commands.auto.TaxiLeftBlue;
 
 import frc.robot.commands.intake.IntakeIn;
 import frc.robot.commands.intake.IntakeOut;
+import frc.robot.commands.shooter.AutoShooter;
 // import frc.robot.commands.shooter.ShootSpeaker;
 // import frc.robot.commands.shooter.ShootAmp;
 import frc.robot.commands.shooter.ClosedShootAmp;
@@ -167,6 +168,7 @@ public class RobotContainer {
         .andThen(new ArmShoot(m_arm).withTimeout(3))
         //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
         .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
+        .beforeStarting(new AutoShooter(m_closedShooter).withTimeout(1))
         );
 
     m_autoChooser.addOption(
@@ -191,9 +193,10 @@ public class RobotContainer {
     // );
     m_autoChooser.addOption(
       "Taxi Red Right", new WaitCommand(0.1)
-      .andThen(new ArmShoot(m_arm).withTimeout(3))
-      //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
-      .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
+        .andThen(new AutoShooter(m_closedShooter).withTimeout(0.1))
+        .andThen(new ArmShoot(m_arm).withTimeout(3))
+        //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
+        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
 
       .beforeStarting(new WaitCommand(9)) 
       .andThen(new TaxiRightRed(m_swerveSubsystem).taxiRightRed())
@@ -201,6 +204,7 @@ public class RobotContainer {
 
     m_autoChooser.addOption(
       "Taxi Red Left", new WaitCommand(0.1)
+      .andThen(new AutoShooter(m_closedShooter).withTimeout(0.1))
       .andThen(new ArmShoot(m_arm).withTimeout(3))
       //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
       .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
@@ -211,6 +215,7 @@ public class RobotContainer {
 
     m_autoChooser.addOption(
       "Taxi Blue Left", new WaitCommand(0.1)
+      .andThen(new AutoShooter(m_closedShooter).withTimeout(0.1))
       .andThen(new ArmShoot(m_arm).withTimeout(3))
       //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
       .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
@@ -221,6 +226,7 @@ public class RobotContainer {
 
     m_autoChooser.addOption(
       "Taxi Blue Left", new WaitCommand(0.1)
+      .andThen(new AutoShooter(m_closedShooter).withTimeout(0.1))
       .andThen(new ArmShoot(m_arm).withTimeout(3))
       //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
       .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
@@ -230,39 +236,28 @@ public class RobotContainer {
     );
 
 
-    m_autoChooser.addOption(
-      "Four Note Middle", new WaitCommand(0.1)
-        // //shoot first note
-        // .andThen(new ArmShoot(m_arm).withTimeout(2.5))
-        // .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.5))
-        // //intake and shoot second note
-        // .andThen(new ArmIntake(m_arm).withTimeout(0.2))
-        // .alongWith(new WaitCommand(0.2)) // 0.2 (total seconds) 
-        // .andThen(new IntakeIn(m_intake).withTimeout(1.5)) // 1.7
-        // .andThen(new WaitCommand(0.6)) // 2.3
-        // .alongWith(new ArmShoot(m_arm).withTimeout(0.6))
-        // .andThen(new SkipShooter(m_skipper).withTimeout(0.5)) // 2.8
-        // //intake and shoot third note
-        // .andThen(new WaitCommand(0.3)) // 3.1
-        // .alongWith(new ArmIntake(m_arm).withTimeout(0.3))
-        // .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
-        // .andThen(new WaitCommand(1.23)) // 5.03
-        // .alongWith(new ArmShoot(m_arm).withTimeout(1.23))
-        // .andThen(new SkipShooter(m_skipper).withTimeout(0.57)) // 5.6
-        // .andThen(new WaitCommand(0.4)) // 6.0
-        // .alongWith(new ArmIntake(m_arm).withTimeout(0.4))
-        // //intake and shoot fourth note
-        // .andThen(new IntakeIn(m_intake).withTimeout(1.1)) // 7.1
-        // .andThen(new WaitCommand(1.2)) // 8.3
-        // .alongWith(new ArmShoot(m_arm).withTimeout(1.2))
-        // .andThen(new SkipShooter(m_skipper).withTimeout(2.2)) // 10.5 // end of auto
-
-        // //creates two paralell commands during the auto, shooter, and path follower
-        // .beforeStarting(new AutoShooter(m_shooter))
-        // .beforeStarting(new WaitCommand(2.5)) 
-        //   .andThen(new FourNoteAuto(m_swerveSubsystem).fourNote()) // path completes in 12.12 seconds
-
-    );
+    // m_autoChooser.addOption(
+    //   "Four Note Middle", new FourNoteAuto(m_swerveSubsystem).fourNote()
+    //     //shoot first note
+    //     .andThen(new AutoShooter(m_closedShooter).withTimeout(0.2))
+    //     .andThen(new ArmShoot(m_arm).withTimeout(2.75))
+    //     .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.75))
+    //     //intake and shoot second note
+    //     .andThen(new ArmIntake(m_arm).withTimeout(0.2)) // 0.2 (total seconds) 
+    //     .andThen(new IntakeIn(m_intake).withTimeout(1.5)) // 1.7
+    //     .andThen(new ArmShoot(m_arm).withTimeout(0.6)) //2.3
+    //     .andThen(new SkipShooter(m_skipper).withTimeout(0.5)) // 2.8
+    //     //intake and shoot third note
+    //     .andThen(new ArmIntake(m_arm).withTimeout(0.3)) // 3.1
+    //     .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
+    //     .andThen(new ArmShoot(m_arm).withTimeout(1.23)) // 5.03
+    //     .andThen(new SkipShooter(m_skipper).withTimeout(0.57)) // 5.6
+    //     .andThen(new ArmIntake(m_arm).withTimeout(0.4)) // 6.0
+    //     //intake and shoot fourth note
+    //     .andThen(new IntakeIn(m_intake).withTimeout(1.1)) // 7.1
+    //     .andThen(new ArmShoot(m_arm).withTimeout(1.2)) // 8.3
+    //     .andThen(new SkipShooter(m_skipper).withTimeout(2.2)) // 10.5 // end of auto
+    // );
 
     // m_autoChooser.addOption("2 Long Red", new WaitCommand(0.1)
     //   .beforeStarting(new WaitCommand(3))

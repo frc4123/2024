@@ -1,28 +1,39 @@
-// package frc.robot.commands.shooter;
+package frc.robot.commands.shooter;
 
-// import edu.wpi.first.wpilibj.DriverStation;
-// import edu.wpi.first.wpilibj2.command.Command;
-// import frc.robot.subsystems.Shooter;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
+import frc.robot.subsystems.ClosedShooter;
 
-// public class AutoShooter extends Command{
+public class AutoShooter extends Command{
 
-//     Shooter shooter;
+    ClosedShooter shooter;
 
-//     public AutoShooter(Shooter shooter) {
-//         this.shooter = shooter;
-//         addRequirements(shooter);
-//     }
+    public AutoShooter(ClosedShooter shooter) {
+        this.shooter = shooter;
+        addRequirements(shooter);
+    }
 
-//     @Override
-//     public void execute() {
-//         if (DriverStation.isAutonomous()) {
-//             shooter.setShooterVelo(-0.7);
-//         }
+    @Override
+    public void execute() {
+        if (DriverStation.isAutonomousEnabled()) {
+            shooter.setShooterVelo(Constants.PIDTuning.Shooter_Target_Velo); 
+        }
+        // one fourth velo of speaker shooting
+    }
 
-//     }
-
-//     @Override
-//     public void end(boolean interrupted) {
-//         shooter.setShooterVelo(0.0);
-//     }
-// }
+    @Override 
+    public void end(boolean interrupted) {}
+    
+    // @Override
+    // public void end(boolean interrupted) {
+    //         new Thread(() -> {
+    //             try {
+    //                 Thread.sleep(100); //15000
+    //                 if (DriverStation.isTeleopEnabled()){
+    //                 shooter.setShooterVelo(Constants.PIDTuning.Shooter_Stopped_Velo); 
+    //                 }
+    //             } catch (Exception e) {}
+    //         }).start();
+    // }
+}

@@ -28,7 +28,7 @@
         "y": 5.55517102700872
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "reachNote2"
     },
     {
       "anchor": {
@@ -48,15 +48,15 @@
     },
     {
       "anchor": {
-        "x": 2.65,
+        "x": 2.5,
         "y": 6.7
       },
       "prevControl": {
-        "x": 1.9719217001730116,
+        "x": 1.8219217001730117,
         "y": 6.098484099834255
       },
       "nextControl": {
-        "x": 3.152273069360954,
+        "x": 3.002273069360954,
         "y": 7.145560988344198
       },
       "isLocked": false,
@@ -96,15 +96,15 @@
     },
     {
       "anchor": {
-        "x": 2.9,
+        "x": 2.7,
         "y": 4.19
       },
       "prevControl": {
-        "x": 2.3505182315920186,
+        "x": 2.150518231592019,
         "y": 4.206152550823621
       },
       "nextControl": {
-        "x": 3.2370514065635017,
+        "x": 3.037051406563502,
         "y": 4.180092046201163
       },
       "isLocked": false,
@@ -152,17 +152,17 @@
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 3.85,
+      "waypointRelativePos": 3.8499999999999996,
       "rotationDegrees": 0,
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 8,
+      "waypointRelativePos": 8.0,
       "rotationDegrees": 179.91106091595063,
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 7.3,
+      "waypointRelativePos": 7.300000000000001,
       "rotationDegrees": 0,
       "rotateFast": false
     }

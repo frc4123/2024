@@ -22,7 +22,7 @@ public class AutoSkipShooter extends Command {
     @Override
     public void execute() {
         if (timer.get() >= 2.5) { // Check if 2 second has passed //was 1.8
-            skipper.setSkipperVelo(0.8);
+            skipper.setSkipperVelo(1);
         }
     }
 
