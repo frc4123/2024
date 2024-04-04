@@ -95,7 +95,7 @@ public final class Constants {
     public static final int kDriverControllerPort1 = 1;
     public static final int kDriverControllerPort2 = 2;
     public static final boolean fieldOrientation = true;
-    public static final double kDeadband = 0.038; // was 0.04123
+    public static final double kDeadband = 0.043; // was 0.04123
   }
 
   public static final class PIDTuning {
