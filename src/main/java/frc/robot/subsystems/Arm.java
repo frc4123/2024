@@ -36,19 +36,19 @@ public class Arm extends SubsystemBase{
 
     public Arm(){
         frontLeftArm.setOpenLoopRampRate(0.8);
-        frontLeftArm.setIdleMode(IdleMode.kCoast);
+        frontLeftArm.setIdleMode(IdleMode.kBrake);
         frontLeftArm.clearFaults();
 
         frontRightArm.setOpenLoopRampRate(0.8);
-        frontRightArm.setIdleMode(IdleMode.kCoast);
+        frontRightArm.setIdleMode(IdleMode.kBrake);
         frontRightArm.clearFaults();
 
         backLeftArm.setOpenLoopRampRate(0.8);
-        backLeftArm.setIdleMode(IdleMode.kCoast);
+        backLeftArm.setIdleMode(IdleMode.kBrake);
         backLeftArm.clearFaults();
 
         backRightArm.setOpenLoopRampRate(0.8);
-        backRightArm.setIdleMode(IdleMode.kCoast);
+        backRightArm.setIdleMode(IdleMode.kBrake);
         backRightArm.clearFaults();
 
         backRightArm.getPIDController().setP(PIDTuning.Arm_PID_P);

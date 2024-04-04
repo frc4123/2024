@@ -50,6 +50,7 @@ import frc.robot.commands.swerve.Swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -236,28 +237,29 @@ public class RobotContainer {
     );
 
 
-    // m_autoChooser.addOption(
-    //   "Four Note Middle", new FourNoteAuto(m_swerveSubsystem).fourNote()
-    //     //shoot first note
-    //     .andThen(new AutoShooter(m_closedShooter).withTimeout(0.2))
-    //     .andThen(new ArmShoot(m_arm).withTimeout(2.75))
-    //     .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.75))
-    //     //intake and shoot second note
-    //     .andThen(new ArmIntake(m_arm).withTimeout(0.2)) // 0.2 (total seconds) 
-    //     .andThen(new IntakeIn(m_intake).withTimeout(1.5)) // 1.7
-    //     .andThen(new ArmShoot(m_arm).withTimeout(0.6)) //2.3
-    //     .andThen(new SkipShooter(m_skipper).withTimeout(0.5)) // 2.8
-    //     //intake and shoot third note
-    //     .andThen(new ArmIntake(m_arm).withTimeout(0.3)) // 3.1
-    //     .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
-    //     .andThen(new ArmShoot(m_arm).withTimeout(1.23)) // 5.03
-    //     .andThen(new SkipShooter(m_skipper).withTimeout(0.57)) // 5.6
-    //     .andThen(new ArmIntake(m_arm).withTimeout(0.4)) // 6.0
-    //     //intake and shoot fourth note
-    //     .andThen(new IntakeIn(m_intake).withTimeout(1.1)) // 7.1
-    //     .andThen(new ArmShoot(m_arm).withTimeout(1.2)) // 8.3
-    //     .andThen(new SkipShooter(m_skipper).withTimeout(2.2)) // 10.5 // end of auto
-    // );
+    m_autoChooser.addOption(
+      "Four Note Middle", new WaitCommand(0.001)
+        //shoot first note
+        .andThen(new AutoShooter(m_closedShooter).withTimeout(0.2))
+        .andThen(new ArmShoot(m_arm).withTimeout(2.75))
+        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.75))
+        //intake and shoot second note
+        .andThen(new ParallelCommandGroup(new FourNoteAuto(m_swerveSubsystem).fourNote()))
+        .andThen(new ArmIntake(m_arm).withTimeout(0.2)) // 0.2 (total seconds) 
+        .andThen(new IntakeIn(m_intake).withTimeout(1.5)) // 1.7
+        .andThen(new ArmShoot(m_arm).withTimeout(0.6)) //2.3
+        .andThen(new SkipShooter(m_skipper).withTimeout(0.5)) // 2.8
+        //intake and shoot third note
+        .andThen(new ArmIntake(m_arm).withTimeout(0.3)) // 3.1
+        .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
+        .andThen(new ArmShoot(m_arm).withTimeout(1.23)) // 5.03
+        .andThen(new SkipShooter(m_skipper).withTimeout(0.57)) // 5.6
+        .andThen(new ArmIntake(m_arm).withTimeout(0.4)) // 6.0
+        //intake and shoot fourth note
+        .andThen(new IntakeIn(m_intake).withTimeout(1.1)) // 7.1
+        .andThen(new ArmShoot(m_arm).withTimeout(1.2)) // 8.3
+        .andThen(new SkipShooter(m_skipper).withTimeout(2.2)) // 10.5 // end of auto
+    );
 
     // m_autoChooser.addOption("2 Long Red", new WaitCommand(0.1)
     //   .beforeStarting(new WaitCommand(3))
