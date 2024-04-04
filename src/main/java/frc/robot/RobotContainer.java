@@ -215,7 +215,7 @@ public class RobotContainer {
     );
 
     m_autoChooser.addOption(
-      "Taxi Blue Left", new WaitCommand(0.1)
+      "Taxi Blue Right", new WaitCommand(0.1)
       .andThen(new AutoShooter(m_closedShooter).withTimeout(0.1))
       .andThen(new ArmShoot(m_arm).withTimeout(3))
       //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
