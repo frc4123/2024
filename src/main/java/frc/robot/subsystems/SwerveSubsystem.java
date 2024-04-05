@@ -154,7 +154,7 @@ public class SwerveSubsystem extends SubsystemBase{
             backLeft.getPosition(),
             backRight.getPosition()
         }, pose);
-    }
+    }  // pose.getRotation
 
     @Override
     public void periodic() {
@@ -176,12 +176,12 @@ public class SwerveSubsystem extends SubsystemBase{
 
         //SmartDashboard.putString("Robot Location Pre-Vision: ", odometer.getEstimatedPosition().toString());
         // if (getVisionPose() != null){
-        //     //odometer.addVisionMeasurement(getVisionPose(), vision.getCamTimeStamp());
+        //     //odometer.addVisionMeasurement(ge%tVisionPose(), vision.getCamTimeStamp());
         //     SmartDashboard.putString("Robot Location Post-Vision: ", odometer.getEstimatedPosition().toString());
         // }
 
 
-        //SmartDashboard.putNumber("Robot Heading", getHeading());
+        SmartDashboard.putNumber("Robot Heading", getHeading());
         //SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
 
         // SmartDashboard.putString("Front Left State", frontLeft.getState().toString());

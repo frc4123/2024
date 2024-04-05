@@ -22,10 +22,4 @@ public class RightClimbDown extends Command{
         climb.setRightClimberVelo(0.0); 
     }
 
-    public void periodic () {
-        if (climb.isUnsafeVelocityDown()) {
-            end(true);
-            System.out.println("ClimbDown Stopped");
-        }
-    }
 }

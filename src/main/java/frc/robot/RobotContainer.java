@@ -277,18 +277,18 @@ public class RobotContainer {
           .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.70))
           //intake and shoot second note
           .andThen(new ArmIntake(m_arm).withTimeout(0.2)) // 0.2 (total seconds) 
-          .andThen(new IntakeIn(m_intake).withTimeout(1.35)) // 1.55
-          .andThen(new ArmShoot(m_arm).withTimeout(0.7)) //2.25
+          .andThen(new IntakeIn(m_intake).withTimeout(1.45)) // 1.55
+          .andThen(new ArmShoot(m_arm).withTimeout(0.5)) //2.25
           .andThen(new SkipShooter(m_skipper).withTimeout(0.45)) // 2.7
           //intake and shoot third note
-          .andThen(new ArmIntake(m_arm).withTimeout(0.4)) // 3.1
+          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 3.1
           .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
-          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(0.7)) // 4.5
-          .andThen(new SkipShooter(m_skipper).withTimeout(.5)) // 5.6
+          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(0.65)) // 4.5
+          .andThen(new SkipShooter(m_skipper).withTimeout(.55)) // 5.6
           .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 6.0
           //intake and shoot fourth note
           .andThen(new IntakeIn(m_intake).withTimeout(1.6)) // 7.1
-          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(1.2)) // 8.3
+          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(0.5)) // 8.3
           .andThen(new SkipShooter(m_skipper).withTimeout(2.2))))// 10.5 // end of auto
     );
 
@@ -327,11 +327,11 @@ public class RobotContainer {
           .alongWith(new AutoSkipShooter(m_skipper).withTimeout(1.1)) // drivetrain starts after this
           // intake 2nd note
           .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 0.5
-          .andThen(new IntakeIn(m_intake).withTimeout(4)) // 4.5
+          .andThen(new IntakeIn(m_intake).withTimeout(4.0)) // 4.5
           // shoot 2nd note
-          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(3.25)) // 7.75
-          .andThen(new SkipShooter(m_skipper).withTimeout(0.75)) // 8.5
-          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 9
+          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(3.0)) // 7
+          .andThen(new SkipShooter(m_skipper).withTimeout(0.75)) // 7.75
+          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 8.25
 
     ))));
 
@@ -343,10 +343,10 @@ public class RobotContainer {
           .alongWith(new AutoSkipShooter(m_skipper).withTimeout(1.1)) // drivetrain starts after this
           // intake 2nd note
           .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 0.5
-          .andThen(new IntakeIn(m_intake).withTimeout(4)) // 4.5
+          .andThen(new IntakeIn(m_intake).withTimeout(4.0)) // 4.5
           // shoot 2nd note
-          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(3.3)) // 7.8
-          .andThen(new SkipShooter(m_skipper).withTimeout(0.5)) // 8.5
+          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(3.0)) // 7.5
+          .andThen(new SkipShooter(m_skipper).withTimeout(0.8)) // 8.2
           .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 9
 
     ))));

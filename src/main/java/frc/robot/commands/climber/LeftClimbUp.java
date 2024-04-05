@@ -21,11 +21,4 @@ public class LeftClimbUp extends Command{
     public void end(boolean interrupted) {
         climb.setLeftClimberVelo(0.0); 
     }
-
-    public void periodic () {
-        if (climb.isUnsafeVelocityUp()) {
-            end(true);
-            System.out.println("ClimbUp Stopped");
-        }
-    }
 }
