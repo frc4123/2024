@@ -167,21 +167,21 @@ public class SwerveSubsystem extends SubsystemBase{
               backRight.getPosition()
             });
             
-        statespublisher.set(states);
+        //statespublisher.set(states);
 
-        statespublisher.set(advantageScopeStates);
+        //statespublisher.set(advantageScopeStates);
 
-        publisher.set(poseA);
-        arrayPublisher.set(new Pose2d[] {poseA, poseB});
+        //publisher.set(poseA);
+        //arrayPublisher.set(new Pose2d[] {poseA, poseB});
 
-        SmartDashboard.putString("Robot Location Pre-Vision: ", odometer.getEstimatedPosition().toString());
+        //SmartDashboard.putString("Robot Location Pre-Vision: ", odometer.getEstimatedPosition().toString());
         // if (getVisionPose() != null){
         //     //odometer.addVisionMeasurement(getVisionPose(), vision.getCamTimeStamp());
         //     SmartDashboard.putString("Robot Location Post-Vision: ", odometer.getEstimatedPosition().toString());
         // }
 
 
-        SmartDashboard.putNumber("Robot Heading", getHeading());
+        //SmartDashboard.putNumber("Robot Heading", getHeading());
         //SmartDashboard.putString("Robot Location", getPose().getTranslation().toString());
 
         // SmartDashboard.putString("Front Left State", frontLeft.getState().toString());

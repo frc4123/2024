@@ -77,7 +77,7 @@ public class ClosedShooter extends SubsystemBase{
     @Override
     public void periodic() {
         setTargetVelo(targetVelo);
-        SmartDashboard.putNumber("Shooter Velo (Top)", getTopShooterVelo());
-        SmartDashboard.putNumber("Shooter Velo (Bottom)", getBottomShooterVelo());
+        //SmartDashboard.putNumber("Shooter Velo (Top)", getTopShooterVelo());
+        //SmartDashboard.putNumber("Shooter Velo (Bottom)", getBottomShooterVelo());
     }
 }

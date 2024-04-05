@@ -17,6 +17,8 @@ import frc.robot.commands.auto.SweepAutoBlue;
 import frc.robot.commands.auto.SweepAutoRed;
 import frc.robot.commands.auto.FourNoteAuto;
 import frc.robot.commands.auto.TaxiRightRed;
+import frc.robot.commands.auto.TwoNoteLongBlue;
+import frc.robot.commands.auto.TwoNoteLongRed;
 import frc.robot.commands.auto.TaxiLeftRed;
 import frc.robot.commands.auto.TaxiRightBlue;
 import frc.robot.commands.auto.TaxiLeftBlue;
@@ -317,10 +319,37 @@ public class RobotContainer {
 //     )
 // );
 
-    // m_autoChooser.addOption("2 Long Red", new WaitCommand(0.1)
-    //   .beforeStarting(new WaitCommand(3))
-    //   .andThen(new TwoNoteLongRed(m_swerveSubsystem).twoNoteLongRed())
-    // );
+    m_autoChooser.addOption("2 Long Red", new ParallelCommandGroup(
+        new WaitCommand(0.001),
+        new SequentialCommandGroup(new WaitCommand(1.1).andThen(new TwoNoteLongRed(m_swerveSubsystem).twoNoteLongRed())),
+        new SequentialCommandGroup(new SequentialCommandGroup(new AutoShooter(m_closedShooter).withTimeout(0.2)
+          .andThen(new ArmShoot(m_arm).withTimeout(1.1))
+          .alongWith(new AutoSkipShooter(m_skipper).withTimeout(1.1)) // drivetrain starts after this
+          // intake 2nd note
+          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 0.5
+          .andThen(new IntakeIn(m_intake).withTimeout(4)) // 4.5
+          // shoot 2nd note
+          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(3.25)) // 7.75
+          .andThen(new SkipShooter(m_skipper).withTimeout(0.75)) // 8.5
+          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 9
+
+    ))));
+
+    m_autoChooser.addOption("2 Long Blue", new ParallelCommandGroup(
+        new WaitCommand(0.001),
+        new SequentialCommandGroup(new WaitCommand(1.1).andThen(new TwoNoteLongBlue(m_swerveSubsystem).twoNoteLongBlue())),
+        new SequentialCommandGroup(new SequentialCommandGroup(new AutoShooter(m_closedShooter).withTimeout(0.2)
+          .andThen(new ArmShoot(m_arm).withTimeout(1.1))
+          .alongWith(new AutoSkipShooter(m_skipper).withTimeout(1.1)) // drivetrain starts after this
+          // intake 2nd note
+          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 0.5
+          .andThen(new IntakeIn(m_intake).withTimeout(4)) // 4.5
+          // shoot 2nd note
+          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(3.3)) // 7.8
+          .andThen(new SkipShooter(m_skipper).withTimeout(0.5)) // 8.5
+          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 9
+
+    ))));
 
     // m_autoChooser.addOption(
     //   "FiveNote", new WaitCommand(0.1)

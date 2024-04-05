@@ -14,11 +14,11 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
-public class TwoNoteLongRed extends SubsystemBase {
+public class TwoNoteLongBlue extends SubsystemBase {
   SwerveSubsystem swerve;
 
   /** Creates a new Autos. */
-  public TwoNoteLongRed(SwerveSubsystem swerveSubsystem) {
+  public TwoNoteLongBlue(SwerveSubsystem swerveSubsystem) {
     this.swerve = swerveSubsystem;
     AutoBuilder.configureHolonomic(
         () -> swerve.getPose(),
@@ -31,8 +31,8 @@ public class TwoNoteLongRed extends SubsystemBase {
         );
   }
 
-  public Command twoNoteLongRed() {
-    return AutoBuilder.buildAuto("twoNoteRed");
+  public Command twoNoteLongBlue() {
+    return AutoBuilder.buildAuto("twoNoteBlue");
   }
 
   @Override
