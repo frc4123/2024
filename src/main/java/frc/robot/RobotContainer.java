@@ -38,6 +38,7 @@ import frc.robot.commands.climber.RightClimbDown;
 import frc.robot.commands.climber.RightClimbUp;
 import frc.robot.commands.climber.LeftClimbDown;
 import frc.robot.commands.climber.LeftClimbUp;
+import frc.robot.commands.arm.ArmAutoSpeaker;
 import frc.robot.commands.arm.ArmBrakeMode;
 import frc.robot.commands.arm.ArmCoastMode;
 import frc.robot.commands.arm.ArmIntake;
@@ -51,6 +52,7 @@ import frc.robot.commands.swerve.Swerve;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -104,6 +106,7 @@ public class RobotContainer {
   private final ArmPlace m_armPlace = new ArmPlace(m_arm);
   private final ArmShoot m_armShoot = new ArmShoot(m_arm);
   private final ArmSafe m_armSafe = new ArmSafe(m_arm);
+  private final ArmAutoSpeaker m_armAutoSpeaker = new ArmAutoSpeaker(m_arm);
   // private final ArmUp m_ArmUp = new ArmUp(m_arm);
   // private final ArmDown m_ArmDown = new ArmDown(m_arm);
   //private final VisionAlign m_VisionAlign = new VisionAlign(m_vision);
@@ -237,29 +240,82 @@ public class RobotContainer {
     );
 
 
-    m_autoChooser.addOption(
-      "Four Note Middle", new WaitCommand(0.001)
+    // m_autoChooser.addOption(
+    //   "Four Note Middle", new SequentialCommandGroup(
+    //     new WaitCommand(0.001),
+    //     //shoot first note
+    //       new ParallelCommandGroup(new WaitCommand(2.75).andThen(new FourNoteAuto(m_swerveSubsystem).fourNote())),
+    //       new SequentialCommandGroup(new AutoShooter(m_closedShooter).withTimeout(0.2)
+    //       .andThen(new ArmShoot(m_arm).withTimeout(2.75))
+    //       .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.75))
+    //       //intake and shoot second note
+    //       .andThen(new ArmIntake(m_arm).withTimeout(0.2)) // 0.2 (total seconds) 
+    //       .andThen(new IntakeIn(m_intake).withTimeout(1.5)) // 1.7
+    //       .andThen(new ArmShoot(m_arm).withTimeout(0.6)) //2.3
+    //       .andThen(new SkipShooter(m_skipper).withTimeout(0.5)) // 2.8
+    //       //intake and shoot third note
+    //       .andThen(new ArmIntake(m_arm).withTimeout(0.3)) // 3.1
+    //       .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
+    //       .andThen(new ArmShoot(m_arm).withTimeout(1.23)) // 5.03
+    //       .andThen(new SkipShooter(m_skipper).withTimeout(0.57)) // 5.6
+    //       .andThen(new ArmIntake(m_arm).withTimeout(0.4)) // 6.0
+    //       //intake and shoot fourth note
+    //       .andThen(new IntakeIn(m_intake).withTimeout(1.1)) // 7.1
+    //       .andThen(new ArmShoot(m_arm).withTimeout(1.2)) // 8.3
+    //       .andThen(new SkipShooter(m_skipper).withTimeout(2.2))))// 10.5 // end of auto
+    // );
+
+        m_autoChooser.addOption(
+      "Four Note Middle V3", new ParallelCommandGroup(
+        new WaitCommand(0.001),
         //shoot first note
-        .andThen(new AutoShooter(m_closedShooter).withTimeout(0.2))
-        .andThen(new ArmShoot(m_arm).withTimeout(2.75))
-        .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.75))
-        //intake and shoot second note
-        .andThen(new ParallelCommandGroup(new FourNoteAuto(m_swerveSubsystem).fourNote()))
-        .andThen(new ArmIntake(m_arm).withTimeout(0.2)) // 0.2 (total seconds) 
-        .andThen(new IntakeIn(m_intake).withTimeout(1.5)) // 1.7
-        .andThen(new ArmShoot(m_arm).withTimeout(0.6)) //2.3
-        .andThen(new SkipShooter(m_skipper).withTimeout(0.5)) // 2.8
-        //intake and shoot third note
-        .andThen(new ArmIntake(m_arm).withTimeout(0.3)) // 3.1
-        .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
-        .andThen(new ArmShoot(m_arm).withTimeout(1.23)) // 5.03
-        .andThen(new SkipShooter(m_skipper).withTimeout(0.57)) // 5.6
-        .andThen(new ArmIntake(m_arm).withTimeout(0.4)) // 6.0
-        //intake and shoot fourth note
-        .andThen(new IntakeIn(m_intake).withTimeout(1.1)) // 7.1
-        .andThen(new ArmShoot(m_arm).withTimeout(1.2)) // 8.3
-        .andThen(new SkipShooter(m_skipper).withTimeout(2.2)) // 10.5 // end of auto
+          new SequentialCommandGroup(new WaitCommand(2.7).andThen(new FourNoteAuto(m_swerveSubsystem).fourNote())),
+          new SequentialCommandGroup(new AutoShooter(m_closedShooter).withTimeout(0.2)
+          .andThen(new ArmShoot(m_arm).withTimeout(2.70))
+          .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.70))
+          //intake and shoot second note
+          .andThen(new ArmIntake(m_arm).withTimeout(0.2)) // 0.2 (total seconds) 
+          .andThen(new IntakeIn(m_intake).withTimeout(1.35)) // 1.55
+          .andThen(new ArmShoot(m_arm).withTimeout(0.7)) //2.25
+          .andThen(new SkipShooter(m_skipper).withTimeout(0.45)) // 2.7
+          //intake and shoot third note
+          .andThen(new ArmIntake(m_arm).withTimeout(0.4)) // 3.1
+          .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
+          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(0.7)) // 4.5
+          .andThen(new SkipShooter(m_skipper).withTimeout(.5)) // 5.6
+          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 6.0
+          //intake and shoot fourth note
+          .andThen(new IntakeIn(m_intake).withTimeout(1.6)) // 7.1
+          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(1.2)) // 8.3
+          .andThen(new SkipShooter(m_skipper).withTimeout(2.2))))// 10.5 // end of auto
     );
+
+//     m_autoChooser.addOption(
+//     "Four Note Middle GPT", 
+//     new SequentialCommandGroup(
+//         new WaitCommand(0.001),
+//         //shoot first note
+//         new ParallelCommandGroup(
+//             new WaitCommand(2.75).andThen(new FourNoteAuto(m_swerveSubsystem).fourNote()),
+//             new ParallelCommandGroup(
+//                 new AutoShooter(m_closedShooter).withTimeout(0.2),
+//                 new ArmShoot(m_arm).withTimeout(2.75),
+//                 new AutoSkipShooter(m_skipper).withTimeout(2.75),
+//                 new ArmIntake(m_arm).withTimeout(0.2),
+//                 new IntakeIn(m_intake).withTimeout(1.5),
+//                 new ArmShoot(m_arm).withTimeout(0.6),
+//                 new SkipShooter(m_skipper).withTimeout(0.5),
+//                 new ArmIntake(m_arm).withTimeout(0.3),
+//                 new IntakeIn(m_intake).withTimeout(0.7),
+//                 new ArmShoot(m_arm).withTimeout(1.23),
+//                 new SkipShooter(m_skipper).withTimeout(0.57),
+//                 new ArmIntake(m_arm).withTimeout(0.4),
+//                 new IntakeIn(m_intake).withTimeout(1.1),
+//                 new ArmShoot(m_arm).withTimeout(1.2),
+//                 new SkipShooter(m_skipper).withTimeout(2.2))
+//             )
+//     )
+// );
 
     // m_autoChooser.addOption("2 Long Red", new WaitCommand(0.1)
     //   .beforeStarting(new WaitCommand(3))
