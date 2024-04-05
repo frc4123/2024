@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4643603547283601,
-      "y": 5.550023483542467
+      "x": 15.804112645343197,
+      "y": 4.25503189980179
     },
-    "rotation": 0
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "fournote"
+            "pathName": "twoNoteRed"
           }
         }
       ]
