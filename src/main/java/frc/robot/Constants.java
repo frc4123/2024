@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.pathplanner.lib.util.PIDConstants;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -10,6 +12,16 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 public final class Constants {
+
+  public static class OperatorConstants
+  {
+
+    // Joystick Deadband
+    public static final double LEFT_X_DEADBAND  = 0.1;
+    public static final double LEFT_Y_DEADBAND  = 0.1;
+    public static final double RIGHT_X_DEADBAND = 0.1;
+    public static final double TURN_CONSTANT    = 6;
+  }
 
   public static final class SubsystemConstants {
     public static final int Front_Left_Arm = 10; 
@@ -144,6 +156,9 @@ public final class Constants {
     public static final double kPYController = 1.5;
     public static final double kPThetaController = 1.5;
 
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(3, .01, 0);
+    public static final PIDConstants ANGLE_PID   = new PIDConstants(1.7, 0.06, 0);
+  
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = 
       new TrapezoidProfile.Constraints(
       kMaxAngularSpeedRadiansPerSecond,

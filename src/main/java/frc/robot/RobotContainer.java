@@ -2,6 +2,7 @@ package frc.robot;
 
 import frc.robot.Constants.InputConstants;
 import frc.robot.Constants.DrivingConstants;
+import frc.robot.Constants.OperatorConstants;
 
 import frc.robot.subsystems.Intake;
 //import frc.robot.subsystems.Shooter;
@@ -49,9 +50,9 @@ import frc.robot.commands.arm.ArmSafe;
 import frc.robot.commands.arm.ArmShoot;
 // import frc.robot.commands.arm.ArmUp;
 // import frc.robot.commands.arm.ArmDown;
-import frc.robot.commands.swerve.Swerve;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -59,24 +60,30 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.io.File;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 
 
 public class RobotContainer {
+
+  // The robot's subsystems and commands are defined here...
+  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+                                                                         "swerve"));
+
   private final Intake m_intake = new Intake();
-  //private final Shooter m_shooter = new Shooter();
   private final ClosedShooter m_closedShooter = new ClosedShooter();
-  /* ^ if works we can just rename as "shooter" and delete
-      the old shooter subsystem */
         
   private final Skipper m_skipper = new Skipper();
   private final Climber m_climber = new Climber();
   private final Arm m_arm = new Arm();
-  // private final ArmOpen m_armOpen = new ArmOpen();
   // private final Vision m_vision = new Vision();
-  private final SwerveSubsystem m_swerveSubsystem = new SwerveSubsystem();
 
   private final CommandXboxController m_driverController1 = new CommandXboxController(InputConstants.kDriverControllerPort0);
   private final Joystick m_joystick = new Joystick(InputConstants.kDriverControllerPort1);
@@ -117,13 +124,25 @@ public class RobotContainer {
 
   
   public RobotContainer() {
-    // SweepAuto auton = new SweepAuto(m_swerveSubsystem);
-    m_swerveSubsystem.setDefaultCommand(new Swerve(
-                m_swerveSubsystem,
-                () -> -m_driverController1.getLeftY() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
-                () -> -m_driverController1.getLeftX() * DrivingConstants.kTeleDriveMaxAccelerationUnitsPerSecond,
-                () -> -m_driverController1.getRawAxis(4) *  DrivingConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond
-                ));
+
+    // Applies deadbands and inverts controls because joysticks
+    // are back-right positive while robot
+    // controls are front-left positive
+    // left stick controls translation
+    // right stick controls the angular velocity of the robot
+    Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
+        () -> MathUtil.applyDeadband(m_driverController1.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(m_driverController1.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> m_driverController1.getRightX() * 0.5);
+
+    Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
+        () -> MathUtil.applyDeadband(m_driverController1.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(m_driverController1.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> m_driverController1.getRawAxis(2));
+
+    drivebase.setDefaultCommand(
+        !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
+
     configureBindings();
     initializeAutoChooser();
   }
@@ -141,7 +160,7 @@ public class RobotContainer {
     }
     // enabled commands
     m_driverController1.y().whileTrue(m_armSafe); // sets arm to safe position while driving - diego was here
-    m_driverController1.a().whileTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading()));
+    m_driverController1.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
 
     //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_shootSpeaker);
     //m_buttonBoard.axisLessThan(0, -0.5).whileTrue(m_intakeOut);
@@ -181,12 +200,12 @@ public class RobotContainer {
 
     m_autoChooser.addOption(
       "Sweep Blue", new WaitCommand(0.1)
-      .andThen(new SweepAutoBlue(m_swerveSubsystem).sweepAutoBlue())
+      .andThen(new SweepAutoBlue(drivebase).sweepAutoBlue())
       );
 
     m_autoChooser.addOption(
       "Sweep Red", new WaitCommand(0.1)
-      .andThen(new SweepAutoRed(m_swerveSubsystem).sweepAutoRed())
+      .andThen(new SweepAutoRed(drivebase).sweepAutoRed())
       );
 
     // m_autoChooser.addOption(
@@ -202,12 +221,12 @@ public class RobotContainer {
     m_autoChooser.addOption(
       "Taxi Red Right", new WaitCommand(0.1)
         .andThen(new AutoShooter(m_closedShooter).withTimeout(0.1))
-        .andThen(new ArmShoot(m_arm).withTimeout(3))
+      .andThen(new ArmShoot(m_arm).withTimeout(3))
         //.alongWith(new ShootSpeaker(m_shooter).withTimeout(3))
         .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
 
       .beforeStarting(new WaitCommand(9)) 
-      .andThen(new TaxiRightRed(m_swerveSubsystem).taxiRightRed())
+      .andThen(new TaxiRightRed(drivebase).taxiRightRed())
     );
 
     m_autoChooser.addOption(
@@ -218,7 +237,7 @@ public class RobotContainer {
       .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
 
       .beforeStarting(new WaitCommand(4)) 
-      .andThen(new TaxiLeftRed(m_swerveSubsystem).taxiLeftRed())
+      .andThen(new TaxiLeftRed(drivebase).taxiLeftRed())
     );
 
     m_autoChooser.addOption(
@@ -229,7 +248,7 @@ public class RobotContainer {
       .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
 
       .beforeStarting(new WaitCommand(4)) 
-      .andThen(new TaxiLeftBlue(m_swerveSubsystem).taxiLeftBlue())
+      .andThen(new TaxiLeftBlue(drivebase).taxiLeftBlue())
     );
 
     m_autoChooser.addOption(
@@ -240,7 +259,7 @@ public class RobotContainer {
       .alongWith(new AutoSkipShooter(m_skipper).withTimeout(3))
 
       .beforeStarting(new WaitCommand(9)) 
-      .andThen(new TaxiRightBlue(m_swerveSubsystem).taxiRightBlue())
+      .andThen(new TaxiRightBlue(drivebase).taxiRightBlue())
     );
 
 
@@ -273,7 +292,7 @@ public class RobotContainer {
       "Four Note Middle V3", new ParallelCommandGroup(
         new WaitCommand(0.001),
         //shoot first note
-          new SequentialCommandGroup(new WaitCommand(2.7).andThen(new FourNoteAuto(m_swerveSubsystem).fourNote())),
+          new SequentialCommandGroup(new WaitCommand(2.7).andThen(new FourNoteAuto(drivebase).fourNote())),
           new SequentialCommandGroup(new AutoShooter(m_closedShooter).withTimeout(0.2)
           .andThen(new ArmShoot(m_arm).withTimeout(2.70))
           .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.70))
@@ -323,7 +342,7 @@ public class RobotContainer {
 
     m_autoChooser.addOption("2 Long Red", new ParallelCommandGroup(
         new WaitCommand(0.001),
-        new SequentialCommandGroup(new WaitCommand(1.1).andThen(new TwoNoteLongRed(m_swerveSubsystem).twoNoteLongRed())),
+        new SequentialCommandGroup(new WaitCommand(1.1).andThen(new TwoNoteLongRed(drivebase).twoNoteLongRed())),
         new SequentialCommandGroup(new SequentialCommandGroup(new AutoShooter(m_closedShooter).withTimeout(0.2)
           .andThen(new ArmShoot(m_arm).withTimeout(1.1))
           .alongWith(new AutoSkipShooter(m_skipper).withTimeout(1.1)) // drivetrain starts after this
@@ -333,13 +352,13 @@ public class RobotContainer {
           // shoot 2nd note
           .andThen(new ArmAutoSpeaker(m_arm).withTimeout(3.0)) // 7
           .andThen(new SkipShooter(m_skipper).withTimeout(0.75)) // 7.75
-          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 8.25
+          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 8.2
 
     ))));
 
     m_autoChooser.addOption("2 Long Blue", new ParallelCommandGroup(
         new WaitCommand(0.001),
-        new SequentialCommandGroup(new WaitCommand(2).andThen(new TwoNoteLongBlue(m_swerveSubsystem).twoNoteLongBlue())),
+        new SequentialCommandGroup(new WaitCommand(2).andThen(new TwoNoteLongBlue(drivebase).twoNoteLongBlue())),
         new SequentialCommandGroup(new SequentialCommandGroup(new AutoShooter(m_closedShooter).withTimeout(0.2)
           .andThen(new ArmShoot(m_arm).withTimeout(2))
           .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2)) // drivetrain starts after this

@@ -4,8 +4,10 @@
 
 package frc.robot.commands.auto;
 
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DrivingConstants;
 import frc.robot.subsystems.SwerveSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -21,14 +23,25 @@ public class FourNoteAuto extends SubsystemBase {
   public FourNoteAuto(SwerveSubsystem swerveSubsystem) {
     this.swerve = swerveSubsystem;
     AutoBuilder.configureHolonomic(
-        () -> swerve.getPose(),
-        (pose2d) -> swerve.resetOdometry(pose2d),
-        swerve::getCurrentRobotChassiSpeeds,
-        (speeds) -> swerve.setRobotChassiSpeeds(speeds),
-         new HolonomicPathFollowerConfig(new PIDConstants(3, .01, 0), new PIDConstants(1.7, 0.06, 0), 4, DrivingConstants.kWheelBase / 2, new ReplanningConfig()),
-        () -> false, 
-        swerveSubsystem
-        );
+        swerve::getPose, // Robot pose supplier
+        swerve::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+        swerve::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+        swerve::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+        new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                                         AutoConstants.TRANSLATION_PID,
+                                         // Translation PID constants
+                                         AutoConstants.ANGLE_PID,
+                                         // Rotation PID constants
+                                         4.5,
+                                         // Max module speed, in m/s
+                                         swerve.getSwerveDriveConfiguration().getDriveBaseRadiusMeters(),
+                                         // Drive base radius in meters. Distance from robot center to furthest module.
+                                         new ReplanningConfig()
+                                         // Default path replanning config. See the API for the options here
+        ),
+        () -> false,
+        this // Reference to this subsystem to set requirements
+                                  );
   }
 
   public Command fourNote() {
