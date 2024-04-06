@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 //import edu.wpi.first.wpilibj.AnalogInput;
 //import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveModule {
 
@@ -76,7 +77,7 @@ public class SwerveModule {
         return driveEncoder.getVelocity();
     }
 
-    public double getTurningVelocity(){
+    public double getTurningVelocity(){    
         return turnEncoder.getVelocity();
     }
     //methods for obtaining encoder values
@@ -119,8 +120,8 @@ public class SwerveModule {
 
         driveMotor.set(state.speedMetersPerSecond / ModuleConstants.kPhysicalMaxSpeedMetersPerSecond);
         turnMotor.set(turnPIDController.calculate(getTurningPosition(), state.angle.getRadians()));
-        // SmartDashboard.putString("Swerve[" + cancoder.getDeviceID() + "] state", state.toString());
-        // SmartDashboard.putNumber("Swerve[" + cancoder.getDeviceID() + "] abs enc", getAbsoluteEncoderRad());
+        SmartDashboard.putString("Swerve[" + cancoder.getDeviceID() + "] state", state.toString());
+        SmartDashboard.putNumber("Swerve[" + cancoder.getDeviceID() + "] abs enc", getAbsoluteEncoderRad());
 
         // applies speeds and turns to swerve module
     }

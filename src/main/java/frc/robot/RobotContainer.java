@@ -144,7 +144,7 @@ public class RobotContainer {
     m_driverController1.a().whileTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading()));
 
     //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_shootSpeaker);
-    m_buttonBoard.axisLessThan(0, -0.5).whileTrue(m_intakeOut);
+    //m_buttonBoard.axisLessThan(0, -0.5).whileTrue(m_intakeOut);
 
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
     m_buttonBoard.button(1).whileTrue(m_armIntake);
@@ -158,6 +158,8 @@ public class RobotContainer {
     m_buttonBoard.button(2).whileTrue(m_closedAmp);
     m_buttonBoard.button(3).whileTrue(new WaitCommand(.2).andThen(m_skipAmp));;
     m_buttonBoard.button(3).whileTrue(m_armPlace);
+
+    m_buttonBoard.button(5).whileTrue(m_intakeOut);
 
     m_buttonBoard.button(6).whileTrue(m_climbUp);
     m_buttonBoard.button(7).whileTrue(m_climbDown);
@@ -279,9 +281,9 @@ public class RobotContainer {
           .andThen(new ArmIntake(m_arm).withTimeout(0.2)) // 0.2 (total seconds) 
           .andThen(new IntakeIn(m_intake).withTimeout(1.45)) // 1.55
           .andThen(new ArmShoot(m_arm).withTimeout(0.5)) //2.25
-          .andThen(new SkipShooter(m_skipper).withTimeout(0.45)) // 2.7
+          .andThen(new SkipShooter(m_skipper).withTimeout(0.35)) // 2.7
           //intake and shoot third note
-          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 3.1
+          .andThen(new ArmIntake(m_arm).withTimeout(0.6)) // 3.1
           .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
           .andThen(new ArmAutoSpeaker(m_arm).withTimeout(0.65)) // 4.5
           .andThen(new SkipShooter(m_skipper).withTimeout(.55)) // 5.6
@@ -337,15 +339,15 @@ public class RobotContainer {
 
     m_autoChooser.addOption("2 Long Blue", new ParallelCommandGroup(
         new WaitCommand(0.001),
-        new SequentialCommandGroup(new WaitCommand(1.1).andThen(new TwoNoteLongBlue(m_swerveSubsystem).twoNoteLongBlue())),
+        new SequentialCommandGroup(new WaitCommand(2).andThen(new TwoNoteLongBlue(m_swerveSubsystem).twoNoteLongBlue())),
         new SequentialCommandGroup(new SequentialCommandGroup(new AutoShooter(m_closedShooter).withTimeout(0.2)
-          .andThen(new ArmShoot(m_arm).withTimeout(1.1))
-          .alongWith(new AutoSkipShooter(m_skipper).withTimeout(1.1)) // drivetrain starts after this
+          .andThen(new ArmShoot(m_arm).withTimeout(2))
+          .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2)) // drivetrain starts after this
           // intake 2nd note
           .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 0.5
           .andThen(new IntakeIn(m_intake).withTimeout(4.0)) // 4.5
           // shoot 2nd note
-          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(3.0)) // 7.5
+          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(3.2)) // 7.7
           .andThen(new SkipShooter(m_skipper).withTimeout(0.8)) // 8.2
           .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 9
 
