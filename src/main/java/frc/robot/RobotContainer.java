@@ -7,6 +7,7 @@ import frc.robot.subsystems.Intake;
 //import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ClosedShooter;
 import frc.robot.subsystems.Skipper;
+import frc.robot.subsystems.SwerveModule;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -66,11 +67,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 public class RobotContainer {
   private final Intake m_intake = new Intake();
-  //private final Shooter m_shooter = new Shooter();
   private final ClosedShooter m_closedShooter = new ClosedShooter();
-  /* ^ if works we can just rename as "shooter" and delete
-      the old shooter subsystem */
-        
   private final Skipper m_skipper = new Skipper();
   private final Climber m_climber = new Climber();
   private final Arm m_arm = new Arm();
@@ -141,7 +138,8 @@ public class RobotContainer {
     }
     // enabled commands
     m_driverController1.y().whileTrue(m_armSafe); // sets arm to safe position while driving - diego was here
-    m_driverController1.a().whileTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading()));
+    m_driverController1.a().whileTrue(new InstantCommand(() -> m_swerveSubsystem.zeroHeading())); // low button
+    m_driverController1.b().whileTrue(new InstantCommand(() -> m_swerveSubsystem.allignEncoders())); //right button
 
     //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_shootSpeaker);
     //m_buttonBoard.axisLessThan(0, -0.5).whileTrue(m_intakeOut);
