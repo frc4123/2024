@@ -22,7 +22,7 @@ public class SwerveModule {
     private final CANSparkMax turnMotor;
 
     private final RelativeEncoder driveEncoder;
-    private final RelativeEncoder turnEncoder;
+    // private final RelativeEncoder turnEncoder;
 
     private final PIDController turnPIDController;
     // PID controller built into motor, adjusts turn 
@@ -49,13 +49,13 @@ public class SwerveModule {
         // reversed?
 
         driveEncoder = driveMotor.getEncoder();
-        turnEncoder = turnMotor.getEncoder();
+        // turnEncoder = turnMotor.getEncoder();
         // neo encoders
 
         driveEncoder.setPositionConversionFactor(ModuleConstants.kDriveEncoderRot2Meter);
         driveEncoder.setVelocityConversionFactor(ModuleConstants.kDriveEncoderRPM2MeterPerSec);
-        turnEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad) ;
-        turnEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
+        // turnEncoder.setPositionConversionFactor(ModuleConstants.kTurningEncoderRot2Rad) ;
+        // turnEncoder.setVelocityConversionFactor(ModuleConstants.kTurningEncoderRPM2RadPerSec);
         // converts encoders to work with radians
 
         turnPIDController = new PIDController(ModuleConstants.kPTurning,0,ModuleConstants.kDTurning);
@@ -70,16 +70,18 @@ public class SwerveModule {
     }
 
     public double getTurningPosition() {
-        return turnEncoder.getPosition();
+        //return turnEncoder.getPosition();
+        return getAbsoluteEncoderRad();
     }
 
     public double getDriveVelocity() {
         return driveEncoder.getVelocity();
     }
 
-    public double getTurningVelocity(){    
-        return turnEncoder.getVelocity();
-    }
+    // public double getTurningVelocity(){    
+    //     return turnEncoder.getVelocity();
+    // }
+
     //methods for obtaining encoder values
 
     public SwerveModulePosition getPosition() {
@@ -98,7 +100,7 @@ public class SwerveModule {
 
     public void resetEncoders() {
         driveEncoder.setPosition(0);
-        turnEncoder.setPosition(getAbsoluteEncoderRad());
+        // turnEncoder.setPosition(getAbsoluteEncoderRad());
     }
     // resets encoders to zero state - turn encoder alligns itself with wheel angle
 
