@@ -58,6 +58,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import edu.wpi.first.wpilibj2.command.button.CommandPS4Controller;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -85,7 +86,7 @@ public class RobotContainer {
   private final Arm m_arm = new Arm();
   // private final Vision m_vision = new Vision();
 
-  private final CommandXboxController m_driverController1 = new CommandXboxController(InputConstants.kDriverControllerPort0);
+  private final CommandPS4Controller m_driverController1 = new CommandPS4Controller(InputConstants.kDriverControllerPort0);
   private final Joystick m_joystick = new Joystick(InputConstants.kDriverControllerPort1);
   private final CommandGenericHID m_buttonBoard = new CommandGenericHID(m_joystick.getPort());
 
@@ -135,13 +136,13 @@ public class RobotContainer {
         () -> MathUtil.applyDeadband(m_driverController1.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> m_driverController1.getRightX() * 0.5);
 
-    Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
+    Command driveFieldOrientedAngularVelocitySim = drivebase.simDriveCommand(
         () -> MathUtil.applyDeadband(m_driverController1.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(m_driverController1.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> m_driverController1.getRawAxis(2));
+        () -> m_driverController1.getRightX() * 0.5);
 
     drivebase.setDefaultCommand(
-        !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
+        !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedAngularVelocitySim);
 
     configureBindings();
     initializeAutoChooser();
@@ -159,8 +160,8 @@ public class RobotContainer {
       //m_driverController2.x().whileTrue(m_leftClimbDownWrapped);
     }
     // enabled commands
-    m_driverController1.y().whileTrue(m_armSafe); // sets arm to safe position while driving - diego was here
-    m_driverController1.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    m_driverController1.triangle().whileTrue(m_armSafe); // sets arm to safe position while driving - diego was here
+    m_driverController1.cross().onTrue((Commands.runOnce(drivebase::zeroGyro)));
 
     //m_buttonBoard.axisGreaterThan(0, 0.5).whileTrue(m_shootSpeaker);
     //m_buttonBoard.axisLessThan(0, -0.5).whileTrue(m_intakeOut);
