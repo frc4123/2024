@@ -22,4 +22,6 @@ public class ClosedShootSpeaker extends Command{
     public void end(boolean interrupted) {
         shooter.setShooterVelo(Constants.PIDTuning.Shooter_Stopped_Velo); 
     }
+
+  
 }

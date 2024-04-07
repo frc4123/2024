@@ -14,7 +14,7 @@ public class ArmAutoSpeaker extends Command{
 
     @Override
     public void execute() {
-        arm.setPosition(PIDTuning.Arm_POSITION_SHOOT + .3);
+        arm.setPosition(PIDTuning.Arm_POSITION_SHOOT + 1.4);
     }
 
     @Override

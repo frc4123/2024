@@ -107,7 +107,7 @@ public final class Constants {
     public static final double Arm_FF_A = 0.03;
     public static final double Arm_POSITION_PLACE = 38.4123; 
     public static final double Arm_POSITION_SAFE = 35.547;
-    public static final double Arm_POSITION_SHOOT = 5; //6.5 /earlier in the day / 7.5 after
+    public static final double Arm_POSITION_SHOOT = 5; //5
     public static final double Arm_POSITION_INTAKE = 0.1; 
 
     public static final double Arm_CONSTRAINTS_VELOCITY = 35; //35

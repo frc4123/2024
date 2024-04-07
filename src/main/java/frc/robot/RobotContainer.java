@@ -149,10 +149,10 @@ public class RobotContainer {
     m_buttonBoard.button(1).whileTrue(m_intakeIn);
     m_buttonBoard.button(1).whileTrue(m_armIntake);
 
-    m_buttonBoard.button(2).whileTrue(m_armShoot);
+    m_buttonBoard.button(2).whileTrue(m_armAutoSpeaker);
     m_buttonBoard.button(2).whileTrue(m_closedSpeaker);
     //m_buttonBoard.button(2).whileTrue(m_shootSpeaker);
-    m_buttonBoard.button(2).whileTrue(new WaitCommand(0.6).andThen(m_skipShooter)); // 0.8
+    m_buttonBoard.button(2).whileTrue(new WaitCommand(0.8).andThen(m_skipShooter)); // 0.8
 
     //m_buttonBoard.button(3).whileTrue(m_shootAmp);
     m_buttonBoard.button(2).whileTrue(m_closedAmp);
@@ -278,19 +278,25 @@ public class RobotContainer {
           .andThen(new ArmShoot(m_arm).withTimeout(2.70))
           .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.70))
           //intake and shoot second note
-          .andThen(new ArmIntake(m_arm).withTimeout(0.2)) // 0.2 (total seconds) 
-          .andThen(new IntakeIn(m_intake).withTimeout(1.45)) // 1.55
-          .andThen(new ArmShoot(m_arm).withTimeout(0.5)) //2.25
-          .andThen(new SkipShooter(m_skipper).withTimeout(0.35)) // 2.7
+          .andThen(new ArmIntake(m_arm).withTimeout(0.1)) 
+          .andThen(new WaitCommand(0.1))// 0.2 (total seconds) 
+          .andThen(new IntakeIn(m_intake).withTimeout(1.05)) // 1.55
+          .andThen(new ArmShoot(m_arm).withTimeout(0.1)) //2.25
+          .andThen(new WaitCommand(0.75))
+          .andThen(new SkipShooter(m_skipper).withTimeout(0.4)) // 2.7
           //intake and shoot third note
-          .andThen(new ArmIntake(m_arm).withTimeout(0.6)) // 3.1
-          .andThen(new IntakeIn(m_intake).withTimeout(0.7)) // 3.8
-          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(0.65)) // 4.5
+          .andThen(new ArmIntake(m_arm).withTimeout(0.1)) // 3.1
+          .andThen(new WaitCommand(0.5))
+          .andThen(new IntakeIn(m_intake).withTimeout(0.5)) // 3.8
+          .andThen(new ArmAutoSpeaker(m_arm).withTimeout(0.05)) // 4.5
+          .andThen(new WaitCommand(0.8))
           .andThen(new SkipShooter(m_skipper).withTimeout(.55)) // 5.6
-          .andThen(new ArmIntake(m_arm).withTimeout(0.5)) // 6.0
+          .andThen(new ArmIntake(m_arm).withTimeout(0.1)) // 6.0j
+          .andThen(new WaitCommand(0.5))
           //intake and shoot fourth note
-          .andThen(new IntakeIn(m_intake).withTimeout(1.6)) // 7.1
+          .andThen(new IntakeIn(m_intake).withTimeout(1.4)) // 7.1
           .andThen(new ArmAutoSpeaker(m_arm).withTimeout(0.5)) // 8.3
+          .andThen(new WaitCommand(0.2))
           .andThen(new SkipShooter(m_skipper).withTimeout(2.2))))// 10.5 // end of auto
     );
 
