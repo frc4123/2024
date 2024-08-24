@@ -395,6 +395,7 @@ public class SwerveSubsystem extends SubsystemBase
   public void periodic()
   {
     SmartDashboard.putData("swerve/Swerve Subsystem", this);
+    SmartDashboard.putString("swerve/Swerve Subsystem", Vision.robotPose.toString());
     Vision.robotPose = getPose();
     ArrayList<EstimatedRobotPose> estimatedRobotPoses = new ArrayList<>();
     Vision.getEstimatedGlobalPose().ifPresent(estimatedRobotPoses::add);
