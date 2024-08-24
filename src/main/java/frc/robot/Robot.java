@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import java.io.IOException;
 // import frc.robot.commands.shooter.AutoShooter;
 //import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.ClosedShooter;
@@ -18,6 +19,7 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   // UsbCamera camera = CameraServer.startAutomaticCapture();
+
 
   @Override
   public void robotInit() {

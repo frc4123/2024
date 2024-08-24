@@ -1,5 +1,7 @@
 package frc.robot;
 
+import com.pathplanner.lib.util.PIDConstants;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -8,9 +10,62 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
+import swervelib.math.Matter;
 
 public final class Constants {
 
+  public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
+  public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
+  public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
+  public static final double MAX_SPEED  = Units.feetToMeters(14.5);
+      // Maximum speed of the robot in meters per second, used to limit acceleration.
+public static final String PhotonConstants = null;
+
+  public static final class AutonConstants
+  {
+
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0);
+    public static final PIDConstants ANGLE_PID       = new PIDConstants(0.4, 0, 0.01);
+  }
+
+  public static final class DrivebaseConstants
+  {
+
+    // Hold time on motor brakes when disabled
+    public static final double WHEEL_LOCK_TIME = 10; // seconds
+  }
+
+  public static class OperatorConstants
+  {
+
+    // Joystick Deadband
+    public static final double LEFT_X_DEADBAND  = 0.1;
+    public static final double LEFT_Y_DEADBAND  = 0.1;
+    public static final double RIGHT_X_DEADBAND = 0.1;
+    public static final double TURN_CONSTANT    = 6;
+  }
+
+  public static class Vision {
+    public static final String kCameraName = "Arducam_OV9281_USB_Camera";
+    // Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+    public static final Transform3d kRobotToCam = new Transform3d(new Translation3d(-.264, 0.0, -0.17), new Rotation3d(0,0,6.28318531));
+
+    // The layout of the AprilTags on the field
+
+
+    // The standard deviations of our vision estimated poses, which affect correction rate
+    // (Fake values. Experiment and determine estimation noise on an actual robot.)
+    public static final Matrix<N3, N1> kSingleTagStdDevs = VecBuilder.fill(4, 4, 8);
+    public static final Matrix<N3, N1> kMultiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
+  }
+  
   public static final class SubsystemConstants {
     public static final int Front_Left_Arm = 10; 
     public static final int Front_Right_Arm = 11;
@@ -155,6 +210,7 @@ public final class Constants {
     public static final double lowerThreshold = -0.00001;
   }
 
+  // Old swerve constants
   public static final class ModuleConstants {
     public static final double kWheelDiameterMeters = Units.inchesToMeters(4); // wheel diameter
     public static final double kDriveMotorGearRatio = 1 / 6.75; // motor gear ratio
