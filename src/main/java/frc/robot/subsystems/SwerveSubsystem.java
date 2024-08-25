@@ -4,8 +4,6 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.subsystems.Vision;
-import com.ctre.phoenix6.Timestamp;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathConstraints;
@@ -24,7 +22,6 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -41,7 +38,6 @@ import java.util.function.DoubleSupplier;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.targeting.PhotonPipelineResult;
-
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
@@ -55,6 +51,10 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 public class SwerveSubsystem extends SubsystemBase
 {
 
+  /**
+   * PhotonVision class to keep an accurate odometry.
+   */
+  private Vision vision;
   /**
    * Swerve drive object.
    */
@@ -81,7 +81,7 @@ public class SwerveSubsystem extends SubsystemBase
     //  The encoder resolution per motor revolution is 1 per motor revolution.
     double driveConversionFactor = SwerveMath.calculateMetersPerRotation(Units.inchesToMeters(4), 6.75);
     System.out.println("\"conversionFactors\": {");
-    System.out.println("\t\"angle\": {\"factor\": " + angleConversionFactor + " },") ;
+    System.out.println("\t\"angle\": {\"factor\": " + angleConversionFactor + " },");
     System.out.println("\t\"drive\": {\"factor\": " + driveConversionFactor + " }");
     System.out.println("}");
 
@@ -110,6 +110,34 @@ public class SwerveSubsystem extends SubsystemBase
   public SwerveSubsystem(SwerveDriveConfiguration driveCfg, SwerveControllerConfiguration controllerCfg)
   {
     swerveDrive = new SwerveDrive(driveCfg, controllerCfg, Constants.MAX_SPEED);
+  }
+
+  /**
+   * Setup the photon vision class.
+   */
+  public void setupPhotonVision()
+  {
+    vision = new Vision(swerveDrive::getPose, swerveDrive.field);
+    vision.updatePoseEstimation(swerveDrive);
+  }
+
+  /**
+   * Update the pose estimation with vision data.
+   */
+  public void updatePoseWithVision()
+  {
+    vision.updatePoseEstimation(swerveDrive);
+  }
+
+  /**
+   * Get the pose while updating with vision readings.
+   *
+   * @return The robots pose with the vision estimates in place.
+   */
+  public Pose2d getVisionPose()
+  {
+    vision.updatePoseEstimation(swerveDrive);
+    return swerveDrive.getPose();
   }
 
   /**
@@ -263,7 +291,7 @@ public class SwerveSubsystem extends SubsystemBase
     return run(() -> {
 
       Translation2d scaledInputs = SwerveMath.scaleTranslation(new Translation2d(translationX.getAsDouble(),
-                                                                                translationY.getAsDouble()), 0.8);
+                                                                                 translationY.getAsDouble()), 0.8);
 
       // Make the robot move
       driveFieldOriented(swerveDrive.swerveController.getTargetSpeeds(scaledInputs.getX(), scaledInputs.getY(),
@@ -386,32 +414,44 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.drive(velocity);
   }
 
-  public void addVisionMeasurement(Pose2d robotPose, double timeStamp) {
-    swerveDrive.addVisionMeasurement(robotPose, timeStamp);
-  }
-
-
   @Override
   public void periodic()
   {
-    SmartDashboard.putData("swerve/Swerve Subsystem", this);
-    SmartDashboard.putString("swerve/Swerve Subsystem", Vision.robotPose.toString());
-    Vision.robotPose = getPose();
-    ArrayList<EstimatedRobotPose> estimatedRobotPoses = new ArrayList<>();
-    Vision.getEstimatedGlobalPose().ifPresent(estimatedRobotPoses::add);
-    if(Robot.isReal()) {
-        for (EstimatedRobotPose estimatedRobotPose : estimatedRobotPoses) {
-            addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);
-        }
-    }
+    try {
+      // Get estimated robot poses from the Vision system
+      ArrayList<EstimatedRobotPose> estimatedRobotPoses = vision.getEstimatedGlobalPose(); // Use the Vision instance `vision`
 
+      // Check if the vision system returned any poses
+      if (estimatedRobotPoses != null && !estimatedRobotPoses.isEmpty()) {
+          if (Robot.isReal()) {
+              // Iterate through the estimated poses and add them to the swerve drive's vision measurements
+              for (EstimatedRobotPose estimatedRobotPose : estimatedRobotPoses) {
+                  // Ensure that estimatedRobotPose and its fields are not null
+                  if (estimatedRobotPose != null && estimatedRobotPose.estimatedPose != null) {
+                      swerveDrive.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);
+                  }
+              }
+          }
+      } else {
+          // Log that no estimated poses were found
+          System.out.println("No estimated poses from vision system.");
+      }
 
+      // Store the Vision system data on the SmartDashboard
+      SmartDashboard.putData("swerve/Swerve Subsystem", this);
+
+  } catch (Exception e) {
+      // Catch any exceptions to prevent the robot from crashing
+      e.printStackTrace();
   }
+}
+  
 
   @Override
   public void simulationPeriodic()
   {
-  }
+    // shit shit shit
+  } 
 
   /**
    * Get the swerve drive kinematics object.
@@ -629,6 +669,4 @@ public class SwerveSubsystem extends SubsystemBase
   {
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
-
-
 }
