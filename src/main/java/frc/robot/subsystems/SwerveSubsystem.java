@@ -417,33 +417,7 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-    try {
-      // Get estimated robot poses from the Vision system
-      ArrayList<EstimatedRobotPose> estimatedRobotPoses = vision.getEstimatedGlobalPose(); // Use the Vision instance `vision`
-
-      // Check if the vision system returned any poses
-      if (estimatedRobotPoses != null && !estimatedRobotPoses.isEmpty()) {
-          if (Robot.isReal()) {
-              // Iterate through the estimated poses and add them to the swerve drive's vision measurements
-              for (EstimatedRobotPose estimatedRobotPose : estimatedRobotPoses) {
-                  // Ensure that estimatedRobotPose and its fields are not null
-                  if (estimatedRobotPose != null && estimatedRobotPose.estimatedPose != null) {
-                      swerveDrive.addVisionMeasurement(estimatedRobotPose.estimatedPose.toPose2d(), estimatedRobotPose.timestampSeconds);
-                  }
-              }
-          }
-      } else {
-          // Log that no estimated poses were found
-          System.out.println("No estimated poses from vision system.");
-      }
-
-      // Store the Vision system data on the SmartDashboard
-      SmartDashboard.putData("swerve/Swerve Subsystem", this);
-
-  } catch (Exception e) {
-      // Catch any exceptions to prevent the robot from crashing
-      e.printStackTrace();
-  }
+  vision.updatePoseEstimation(swerveDrive);
 }
   
 
