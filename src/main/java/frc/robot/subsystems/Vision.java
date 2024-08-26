@@ -70,6 +70,31 @@ public class Vision
      */
     public PhotonCameraSim cameraSim;
 
+    public Camera(String cameraName, Rotation3d robotToCamRotation, Translation3d robotToCamTranslation) {
+      latencyAlert = new Alert("'" + cameraName + "' Camera is experiencing high latency.", AlertType.WARNING);
+  
+      camera = new PhotonCamera(cameraName);
+  
+      // Define the transform of the camera relative to the robot
+      robotToCamTransform = new Transform3d(robotToCamTranslation, robotToCamRotation);
+  
+      // Ensure you initialize the PhotonPoseEstimator with the camera instance
+      poseEstimator = new PhotonPoseEstimator(
+          fieldLayout, 
+          PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, 
+          camera,  // Pass the camera instance here
+          robotToCamTransform
+      );
+      poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+  
+      if (Robot.isSimulation()) {
+          SimCameraProperties cameraProp = new SimCameraProperties();
+          // Camera properties initialization (same as before)
+          cameraSim = new PhotonCameraSim(camera, cameraProp);
+          cameraSim.enableDrawWireframe(true);
+      }
+  }
+
     /**
      * Pose estimator for camera.
      */
@@ -82,37 +107,7 @@ public class Vision
      * @param robotToCamRotation    {@link Rotation3d} of the camera.
      * @param robotToCamTranslation {@link Translation3d} relative to the center of the robot.
      */
-    public Camera(String name, Rotation3d robotToCamRotation, Translation3d robotToCamTranslation)
-    {
-      latencyAlert = new Alert("'" + name + "' Camera is experiencing high latency.", AlertType.WARNING);
-
-      camera = new PhotonCamera(name);
-
-      // https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html
-      robotToCamTransform = new Transform3d(robotToCamTranslation, robotToCamRotation);
-
-      poseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo),
-                                              PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
-                                              robotToCamTransform);
-      poseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
-
-      if (Robot.isSimulation())
-      {
-        SimCameraProperties cameraProp = new SimCameraProperties();
-        // A 640 x 480 camera with a 100 degree diagonal FOV.
-        cameraProp.setCalibration(960, 720, Rotation2d.fromDegrees(100));
-        // Approximate detection noise with average and standard deviation error in pixels.
-        cameraProp.setCalibError(0.25, 0.08);
-        // Set the camera image capture framerate (Note: this is limited by robot loop rate).
-        cameraProp.setFPS(30);
-        // The average and standard deviation in milliseconds of image data latency.
-        cameraProp.setAvgLatencyMs(35);
-        cameraProp.setLatencyStdDevMs(5);
-
-        cameraSim = new PhotonCameraSim(camera, cameraProp);
-        cameraSim.enableDrawWireframe(true);
-      }
-    }
+  
 
     /**
      * Add camera to {@link VisionSystemSim} for simulated photon vision.
@@ -164,7 +159,7 @@ public class Vision
     this.currentPose = currentPose;
     this.field2d = field;
 
-    camera = new Camera("center", 
+    camera = new Camera("Arducam_OV9281_USB_Camera", 
                         new Rotation3d(0, Units.degreesToRadians(23.511519), Units.degreesToRadians(360)),
                         new Translation3d(Units.inchesToMeters(-10.37),
                                           Units.inchesToMeters(6.678),
