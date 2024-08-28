@@ -133,7 +133,7 @@ public class RobotContainer {
 
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
         () -> MathUtil.applyDeadband(m_driverController1.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(m_driverController1.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -MathUtil.applyDeadband(m_driverController1.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> m_driverController1.getRightX(),
         () -> m_driverController1.getRightY());
 
@@ -151,9 +151,9 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    m_driverController1.a().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
+    m_driverController1.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
 
-    m_driverController1.b().onTrue((Commands.runOnce(drivebase::addFakeVisionReading)));
+    //m_driverController1.b().onTrue((Commands.runOnce(drivebase::addFakeVisionReading)));
     
     m_driverController1.y().whileTrue(drivebase.aimAtSpeaker(2));
     
